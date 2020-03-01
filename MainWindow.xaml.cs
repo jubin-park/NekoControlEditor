@@ -24,5 +24,11 @@ namespace NekoControlEditor
         {
             InitializeComponent();
         }
+
+        private void CreateControlDirection4Button_Click(object sender, RoutedEventArgs e)
+        {
+            ControlDirection4 dir4 = new ControlDirection4();
+            RenderCanvas.Children.Add(dir4);
+        }
     }
 }

@@ -102,10 +102,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="image\buildbot.png" />
+    <Resource Include="image\dpad_none.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="image\dpad_none.png" />
+    <Resource Include="image\buildbot.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

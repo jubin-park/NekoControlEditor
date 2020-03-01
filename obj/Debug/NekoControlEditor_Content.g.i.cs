@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("buildbot.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("image/buildbot.png")]
 
 
