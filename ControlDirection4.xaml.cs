@@ -23,6 +23,7 @@ namespace NekoControlEditor
         private uint mWidth;
         private uint mHeight;
         private Point mStartPoint;
+        private Point mLastPoint;
         private bool mbMouseDown;
 
         public ControlDirection4()
@@ -30,8 +31,8 @@ namespace NekoControlEditor
             InitializeComponent();
             BitmapImage bitmapImage = new BitmapImage(new Uri("image/dpad_none.png", UriKind.Relative));
             ControlImage.Source = bitmapImage;
-            mWidth = (uint)bitmapImage.Width;
-            mHeight = (uint)bitmapImage.Height;
+            mWidth = (uint)bitmapImage.PixelWidth;
+            mHeight = (uint)bitmapImage.PixelHeight;
             resize_control();
             mbMouseDown = false;
         }
@@ -44,29 +45,46 @@ namespace NekoControlEditor
             ControlImage.Height = mHeight;
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            mbMouseDown = true;
+            var draggableControl = sender as Canvas;
+            mStartPoint = e.GetPosition(this.Parent as UIElement);
+            draggableControl.CaptureMouse();
+        }
+
+        private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            var draggableControl = sender as Canvas;
+            if (mbMouseDown && draggableControl != null)
             {
-                mStartPoint = e.GetPosition(null);
+                Point currentPosition = e.GetPosition(this.Parent as UIElement);
+                var transform = draggableControl.RenderTransform as TranslateTransform;
+                if (transform == null)
+                {
+                    transform = new TranslateTransform();
+                    draggableControl.RenderTransform = transform;
+                }
+                transform.X = currentPosition.X - mStartPoint.X;
+                transform.Y = currentPosition.Y - mStartPoint.Y;
+                if (mLastPoint.X > 0)
+                {
+                    transform.X += mLastPoint.X;
+                    transform.Y += mLastPoint.Y;
+                }
             }
         }
 
-        private void Grid_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                Point ePoint = e.GetPosition(null);
-                Point newPoint = this.PointToScreen(new Point(0, 0));
-                double x = ePoint.X - mStartPoint.X;
-                double y = ePoint.Y - mStartPoint.Y;
-            }
-        }
-
-        private void MyGrid_MouseUp(object sender, MouseButtonEventArgs e)
+        private void MainCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
             mbMouseDown = false;
-            Mouse.Capture(null);
+            var draggable = (sender as Canvas);
+            var transform = (draggable.RenderTransform as TranslateTransform);
+            if (transform != null)
+            {
+                mLastPoint = new Point(transform.X, transform.Y);
+            }
+            draggable.ReleaseMouseCapture();
         }
     }
 }

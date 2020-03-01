@@ -6,13 +6,56 @@
              xmlns:local="clr-namespace:NekoControlEditor"
              mc:Ignorable="d" 
              d:DesignHeight="320" Width="320">
-    <Canvas x:Name="MainCanvas" >
-        <Image x:Name="ControlImage" HorizontalAlignment="Left" VerticalAlignment="Top" Width="224" Height="224" Source="image/buildbot.png"/>
-        <Rectangle Name="TopRectangle" Canvas.Top="0" Fill="#3498db" Height="3" Width="{Binding ElementName=MainCanvas, Path=ActualWidth}"/>
-        <Rectangle Name="BottomRectangle" Canvas.Bottom="0" Fill="#3498db" Height="3" Width="{Binding ElementName=MainCanvas, Path=ActualWidth}"/>
-        <Rectangle Name="LeftRectangle" Canvas.Left="0" Fill="#3498db" Width="3" Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"/>
-        <Rectangle Name="RightRectangle" Canvas.Right="0" Fill="#3498db" Width="3" Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"/>
-        <Rectangle Fill="#2980b9" Width="24" Height="12" Canvas.Right="0" Canvas.Top="-10"/>
-        <TextBlock TextAlignment="Center" Text="x" Foreground="White" Canvas.ZIndex="1" Canvas.Right="0" Canvas.Top="-14" Width="24"/>
+    
+    <Canvas x:Name="MainCanvas"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
+            MouseMove="MainCanvas_MouseMove"
+            MouseUp="MainCanvas_MouseUp">
+        
+        <Image x:Name="ControlImage"
+               Width="64"
+               Height="64"
+               Source="image/buildbot.png"
+               Stretch="Fill"/>
+        
+        <Rectangle Name="TopRectangle"
+                   Canvas.Top="0"
+                   Fill="#3498DB"
+                   Height="3"
+                   Width="{Binding ElementName=MainCanvas, Path=ActualWidth}"/>
+        
+        <Rectangle Name="BottomRectangle"
+                   Canvas.Bottom="0"
+                   Fill="#3498DB"
+                   Height="3"
+                   Width="{Binding ElementName=MainCanvas, Path=ActualWidth}"/>
+        
+        <Rectangle Name="LeftRectangle"
+                   Canvas.Left="0"
+                   Fill="#3498DB"
+                   Width="3"
+                   Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"/>
+        
+        <Rectangle Name="RightRectangle"
+                   Canvas.Right="0"
+                   Fill="#3498DB"
+                   Width="3"
+                   Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"/>
+        
+        <Rectangle Fill="#2980b9"
+                   Width="24"
+                   Height="12"
+                   Canvas.Right="0"
+                   Canvas.Top="-10"/>
+
+        <TextBlock Text="x"
+                   TextAlignment="Center"
+                   Foreground="White"
+                   Canvas.ZIndex="1"
+                   Canvas.Right="0"
+                   Canvas.Top="-14"
+                   Width="24"/>
     </Canvas>
 </UserControl>
