@@ -15,27 +15,62 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Row="0" Grid.Column="0" Fill="#D3D3D3"/>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Height="36" Margin="0,1,0,0" VerticalAlignment="Top" Width="522" Panel.ZIndex="50">
-            <Button Content="새 파일" Height="32" Width="64" Margin="2, 2, 0, 2"/>
-            <Button Content="열기" Height="32" Width="64"/>
-            <Button Content="저장" Height="32" Width="64" Margin="0, 2, 4, 2"/>
-            <Button x:Name="CreateControlDirection4Button" Content="4방향 패드" Height="32" Width="64" Click="CreateControlDirection4Button_Click"/>
-            <Button Content="8방향 패드" Height="32" Width="64"/>
-            <Button Content="가상키" Height="32" Width="64"/>
-            <Button Content="버튼" Height="32" Width="64"/>
-            <Button Content="토글 버튼" Height="32" Width="64" Margin="0, 2, 4, 2"/>
+        <Rectangle Grid.Row="0"
+                   Grid.Column="0"
+                   Fill="#D3D3D3"/>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    Height="36"
+                    Margin="0,1,0,0"
+                    VerticalAlignment="Top"
+                    Width="522"
+                    Panel.ZIndex="50">
+            <Button Content="새 파일"
+                    Height="32"
+                    Width="64"
+                    Margin="2, 2, 0, 2"/>
+            <Button Content="열기"
+                    Height="32"
+                    Width="64"/>
+            <Button Content="저장"
+                    Height="32"
+                    Width="64"
+                    Margin="0, 2, 4, 2"/>
+            <Button x:Name="CreateControlDirection4Button"
+                    Content="4방향 패드"
+                    Height="32"
+                    Width="64"
+                    Click="CreateControlDirection4Button_Click"/>
+            <Button Content="8방향 패드"
+                    Height="32"
+                    Width="64"/>
+            <Button Content="가상키"
+                    Height="32"
+                    Width="64"/>
+            <Button Content="버튼"
+                    Height="32"
+                    Width="64"/>
+            <Button Content="토글 버튼"
+                    Height="32"
+                    Width="64"
+                    Margin="0, 2, 4, 2"/>
         </StackPanel>
-        <Grid x:Name="RenderGrid" Grid.Row="1">
+        <Grid x:Name="RenderGrid"
+              Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <Canvas x:Name="RenderCanvas" Grid.Row="0" Grid.Column="0">
-                
-            </Canvas>
-            <Rectangle Grid.Column="1" Fill="#FFB8B8B8"/>
+            <Canvas x:Name="RenderCanvas"/>
+            <Rectangle Grid.Column="1"
+                       Fill="#FFB8B8B8"/>
         </Grid>
-        <StatusBar Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="20" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}" Background="#FF7C7C7C"/>
+        <StatusBar Grid.Row="2"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   Height="20"
+                   Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"
+                   Background="#FF7C7C7C"/>
     </Grid>
 </Window>
