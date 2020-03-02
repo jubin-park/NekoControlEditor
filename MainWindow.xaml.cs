@@ -29,6 +29,7 @@ namespace NekoControlEditor
         {
             ControlDirection4 dir4 = new ControlDirection4();
             RenderCanvas.Children.Add(dir4);
+            PropertyGrid.SelectedObject = dir4.Properties;
         }
     }
 }

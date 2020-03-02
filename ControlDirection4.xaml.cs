@@ -20,46 +20,48 @@ namespace NekoControlEditor
     /// </summary>
     public partial class ControlDirection4 : UserControl
     {
-        private uint mWidth;
-        private uint mHeight;
         private Point mStartPoint;
         private Point mLastPoint;
         private bool mbMouseDown;
 
+        public PropControlDirection4 Properties { get; set; }
+
         public ControlDirection4()
         {
             InitializeComponent();
+            Properties = new PropControlDirection4();
+            Properties.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Control_PropertyChanged);
             BitmapImage bitmapImage = new BitmapImage(new Uri("image/dpad_none.png", UriKind.Relative));
             ControlImage.Source = bitmapImage;
-            mWidth = (uint)bitmapImage.PixelWidth;
-            mHeight = (uint)bitmapImage.PixelHeight;
-            resize_control();
+            Properties.Width = (uint)bitmapImage.PixelWidth;
+            Properties.Height = (uint)bitmapImage.PixelHeight;
+            resizeControl();
             mbMouseDown = false;
         }
 
-        private void resize_control()
+        private void resizeControl()
         {
-            MainCanvas.Width = mWidth;
-            MainCanvas.Height = mHeight;
-            ControlImage.Width = mWidth;
-            ControlImage.Height = mHeight;
+            MainCanvas.Width = Properties.Width;
+            MainCanvas.Height = Properties.Height;
+            ControlImage.Width = Properties.Width;
+            ControlImage.Height = Properties.Height;
         }
 
         private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             mbMouseDown = true;
-            var draggableControl = sender as Canvas;
+            var draggableControl = (sender as Canvas);
             mStartPoint = e.GetPosition(this.Parent as UIElement);
             draggableControl.CaptureMouse();
         }
 
         private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            var draggableControl = sender as Canvas;
+            var draggableControl = (sender as Canvas);
             if (mbMouseDown && draggableControl != null)
             {
                 Point currentPosition = e.GetPosition(this.Parent as UIElement);
-                var transform = draggableControl.RenderTransform as TranslateTransform;
+                var transform = (draggableControl.RenderTransform as TranslateTransform);
                 if (transform == null)
                 {
                     transform = new TranslateTransform();
@@ -83,8 +85,26 @@ namespace NekoControlEditor
             if (transform != null)
             {
                 mLastPoint = new Point(transform.X, transform.Y);
+                Properties.X = (int)transform.X;
+                Properties.Y = (int)transform.Y;
             }
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.PropertyGrid.SelectedObject = this.Properties;
+            mainWindow.PropertyGrid.RefreshPropertyList();
             draggable.ReleaseMouseCapture();
+        }
+
+        private void RemoveTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.RenderCanvas.Children.Remove(this);
+            mainWindow.PropertyGrid.SelectedObject = null;
+        }
+
+        void Control_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.PropertyGrid.RefreshPropertyList();
         }
     }
 }
