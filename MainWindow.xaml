@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpg="clr-namespace:System.Windows.Controls"
         xmlns:local="clr-namespace:NekoControlEditor"
         mc:Ignorable="d"
         Title="네코 플레이어 컨트롤 편집기" Height="572" Width="800" Background="#FFF0F0F0">
@@ -65,6 +66,9 @@
             <Canvas x:Name="RenderCanvas"/>
             <Rectangle Grid.Column="1"
                        Fill="#FFB8B8B8"/>
+            <wpg:WpfPropertyGrid x:Name="PropertyGrid"
+                                 Margin="0,0,0,0"
+                                 Grid.Column="1"/>
         </Grid>
         <StatusBar Grid.Row="2"
                    HorizontalAlignment="Left"

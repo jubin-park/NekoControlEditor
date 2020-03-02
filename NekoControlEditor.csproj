@@ -36,6 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Core.Presentation" />
+    <Reference Include="System.Activities.Presentation" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +58,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EKeys.cs" />
+    <Compile Include="IControl.cs" />
+    <Compile Include="PropControl.cs" />
+    <Compile Include="PropControlDirection4.cs" />
+    <Compile Include="WpfPropertyGrid.cs" />
     <Page Include="ControlDirection4.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
