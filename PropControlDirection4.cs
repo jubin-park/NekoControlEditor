@@ -9,27 +9,27 @@ namespace NekoControlEditor
 {
     public class PropControlDirection4 : PropControl
     {
-        [Category("그래픽")]
+        [Category("버튼 그래픽 파일")]
         [DisplayName("기본")]
         public string BitmapDefault { get; set; }
 
-        [Category("그래픽")]
+        [Category("버튼 그래픽 파일")]
         [DisplayName("아래 누름")]
         public string BitmapDown { get; set; }
 
-        [Category("그래픽")]
+        [Category("버튼 그래픽 파일")]
         [DisplayName("왼쪽 누름")]
         public string BitmapLeft { get; set; }
 
-        [Category("그래픽")]
+        [Category("버튼 그래픽 파일")]
         [DisplayName("오른쪽 누름")]
         public string BitmapRight { get; set; }
 
-        [Category("그래픽")]
+        [Category("버튼 그래픽 파일")]
         [DisplayName("오른쪽 누름")]
         public string BitmapUp { get; set; }
 
-        [Category("그래픽")]
+        [Category("버튼 그래픽 파일")]
         [DisplayName("조이스틱")]
         public string BitmapStick { get; set; }
 
