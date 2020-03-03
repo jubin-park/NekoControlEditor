@@ -15,19 +15,10 @@ namespace NekoControlEditor
 
         [Category("위치")]
         [DisplayName("X 좌표")]
-        //[NotifyParentProperty(true)]
-        //[RefreshProperties(RefreshProperties.All)]
-        [ReadOnly(false)]
-        [NotifyParentProperty(true)]
-        [RefreshProperties(RefreshProperties.Repaint)]
         public int X { get; set; }
 
         [Category("위치")]
         [DisplayName("Y 좌표")]
-        //[RefreshProperties(RefreshProperties.All)]
-        [ReadOnly(false)]
-        [NotifyParentProperty(true)]
-        [RefreshProperties(RefreshProperties.Repaint)]
         public int Y { get; set; }
 
         [Category("위치")]

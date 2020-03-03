@@ -311,6 +311,15 @@ namespace System.Windows.Controls
 
             this.SelectionTypeLabel.Text = string.Empty;
         }
+
+        /// <summary>Unofficial method Updates the PropertyGrid's properties</summary>
+        public void Refresh()
+        {
+            var temp = SelectedObject;
+            SelectedObject = null;
+            SelectedObject = temp;
+        }
+
         /// <summary>Updates the PropertyGrid's properties</summary>
         public void RefreshPropertyList()
         {

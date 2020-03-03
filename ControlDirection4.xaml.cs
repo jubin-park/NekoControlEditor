@@ -30,7 +30,6 @@ namespace NekoControlEditor
         {
             InitializeComponent();
             Properties = new PropControlDirection4();
-            Properties.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Control_PropertyChanged);
             BitmapImage bitmapImage = new BitmapImage(new Uri("image/dpad_none.png", UriKind.Relative));
             ControlImage.Source = bitmapImage;
             Properties.Width = (uint)bitmapImage.PixelWidth;
@@ -89,8 +88,7 @@ namespace NekoControlEditor
                 Properties.Y = (int)transform.Y;
             }
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.PropertyGrid.SelectedObject = this.Properties;
-            mainWindow.PropertyGrid.RefreshPropertyList();
+            mainWindow.PropertyGrid.Refresh();
             draggable.ReleaseMouseCapture();
         }
 
@@ -104,7 +102,7 @@ namespace NekoControlEditor
         void Control_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.PropertyGrid.RefreshPropertyList();
+            mainWindow.PropertyGrid.Refresh();
         }
     }
 }
