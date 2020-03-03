@@ -7,7 +7,7 @@
         xmlns:wpg="clr-namespace:System.Windows.Controls"
         xmlns:local="clr-namespace:NekoControlEditor"
         mc:Ignorable="d"
-        Title="네코 플레이어 컨트롤 편집기" Height="572" Width="800" Background="#FFF0F0F0">
+        Title="네코 플레이어 컨트롤 편집기" Height="768" Width="1124" Background="#FFF0F0F0" WindowStartupLocation="CenterScreen">
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -26,7 +26,6 @@
                     Height="36"
                     Margin="0,1,0,0"
                     VerticalAlignment="Top"
-                    Width="522"
                     Panel.ZIndex="50">
             <Button Content="새 파일"
                     Height="32"
@@ -57,15 +56,42 @@
                     Height="32"
                     Width="64"
                     Margin="0, 2, 4, 2"/>
+            <Button x:Name="ResolutionButton"
+                    Content="해상도"
+                    Height="32"
+                    Width="64"
+                    Margin="0, 2, 4, 2" Click="ResolutionButton_Click"/>
         </StackPanel>
-        <Grid x:Name="RenderGrid"
-              Grid.Row="1">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
-            <Canvas x:Name="RenderCanvas"
-                    x:FieldModifier="public"/>
+            <Grid x:Name="RenderGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="640"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="480"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <local:CheckerBoard Grid.Row="1"
+                                    Grid.Column="1"/>
+                <!--
+                <Rectangle Grid.Row="1"
+                           Grid.Column="1"
+                           Stroke="Black"
+                           StrokeThickness="1"
+                           Fill="#FFFFFF"/>
+-->
+                <Canvas x:Name="RenderCanvas"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        x:FieldModifier="public"/>
+            </Grid>
             <Rectangle Grid.Column="1"
                        Fill="#FFB8B8B8"/>
             <wpg:WpfPropertyGrid x:Name="PropertyGrid"

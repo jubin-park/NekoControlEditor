@@ -58,12 +58,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CheckerBoard.xaml.cs">
+      <DependentUpon>CheckerBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlFrame.xaml.cs">
+      <DependentUpon>ControlFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EKeys.cs" />
     <Compile Include="IControl.cs" />
     <Compile Include="PropControl.cs" />
     <Compile Include="PropControlDirection4.cs" />
     <Compile Include="WpfPropertyGrid.cs" />
+    <Page Include="CheckerBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ControlDirection4.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
