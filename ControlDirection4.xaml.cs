@@ -25,13 +25,18 @@ namespace NekoControlEditor
         private Point mLastPoint;
         private bool mbMouseDown;
 
+        private static int mCount = 0;
+
         public PropControlDirection4 Properties { get; set; }
 
         public ControlDirection4()
         {
             InitializeComponent();
+            mStartPoint = new Point(0, 0);
+            mLastPoint = new Point(0, 0);
             Properties = new PropControlDirection4();
             Properties.PropertyChanged += Control_PropertyChanged;
+            Properties.Name = "$dpad4_" + (++mCount);
             BitmapImage bitmapImage = new BitmapImage(new Uri("image/dpad_none.png", UriKind.Relative));
             ControlImage.Source = bitmapImage;
             Properties.Width = (uint)bitmapImage.PixelWidth;
@@ -105,9 +110,32 @@ namespace NekoControlEditor
 
         void Control_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Console.WriteLine("{0}", e.PropertyName);
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.PropertyGrid.Refresh();
+            var transform = (MainCanvas.RenderTransform as TranslateTransform);
+            if (transform == null)
+            {
+                return;
+            }
+            switch (e.PropertyName)
+            {
+                case "X": 
+                    transform.X = Properties.X;
+                    mLastPoint.X = Properties.X;
+                    break;
+
+                case "Y":
+                    transform.Y = Properties.Y;
+                    mLastPoint.Y = Properties.Y;
+                    break;
+
+                case "Z":
+                    Canvas.SetZIndex(this, Properties.Z);
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }
