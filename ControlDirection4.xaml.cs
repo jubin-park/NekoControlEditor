@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace NekoControlEditor
 {
@@ -30,6 +31,7 @@ namespace NekoControlEditor
         {
             InitializeComponent();
             Properties = new PropControlDirection4();
+            Properties.PropertyChanged += Control_PropertyChanged;
             BitmapImage bitmapImage = new BitmapImage(new Uri("image/dpad_none.png", UriKind.Relative));
             ControlImage.Source = bitmapImage;
             Properties.Width = (uint)bitmapImage.PixelWidth;
@@ -48,10 +50,23 @@ namespace NekoControlEditor
 
         private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            mbMouseDown = true;
-            var draggableControl = (sender as Canvas);
-            mStartPoint = e.GetPosition(this.Parent as UIElement);
-            draggableControl.CaptureMouse();
+            FrameworkElement fe = e.OriginalSource as FrameworkElement;
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            switch (fe.Name)
+            {
+            case "RemoveTextBlock":
+                mainWindow.RenderCanvas.Children.Remove(this);
+                mainWindow.PropertyGrid.SelectedObject = null;
+                mainWindow.PropertyGrid.Refresh();
+                break;
+
+            default:
+                mbMouseDown = true;
+                var draggableControl = (sender as Canvas);
+                mStartPoint = e.GetPosition(this.Parent as UIElement);
+                draggableControl.CaptureMouse();
+                break;
+            }
         }
 
         private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
@@ -66,13 +81,8 @@ namespace NekoControlEditor
                     transform = new TranslateTransform();
                     draggableControl.RenderTransform = transform;
                 }
-                transform.X = currentPosition.X - mStartPoint.X;
-                transform.Y = currentPosition.Y - mStartPoint.Y;
-                if (mLastPoint.X > 0)
-                {
-                    transform.X += mLastPoint.X;
-                    transform.Y += mLastPoint.Y;
-                }
+                transform.X = currentPosition.X - mStartPoint.X + mLastPoint.X;
+                transform.Y = currentPosition.Y - mStartPoint.Y + mLastPoint.Y;
             }
         }
 
@@ -88,19 +98,14 @@ namespace NekoControlEditor
                 Properties.Y = (int)transform.Y;
             }
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.PropertyGrid.SelectedObject = this.Properties;
             mainWindow.PropertyGrid.Refresh();
             draggable.ReleaseMouseCapture();
         }
 
-        private void RemoveTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        void Control_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.RenderCanvas.Children.Remove(this);
-            mainWindow.PropertyGrid.SelectedObject = null;
-        }
-
-        void Control_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
+            Console.WriteLine("{0}", e.PropertyName);
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.PropertyGrid.Refresh();
         }
