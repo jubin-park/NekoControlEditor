@@ -9,6 +9,22 @@ namespace NekoControlEditor
 {
     public class PropControl : INotifyPropertyChanged
     {
+        private string mName;
+        [Category("")]
+        [DisplayName("변수 이름")]
+        public string Name
+        {
+            get => mName;
+            set
+            {
+                if (mName != value)
+                {
+                    mName = value;
+                    NotifyPropertyChanged("Name");
+                }
+            }
+        }
+
         private EKeys mKey;
         [Category("키보드")]
         [DisplayName("키")]
