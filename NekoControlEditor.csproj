@@ -61,25 +61,12 @@
     <Compile Include="CheckerBoard.xaml.cs">
       <DependentUpon>CheckerBoard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ControlFrame.xaml.cs">
-      <DependentUpon>ControlFrame.xaml</DependentUpon>
-    </Compile>
     <Compile Include="EKeys.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="NekoControlDPad4ViewModel.cs" />
     <Compile Include="NekoControlViewModel.cs" />
-    <Compile Include="PropControl.cs" />
-    <Compile Include="PropControlDirection4.cs" />
     <Compile Include="WpfPropertyGrid.cs" />
     <Page Include="CheckerBoard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ControlDirection4.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ControlFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -90,9 +77,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ControlDirection4.xaml.cs">
-      <DependentUpon>ControlDirection4.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
