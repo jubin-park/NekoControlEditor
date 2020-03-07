@@ -65,7 +65,9 @@
       <DependentUpon>ControlFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="EKeys.cs" />
-    <Compile Include="IControl.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="NekoControlDPad4ViewModel.cs" />
+    <Compile Include="NekoControlViewModel.cs" />
     <Compile Include="PropControl.cs" />
     <Compile Include="PropControlDirection4.cs" />
     <Compile Include="WpfPropertyGrid.cs" />

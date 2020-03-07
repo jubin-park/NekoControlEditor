@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NekoControlEditor"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="128" d:DesignWidth="128">
 
-    <Grid Name="Grid">
+    <Grid
+        Name="Grid"
+        SizeChanged="Grid_SizeChanged">
         <Canvas>
-            <Rectangle Width="{Binding ElementName=Grid, Path=ActualWidth}" Height="{Binding ElementName=Grid, Path=ActualHeight}" Stroke="Black" StrokeThickness="1">
+            <Rectangle Width="{Binding ElementName=Grid, Path=ActualWidth}" Height="{Binding ElementName=Grid, Path=ActualHeight}">
                 <Rectangle.Fill>
                     <DrawingBrush Stretch="None" TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute">
 
@@ -39,6 +41,17 @@
                     </DrawingBrush>
                 </Rectangle.Fill>
             </Rectangle>
+            <Border
+                Canvas.Left="-1"
+                Canvas.Top="-1"
+                BorderBrush="Black"
+                BorderThickness="1"
+                Height="{Binding BorderHeight}"
+                Width="{Binding BorderWidth}"
+                >
+            </Border>
+            
         </Canvas>
+
     </Grid>
 </UserControl>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -27,9 +28,22 @@ namespace NekoControlEditor
 
         private void CreateControlDirection4Button_Click(object sender, RoutedEventArgs e)
         {
-            ControlDirection4 dir4 = new ControlDirection4();
-            RenderCanvas.Children.Add(dir4);
-            PropertyGrid.SelectedObject = dir4.Properties;
+            NekoControlDPad4ViewModel nekoDPad4 = new NekoControlDPad4ViewModel();
+            MainViewModel.NekoControls.Add(nekoDPad4);
+        }
+
+        private void ResolutionButton_Click(object sender, RoutedEventArgs e)
+        {
+            RenderGrid.ColumnDefinitions[1].Width = new GridLength(600, GridUnitType.Pixel);
+            RenderGrid.RowDefinitions[1].Height = new GridLength(400, GridUnitType.Pixel);
+        }
+
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            Thumb thumb = (Thumb)sender;
+            NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
+            nekoControlViewModel.X += (int)e.HorizontalChange;
+            nekoControlViewModel.Y += (int)e.VerticalChange;
         }
     }
 }
