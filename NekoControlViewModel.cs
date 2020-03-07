@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NekoControlEditor
 {
-    public class NekoControlViewModel : INotifyPropertyChanged
+    public abstract class NekoControlViewModel : INotifyPropertyChanged
     {
         private string mName;
         [Category("")]
