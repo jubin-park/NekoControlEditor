@@ -146,7 +146,7 @@ namespace NekoControlEditor
         public NekoControlDPad4ViewModel()
         {
             Name = "$dpad4_" + (++mCount);
-            BitmapDefault = "";
+            BitmapDefault = "image/dpad_none.png";
             BitmapDown = "";
             BitmapLeft = "";
             BitmapRight = "";

@@ -120,7 +120,16 @@ namespace NekoControlEditor
                 {
                     mOpacity = value;
                     notifyPropertyChanged("Opacity");
+                    notifyPropertyChanged("RealOpacity");
                 }
+            }
+        }
+
+        public double RealOpacity
+        {
+            get
+            {
+                return mOpacity / 255.0;
             }
         }
 
@@ -208,8 +217,8 @@ namespace NekoControlEditor
             X = 0;
             Y = 0;
             Z = 0;
-            Width = 64;
-            Height = 64;
+            Width = 128;
+            Height = 128;
             Opacity = 255;
             Visible = true;
             RectTouchable = false;

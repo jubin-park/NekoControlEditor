@@ -21,23 +21,26 @@
 
     <Window.Resources>
         <DataTemplate
-            DataType="{x:Type local:NekoControlViewModel}"
+            DataType="{x:Type local:NekoControlDPad4ViewModel}"
             >
             <Thumb
                 Width="{Binding Width}"
                 Height="{Binding Height}"
+                DragStarted="Thumb_DragStarted"
                 DragDelta="Thumb_DragDelta"
+                DragCompleted="Thumb_DragCompleted"
                 >
                 <Thumb.Template>
                     <ControlTemplate>
-                        <Image
-                            x:Name="ControlImage"
-                            Width="64"
-                            Height="64"
-                            Source="image/buildbot.png"
-                            Stretch="Fill"
-                            Cursor="Hand"
-                            />
+                        <Canvas>
+                            <Image
+                                Source="{Binding BitmapDefault}"
+                                Width="{Binding Width}"
+                                Height="{Binding Height}"
+                                Stretch="Fill"
+                                Cursor="Hand"
+                                />
+                        </Canvas>
                     </ControlTemplate>
                 </Thumb.Template>
             </Thumb>
@@ -57,7 +60,6 @@
             Grid.Row="0"
             Grid.Column="0"
             Fill="#D3D3D3"
-            Panel.ZIndex="1"
             />
         <StackPanel
             Grid.Row="0"
@@ -66,7 +68,6 @@
             Height="36"
             Margin="0,1,0,0"
             VerticalAlignment="Top"
-            Panel.ZIndex="50"
             >
             <Button
                 Content="새 파일"
@@ -119,7 +120,8 @@
                 Height="32"
                 Width="64"
                 Margin="0,2,4,0"
-                Click="ResolutionButton_Click" VerticalAlignment="Top"
+                Click="ResolutionButton_Click"
+                VerticalAlignment="Top"
                 />
         </StackPanel>
 
@@ -140,36 +142,47 @@
                     <RowDefinition Height="480"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <local:CheckerBoard
-                    x:Name="CheckerBoard"
+                <Grid
                     Grid.Row="1"
                     Grid.Column="1"
-                    />
-                <ItemsControl
+                    >
+                    <local:CheckerBoard
+                        x:Name="CheckerBoard"
+                        />
+                    <ItemsControl
                         ItemsSource="{Binding NekoControls}"
-                        Grid.Row="1"
-                        Grid.Column="1"
                         >
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas ClipToBounds="True"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas
+                                    ClipToBounds="True"
+                                    />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter
                                     Property="Canvas.Left"
                                     Value="{Binding X}"
                                     />
-                            <Setter
+                                <Setter
                                     Property="Canvas.Top"
                                     Value="{Binding Y}"
                                     />
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
+                                <Setter
+                                    Property="Canvas.ZIndex"
+                                    Value="{Binding Z}"
+                                    />
+                                <Setter
+                                    Property="Canvas.Opacity"
+                                    Value="{Binding RealOpacity}"
+                                    />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                </Grid>
             </Grid>
-
+            
             <GridSplitter
                 Grid.Column="1"
                 HorizontalAlignment="Center"
@@ -199,6 +212,7 @@
                         Margin="4"
                         VerticalAlignment="Top"
                         ItemsSource="{Binding NekoControls}"
+                        SelectedItem="{Binding SelectedNekoControl}"
                         >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -207,7 +221,6 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
-
                 <GridSplitter
                     Grid.Row="1"
                     Background="Gray"
@@ -220,6 +233,7 @@
                     Margin="0,0,0,0"
                     Grid.Row="2"
                     ToolbarVisible="False"
+                    SelectedObject="{Binding SelectedNekoControl}"
                     />
             </Grid>
         </Grid>

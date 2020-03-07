@@ -30,6 +30,7 @@ namespace NekoControlEditor
         {
             NekoControlDPad4ViewModel nekoDPad4 = new NekoControlDPad4ViewModel();
             MainViewModel.NekoControls.Add(nekoDPad4);
+            MainViewModel.SelectedNekoControl = nekoDPad4;
         }
 
         private void ResolutionButton_Click(object sender, RoutedEventArgs e)
@@ -38,12 +39,25 @@ namespace NekoControlEditor
             RenderGrid.RowDefinitions[1].Height = new GridLength(400, GridUnitType.Pixel);
         }
 
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        private void Thumb_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            Thumb thumb = (Thumb)sender;
+            NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
+            MainViewModel.SelectedNekoControl = nekoControlViewModel;
+        }
+
+        private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
             NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
             nekoControlViewModel.X += (int)e.HorizontalChange;
             nekoControlViewModel.Y += (int)e.VerticalChange;
+        }
+
+        private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            PropertyGrid.Refresh();
+            e.Handled = false;
         }
     }
 }
