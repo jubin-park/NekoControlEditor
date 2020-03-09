@@ -61,9 +61,11 @@
     <Compile Include="CheckerBoard.xaml.cs">
       <DependentUpon>CheckerBoard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EDPadType.cs" />
     <Compile Include="EKeys.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="NekoControlDPad4ViewModel.cs" />
+    <Compile Include="NekoControlDPad8ViewModel.cs" />
     <Compile Include="NekoControlKeyButtonViewModel.cs" />
     <Compile Include="NekoControlViewModel.cs" />
     <Compile Include="WpfPropertyGrid.cs" />
@@ -114,7 +116,21 @@
     <Resource Include="image\dpad_none.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="image\buildbot.png" />
+    <Resource Include="image\dpad_down.png" />
+    <Resource Include="image\dpad_left.png" />
+    <Resource Include="image\dpad_right.png" />
+    <Resource Include="image\dpad_stick.png" />
+    <Resource Include="image\dpad_up.png" />
+    <Resource Include="image\UltimateDroidButton1.png" />
+    <Resource Include="image\UltimateDroidButton1Pressed.png" />
+    <Resource Include="image\UltimateDroidButton2.png" />
+    <Resource Include="image\UltimateDroidButton2Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\dpad_lower_left.png" />
+    <Resource Include="image\dpad_lower_right.png" />
+    <Resource Include="image\dpad_upper_left.png" />
+    <Resource Include="image\dpad_upper_right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
