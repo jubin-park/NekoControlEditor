@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace NekoControlEditor
 {
@@ -25,25 +20,6 @@ namespace NekoControlEditor
                 {
                     mName = value;
                     notifyPropertyChanged("Name");
-                }
-            }
-        }
-
-        private EKeys mKey;
-        [Category("키보드")]
-        [DisplayName("키")]
-        public EKeys Key
-        {
-            get
-            {
-                return mKey;
-            }
-            set
-            {
-                if (mKey != value)
-                {
-                    mKey = value;
-                    notifyPropertyChanged("Key");
                 }
             }
         }
@@ -209,11 +185,30 @@ namespace NekoControlEditor
             }
         }
 
+        private string mBorderColor;
+        [ReadOnly(true), Browsable(false)]
+        public string BorderColor
+        {
+            get
+            {
+                return mBorderColor;
+            }
+            set
+            {
+                if (mBorderColor != value)
+                {
+                    mBorderColor = value;
+                    notifyPropertyChanged("BorderColor");
+                }
+            }
+        }
+
+        public bool IsSelected;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public NekoControlViewModel()
         {
-            Key = EKeys.EMPTY;
             X = 0;
             Y = 0;
             Z = 0;
@@ -222,6 +217,7 @@ namespace NekoControlEditor
             Opacity = 255;
             Visible = true;
             RectTouchable = false;
+            IsSelected = false;
         }
 
         protected void notifyPropertyChanged(string propertyName)

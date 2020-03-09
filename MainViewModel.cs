@@ -34,6 +34,16 @@ namespace NekoControlEditor
             {
                 if (mSelectedNekoControl != value)
                 {
+                    if (mSelectedNekoControl != null)
+                    {
+                        mSelectedNekoControl.IsSelected = false;
+                        mSelectedNekoControl.BorderColor = "#2980b9";
+                    }
+                    if (value != null)
+                    {
+                        value.IsSelected = true;
+                        value.BorderColor = "Red";
+                    }
                     mSelectedNekoControl = value;
                     notifyPropertyChanged("SelectedNekoControl");
                 }

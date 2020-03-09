@@ -57,7 +57,18 @@ namespace NekoControlEditor
         private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             PropertyGrid.Refresh();
-            e.Handled = false;
+        }
+
+        private void RemoveControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock textBlock = (TextBlock)sender;
+            NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)textBlock.DataContext;
+            int index = MainViewModel.NekoControls.IndexOf(nekoControlViewModel) + 1;
+            if (index > 0 && index < MainViewModel.NekoControls.Count)
+            {
+                MainViewModel.SelectedNekoControl = MainViewModel.NekoControls[index];
+            }
+            MainViewModel.NekoControls.Remove(nekoControlViewModel);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace NekoControlEditor
         public CheckerBoard()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
         }
 
         public double mBorderWidth;
