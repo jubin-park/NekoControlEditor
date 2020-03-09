@@ -13,7 +13,7 @@ namespace NekoControlEditor
     {
         #region Data Members
         private ObservableCollection<NekoControlViewModel> mNekoControls = new ObservableCollection<NekoControlViewModel>();
-        private NekoControlViewModel mSelectedNekoControl = null;
+        private NekoControlViewModel mSelectedNekoControlOrNull = null;
         #endregion Data Members
 
         public ObservableCollection<NekoControlViewModel> NekoControls
@@ -24,28 +24,28 @@ namespace NekoControlEditor
             }
         }
 
-        public NekoControlViewModel SelectedNekoControl
+        public NekoControlViewModel SelectedNekoControlOrNull
         {
             get
             {
-                return mSelectedNekoControl;
+                return mSelectedNekoControlOrNull;
             }
             set
             {
-                if (mSelectedNekoControl != value)
+                if (mSelectedNekoControlOrNull != value)
                 {
-                    if (mSelectedNekoControl != null)
+                    if (mSelectedNekoControlOrNull != null)
                     {
-                        mSelectedNekoControl.IsSelected = false;
-                        mSelectedNekoControl.BorderColor = "#2980b9";
+                        mSelectedNekoControlOrNull.IsSelected = false;
+                        mSelectedNekoControlOrNull.BorderColor = "#2980b9";
                     }
                     if (value != null)
                     {
                         value.IsSelected = true;
                         value.BorderColor = "Red";
                     }
-                    mSelectedNekoControl = value;
-                    notifyPropertyChanged("SelectedNekoControl");
+                    mSelectedNekoControlOrNull = value;
+                    notifyPropertyChanged("SelectedNekoControlOrNull");
                 }
             }
         }

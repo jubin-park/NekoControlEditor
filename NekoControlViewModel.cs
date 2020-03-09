@@ -203,7 +203,23 @@ namespace NekoControlEditor
             }
         }
 
-        public bool IsSelected;
+        private bool mbSelected;
+        [ReadOnly(true), Browsable(false)]
+        public bool IsSelected
+        {
+            get
+            {
+                return mbSelected;
+            }
+            set
+            {
+                if (mbSelected != value)
+                {
+                    mbSelected = value;
+                    notifyPropertyChanged("IsSelected");
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

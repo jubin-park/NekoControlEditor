@@ -1,9 +1,25 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Media.Imaging;
 
 namespace NekoControlEditor
 {
     class NekoControlDPad4ViewModel : NekoControlViewModel
     {
+        public static readonly BitmapImage[] DefaultBitmapImage =
+        {
+            new BitmapImage(new Uri("image/dpad_none.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_lower_left.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_down.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_lower_right.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_left.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_right.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_upper_left.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_up.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_upper_right.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/dpad_stick.png", UriKind.Relative)),
+        };
+
         private string mBitmapDefault;
         [Category("버튼 그래픽 파일")]
         [DisplayName("기본")]
@@ -118,7 +134,7 @@ namespace NekoControlEditor
             }
         }
 
-        private ushort mStickMovableRadius = 16;
+        private ushort mStickMovableRadius;
         [Category("조이스틱")]
         [DisplayName("최대 이동 반지름")]
         public ushort StickMovableRadius
@@ -146,7 +162,7 @@ namespace NekoControlEditor
             BitmapLeft = "";
             BitmapRight = "";
             BitmapUp = "";
-            BitmapStick = "";
+            BitmapStick = "image/dpad_stick.png";
             StickMovableRadius = 16;
         }
     }
