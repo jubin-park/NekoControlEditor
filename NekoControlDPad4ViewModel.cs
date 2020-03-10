@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 
 namespace NekoControlEditor
 {
-    class NekoControlDPad4ViewModel : NekoControlViewModel
+    class NekoControlDPad4ViewModel : NekoControlViewModel, ICloneable
     {
         public static readonly BitmapImage[] DefaultBitmapImage =
         {
@@ -152,11 +152,20 @@ namespace NekoControlEditor
                 }
             }
         }
-        private static int mCount = 0;
+
+        private static uint mCount = 0;
 
         public NekoControlDPad4ViewModel()
         {
-            Name = "$dpad4_" + (++mCount);
+            if (this is NekoControlDPad8ViewModel == false)
+            {
+                string name = "$dpad4_";
+                while (VariableNames.Contains(name + mCount))
+                {
+                    ++mCount;
+                }
+                Name = name + mCount;
+            }
             BitmapDefault = "image/dpad_none.png";
             BitmapDown = "";
             BitmapLeft = "";
@@ -164,6 +173,32 @@ namespace NekoControlEditor
             BitmapUp = "";
             BitmapStick = "image/dpad_stick.png";
             StickMovableRadius = 16;
+        }
+
+        public NekoControlDPad4ViewModel(NekoControlDPad4ViewModel other)
+            : base(other)
+        {
+            if (other is NekoControlDPad8ViewModel == false)
+            {
+                string name = other.Name;
+                do
+                {
+                    name += "_copy";
+                } while (VariableNames.Contains(name));
+                Name = name;
+            }
+            BitmapDefault = other.BitmapDefault;
+            BitmapDown = other.BitmapDown;
+            BitmapLeft = other.BitmapLeft;
+            BitmapRight = other.BitmapRight;
+            BitmapUp = other.BitmapUp;
+            BitmapStick = other.BitmapStick;
+            StickMovableRadius = other.StickMovableRadius;
+        }
+
+        public object Clone()
+        {
+            return new NekoControlDPad4ViewModel(this);
         }
     }
 }

@@ -29,28 +29,28 @@ namespace NekoControlEditor
 
         private void xGridRender_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            xMainViewModel.SelectedNekoControlOrNull = null;
+            xViewModelMain.SelectedNekoControlOrNull = null;
         }
 
         private void xButtonCreateNekoControlDPad4_Click(object sender, RoutedEventArgs e)
         {
             var dPad4 = new NekoControlDPad4ViewModel();
-            xMainViewModel.NekoControls.Add(dPad4);
-            xMainViewModel.SelectedNekoControlOrNull = dPad4;
+            xViewModelMain.NekoControls.Add(dPad4);
+            xViewModelMain.SelectedNekoControlOrNull = dPad4;
         }
 
         private void xButtonCreateNekoControlDPad8_Click(object sender, RoutedEventArgs e)
         {
             var dPad8 = new NekoControlDPad8ViewModel();
-            xMainViewModel.NekoControls.Add(dPad8);
-            xMainViewModel.SelectedNekoControlOrNull = dPad8;
+            xViewModelMain.NekoControls.Add(dPad8);
+            xViewModelMain.SelectedNekoControlOrNull = dPad8;
         }
 
         private void xButtonCreateNekoControlKeyButton_Click(object sender, RoutedEventArgs e)
         {
             var keyButton = new NekoControlKeyButtonViewModel();
-            xMainViewModel.NekoControls.Add(keyButton);
-            xMainViewModel.SelectedNekoControlOrNull = keyButton;
+            xViewModelMain.NekoControls.Add(keyButton);
+            xViewModelMain.SelectedNekoControlOrNull = keyButton;
         }
 
         private void xButtonResizeResolution_Click(object sender, RoutedEventArgs e)
@@ -61,47 +61,76 @@ namespace NekoControlEditor
 
         private void xButtonCloneControl_Click(object sender, RoutedEventArgs e)
         {
+            var control = xViewModelMain.SelectedNekoControlOrNull;
+            if (control == null)
+            {
+                return;
+            }
+            if (control is NekoControlDPad8ViewModel)
+            {
+                var dPad8 = (NekoControlDPad8ViewModel)control;
+                var clone = (NekoControlViewModel)dPad8.Clone();
+                xViewModelMain.NekoControls.Add(clone);
+                xViewModelMain.SelectedNekoControlOrNull = clone;
+                xListBoxNekoControls.ScrollIntoView(clone);
+            }
+            else if (control is NekoControlDPad4ViewModel)
+            {
+                var dPad4 = (NekoControlDPad4ViewModel)control;
+                var clone = (NekoControlViewModel)dPad4.Clone();
+                xViewModelMain.NekoControls.Add(clone);
+                xViewModelMain.SelectedNekoControlOrNull = clone;
+                xListBoxNekoControls.ScrollIntoView(clone);
+            }
+            else if (control is NekoControlKeyButtonViewModel)
+            {
 
+            }
+            else
+            {
+                Debug.Fail("Invalid Control Type");
+            }
         }
 
         private void xButtonRemoveControl_Click(object sender, RoutedEventArgs e)
         {
-            var select = xMainViewModel.SelectedNekoControlOrNull;
-            if (select != null)
+            var control = xViewModelMain.SelectedNekoControlOrNull;
+            if (control != null)
             {
-                xMainViewModel.NekoControls.Remove(select);
+                NekoControlViewModel.VariableNames.Remove(control.Name);
+                xViewModelMain.NekoControls.Remove(control);
             }
         }
 
-        private void DPad4Thumb_DragStarted(object sender, DragStartedEventArgs e)
+        private void xThumbDPad4_DragStarted(object sender, DragStartedEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
-            xMainViewModel.SelectedNekoControlOrNull = nekoControlViewModel;
+            NekoControlViewModel control = (NekoControlViewModel)thumb.DataContext;
+            xViewModelMain.SelectedNekoControlOrNull = control;
         }
 
-        private void DPad4Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        private void xThumbDPad4_DragDelta(object sender, DragDeltaEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
-            nekoControlViewModel.X += (int)e.HorizontalChange;
-            nekoControlViewModel.Y += (int)e.VerticalChange;
+            NekoControlViewModel control = (NekoControlViewModel)thumb.DataContext;
+            control.X += (int)e.HorizontalChange;
+            control.Y += (int)e.VerticalChange;
         }
 
-        private void DPad4Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        private void xThumbDPad4_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             xWpfPropertyGrid.Refresh();
         }
 
-        private void DPad4Thumb_MouseMove(object sender, MouseEventArgs e)
+        private void xThumbDPad4_MouseMove(object sender, MouseEventArgs e)
         {
-            updateDPad4(xMainViewModel.SelectedNekoControlOrNull as NekoControlDPad4ViewModel, sender, e);
+            updateDPad4(xViewModelMain.SelectedNekoControlOrNull as NekoControlDPad4ViewModel, sender, e);
         }
 
-        private void DPad4Thumb_MouseLeave(object sender, MouseEventArgs e)
+        private void xThumbDPad4_MouseLeave(object sender, MouseEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            NekoControlDPad4ViewModel dPad4 = xMainViewModel.SelectedNekoControlOrNull as NekoControlDPad4ViewModel;
+            NekoControlDPad4ViewModel dPad4 = xViewModelMain.SelectedNekoControlOrNull as NekoControlDPad4ViewModel;
             if (dPad4 != null)
             {
                 Point point = e.GetPosition(thumb);
@@ -114,16 +143,12 @@ namespace NekoControlEditor
             }
         }
 
-        private void RemoveControlTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void xTextBlockRemoveControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBlock textBlock = (TextBlock)sender;
-            NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)textBlock.DataContext;
-            int index = xMainViewModel.NekoControls.IndexOf(nekoControlViewModel) + 1;
-            if (index > 0 && index < xMainViewModel.NekoControls.Count)
-            {
-                xMainViewModel.SelectedNekoControlOrNull = xMainViewModel.NekoControls[index];
-            }
-            xMainViewModel.NekoControls.Remove(nekoControlViewModel);
+            NekoControlViewModel control = (NekoControlViewModel)textBlock.DataContext;
+            NekoControlViewModel.VariableNames.Remove(control.Name);
+            xViewModelMain.NekoControls.Remove(control);
         }
 
         private void updateDPad4(NekoControlDPad4ViewModel dPad4, object sender, MouseEventArgs e)
@@ -182,35 +207,35 @@ namespace NekoControlEditor
             }
         }
 
-        private void DPad8Thumb_DragStarted(object sender, DragStartedEventArgs e)
+        private void xThumbDPad8_DragStarted(object sender, DragStartedEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
-            xMainViewModel.SelectedNekoControlOrNull = nekoControlViewModel;
+            NekoControlViewModel control = (NekoControlViewModel)thumb.DataContext;
+            xViewModelMain.SelectedNekoControlOrNull = control;
         }
 
-        private void DPad8Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        private void xThumbDPad8_DragDelta(object sender, DragDeltaEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
-            nekoControlViewModel.X += (int)e.HorizontalChange;
-            nekoControlViewModel.Y += (int)e.VerticalChange;
+            NekoControlViewModel control = (NekoControlViewModel)thumb.DataContext;
+            control.X += (int)e.HorizontalChange;
+            control.Y += (int)e.VerticalChange;
         }
 
-        private void DPad8Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        private void xThumbDPad8_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             xWpfPropertyGrid.Refresh();
         }
 
-        private void DPad8Thumb_MouseMove(object sender, MouseEventArgs e)
+        private void xThumbDPad8_MouseMove(object sender, MouseEventArgs e)
         {
-            updateDPad8(xMainViewModel.SelectedNekoControlOrNull as NekoControlDPad8ViewModel, sender, e);
+            updateDPad8(xViewModelMain.SelectedNekoControlOrNull as NekoControlDPad8ViewModel, sender, e);
         }
 
-        private void DPad8Thumb_MouseLeave(object sender, MouseEventArgs e)
+        private void xThumbDPad8_MouseLeave(object sender, MouseEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            NekoControlDPad8ViewModel dPad4 = xMainViewModel.SelectedNekoControlOrNull as NekoControlDPad8ViewModel;
+            NekoControlDPad8ViewModel dPad4 = xViewModelMain.SelectedNekoControlOrNull as NekoControlDPad8ViewModel;
             if (dPad4 != null)
             {
                 Point point = e.GetPosition(thumb);

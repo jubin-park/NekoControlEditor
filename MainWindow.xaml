@@ -16,7 +16,7 @@
     >
 
     <Window.DataContext>
-        <local:MainViewModel x:Name="xMainViewModel"/>
+        <local:MainViewModel x:Name="xViewModelMain"/>
     </Window.DataContext>
 
     <Window.Resources>
@@ -26,11 +26,11 @@
                 <Thumb
                     Width="{Binding Width}"
                     Height="{Binding Height}"
-                    DragStarted="DPad4Thumb_DragStarted"
-                    DragDelta="DPad4Thumb_DragDelta"
-                    DragCompleted="DPad4Thumb_DragCompleted"
-                    MouseMove="DPad4Thumb_MouseMove"
-                    MouseLeave="DPad4Thumb_MouseLeave"
+                    DragStarted="xThumbDPad4_DragStarted"
+                    DragDelta="xThumbDPad4_DragDelta"
+                    DragCompleted="xThumbDPad4_DragCompleted"
+                    MouseMove="xThumbDPad4_MouseMove"
+                    MouseLeave="xThumbDPad4_MouseLeave"
                     >
                     <Thumb.Template>
                         <ControlTemplate>
@@ -83,7 +83,7 @@
                         Canvas.Top="-15"
                         Width="24"
                         Height="14"
-                        MouseLeftButtonDown="RemoveControlTextBlock_MouseLeftButtonDown"
+                        MouseLeftButtonDown="xTextBlockRemoveControl_MouseLeftButtonDown"
                         />
                 </Canvas>
             </Grid>
@@ -94,11 +94,11 @@
                 <Thumb
                     Width="{Binding Width}"
                     Height="{Binding Height}"
-                    DragStarted="DPad8Thumb_DragStarted"
-                    DragDelta="DPad8Thumb_DragDelta"
-                    DragCompleted="DPad8Thumb_DragCompleted"
-                    MouseMove="DPad8Thumb_MouseMove"
-                    MouseLeave="DPad8Thumb_MouseLeave"
+                    DragStarted="xThumbDPad8_DragStarted"
+                    DragDelta="xThumbDPad8_DragDelta"
+                    DragCompleted="xThumbDPad8_DragCompleted"
+                    MouseMove="xThumbDPad8_MouseMove"
+                    MouseLeave="xThumbDPad8_MouseLeave"
                     >
                     <Thumb.Template>
                         <ControlTemplate>
@@ -151,7 +151,7 @@
                         Canvas.Top="-15"
                         Width="24"
                         Height="14"
-                        MouseLeftButtonDown="RemoveControlTextBlock_MouseLeftButtonDown"
+                        MouseLeftButtonDown="xTextBlockRemoveControl_MouseLeftButtonDown"
                         />
                 </Canvas>
             </Grid>
@@ -204,21 +204,18 @@
                 Margin="0, 2, 4, 2"
                 />
             <Button
-                x:Name="xButtonCreateNekoControlDPad4"
                 Content="4방향 패드"
                 Height="32"
                 Width="64"
                 Click="xButtonCreateNekoControlDPad4_Click"
                 />
             <Button
-                x:Name="xButtonCreateNekoControlDPad8"
                 Content="8방향 패드"
                 Height="32"
                 Width="64"
                 Click="xButtonCreateNekoControlDPad8_Click"
                 />
             <Button
-                x:Name="xButtonCreateNekoControlKeyButton"
                 Content="가상키"
                 Height="32"
                 Width="64"
@@ -236,7 +233,6 @@
                 Margin="0, 2, 4, 2"
                 />
             <Button
-                x:Name="xButtonResizeResolution"
                 Content="해상도"
                 Height="32"
                 Width="64"
@@ -318,9 +314,9 @@
                 </Grid.RowDefinitions>
                 <Rectangle
                     Grid.Row="0"
-                    Fill="#FFF1F1F1" Grid.RowSpan="2"
+                    Fill="#FFF1F1F1"
                     />
-                <Grid Grid.RowSpan="2">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="24"/>
                         <RowDefinition Height="*"/>
@@ -332,6 +328,7 @@
                         Margin="6, 6, 0, 0"
                         />
                     <ListBox
+                        x:Name="xListBoxNekoControls"
                         Grid.Row="1"
                         Margin="4"
                         ItemsSource="{Binding NekoControls}"
@@ -339,9 +336,7 @@
                         >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel
-                                    Orientation="Horizontal"
-                                    >
+                                <StackPanel Orientation="Horizontal">
                                     <Image
                                         Source="{Binding BitmapDefault}"
                                         Width="32"
@@ -354,7 +349,6 @@
                                         VerticalAlignment="Center"
                                         />
                                 </StackPanel>
-
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -368,13 +362,11 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Button
-                            Name="xButtonCloneControl"
                             Content="복제"
                             Grid.Column="0"
                             Click="xButtonCloneControl_Click"
                             />
                         <Button
-                            Name="xButtonRemoveControl"
                             Content="삭제"
                             Grid.Column="2"
                             Click="xButtonRemoveControl_Click"
@@ -402,7 +394,7 @@
             VerticalAlignment="Bottom"
             Height="20"
             Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"
-            Background="#FF7C7C7C"
+            Background="#7C7C7C"
             />
     </Grid>
 </Window>

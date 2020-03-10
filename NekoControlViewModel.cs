@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace NekoControlEditor
 {
@@ -16,8 +18,18 @@ namespace NekoControlEditor
             }
             set
             {
+                if (value == null || value == "")
+                {
+                    return;
+                }
                 if (mName != value)
                 {
+                    if (VariableNames.Contains(value))
+                    {
+                        return;
+                    }
+                    VariableNames.Remove(mName);
+                    VariableNames.Add(value);
                     mName = value;
                     notifyPropertyChanged("Name");
                 }
@@ -109,7 +121,7 @@ namespace NekoControlEditor
             }
         }
 
-        private bool mbVisible = true;
+        private bool mbVisible;
         [Category("속성")]
         [DisplayName("표시 여부")]
         public bool Visible
@@ -223,7 +235,9 @@ namespace NekoControlEditor
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public NekoControlViewModel()
+        public static HashSet<string> VariableNames = new HashSet<string>();
+
+        protected NekoControlViewModel()
         {
             X = 0;
             Y = 0;
@@ -234,6 +248,19 @@ namespace NekoControlEditor
             Visible = true;
             RectTouchable = false;
             IsSelected = false;
+        }
+
+        protected NekoControlViewModel(NekoControlViewModel other)
+        {
+            X = other.X;
+            Y = other.Y;
+            Z = other.Z;
+            Width = other.Width;
+            Height = other.Height;
+            Opacity = other.Opacity;
+            Visible = other.Visible;
+            RectTouchable = other.RectTouchable;
+            IsSelected = other.IsSelected;
         }
 
         protected void notifyPropertyChanged(string propertyName)
