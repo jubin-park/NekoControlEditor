@@ -16,7 +16,7 @@
     >
 
     <Window.DataContext>
-        <local:MainViewModel x:Name="MainViewModel"/>
+        <local:MainViewModel x:Name="xMainViewModel"/>
     </Window.DataContext>
 
     <Window.Resources>
@@ -37,20 +37,22 @@
                             <Grid>
                                 <Canvas>
                                     <Image
-                                        x:Name="ControlImage"
+                                        x:Name="xImageControl"
                                         Source="{Binding BitmapDefault}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
                                         Cursor="Hand"
+                                        RenderOptions.EdgeMode="Aliased"
                                         />
                                     <Image
-                                        x:Name="StickImage"
+                                        x:Name="xImageStick"
                                         Source="{Binding BitmapStick}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
                                         Cursor="Hand"
+                                        RenderOptions.EdgeMode="Aliased"
                                         />
                                     <Border
                                         Width="{Binding Width}"
@@ -71,6 +73,7 @@
                         Height="12"
                         Canvas.Right="0"
                         Canvas.Top="-12"
+                        RenderOptions.EdgeMode="Aliased"
                         />
                     <TextBlock
                         Text="x"
@@ -102,20 +105,22 @@
                             <Grid>
                                 <Canvas>
                                     <Image
-                                        x:Name="ControlImage"
+                                        x:Name="xImageControl"
                                         Source="{Binding BitmapDefault}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
                                         Cursor="Hand"
+                                        RenderOptions.EdgeMode="Aliased"
                                         />
                                     <Image
-                                        x:Name="StickImage"
+                                        x:Name="xImageStick"
                                         Source="{Binding BitmapStick}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
                                         Cursor="Hand"
+                                        RenderOptions.EdgeMode="Aliased"
                                         />
                                     <Border
                                         Width="{Binding Width}"
@@ -136,6 +141,7 @@
                         Height="12"
                         Canvas.Right="0"
                         Canvas.Top="-12"
+                        RenderOptions.EdgeMode="Aliased"
                         />
                     <TextBlock
                         Text="x"
@@ -158,7 +164,7 @@
         </DataTemplate>
     </Window.Resources>
 
-    <Grid x:Name="MainGrid">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -198,25 +204,25 @@
                 Margin="0, 2, 4, 2"
                 />
             <Button
-                x:Name="CreateNekoControlDPad4Button"
+                x:Name="xButtonCreateNekoControlDPad4"
                 Content="4방향 패드"
                 Height="32"
                 Width="64"
-                Click="CreateNekoControlDPad4Button_Click"
+                Click="xButtonCreateNekoControlDPad4_Click"
                 />
             <Button
-                x:Name="CreateNekoControlDPad8Button"
+                x:Name="xButtonCreateNekoControlDPad8"
                 Content="8방향 패드"
                 Height="32"
                 Width="64"
-                Click="CreateNekoControlDPad8Button_Click"
+                Click="xButtonCreateNekoControlDPad8_Click"
                 />
             <Button
-                x:Name="CreateNekoControlKeyButtonButton"
+                x:Name="xButtonCreateNekoControlKeyButton"
                 Content="가상키"
                 Height="32"
                 Width="64"
-                Click="CreateNekoControlKeyButtonButton_Click"
+                Click="xButtonCreateNekoControlKeyButton_Click"
                 />
             <Button
                 Content="버튼"
@@ -230,12 +236,12 @@
                 Margin="0, 2, 4, 2"
                 />
             <Button
-                x:Name="ResolutionButton"
+                x:Name="xButtonResizeResolution"
                 Content="해상도"
                 Height="32"
                 Width="64"
                 Margin="0,2,4,0"
-                Click="ResolutionButton_Click"
+                Click="xButtonResizeResolution_Click"
                 VerticalAlignment="Top"
                 />
         </StackPanel>
@@ -246,7 +252,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Grid x:Name="RenderGrid">
+            <Grid x:Name="xGrid3x3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="640"/>
@@ -260,11 +266,9 @@
                 <Grid
                     Grid.Row="1"
                     Grid.Column="1"
-                    MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+                    MouseLeftButtonDown="xGridRender_MouseLeftButtonDown"
                     >
-                    <local:CheckerBoard
-                        x:Name="CheckerBoard"
-                        />
+                    <local:CheckerBoard/>
                     <ItemsControl
                         ItemsSource="{Binding NekoControls}"
                         >
@@ -329,7 +333,6 @@
                         />
                     <ListBox
                         Grid.Row="1"
-                        Name="ControlNameComboBox"
                         Margin="4"
                         ItemsSource="{Binding NekoControls}"
                         SelectedItem="{Binding SelectedNekoControlOrNull}"
@@ -342,6 +345,7 @@
                                     <Image
                                         Source="{Binding BitmapDefault}"
                                         Width="32"
+                                        Stretch="Fill"
                                         Height="32"
                                         />
                                     <TextBlock
@@ -385,8 +389,7 @@
                     HorizontalAlignment="Stretch"
                     />
                 <wpg:WpfPropertyGrid
-                    x:Name="PropertyGrid"
-                    Margin="0,0,0,0"
+                    x:Name="xWpfPropertyGrid"
                     Grid.Row="3"
                     ToolbarVisible="False"
                     SelectedObject="{Binding SelectedNekoControlOrNull}"

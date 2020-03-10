@@ -27,36 +27,36 @@ namespace NekoControlEditor
             InitializeComponent();
         }
 
-        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void xGridRender_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MainViewModel.SelectedNekoControlOrNull = null;
+            xMainViewModel.SelectedNekoControlOrNull = null;
         }
 
-        private void CreateNekoControlDPad4Button_Click(object sender, RoutedEventArgs e)
+        private void xButtonCreateNekoControlDPad4_Click(object sender, RoutedEventArgs e)
         {
             var dPad4 = new NekoControlDPad4ViewModel();
-            MainViewModel.NekoControls.Add(dPad4);
-            MainViewModel.SelectedNekoControlOrNull = dPad4;
+            xMainViewModel.NekoControls.Add(dPad4);
+            xMainViewModel.SelectedNekoControlOrNull = dPad4;
         }
 
-        private void CreateNekoControlDPad8Button_Click(object sender, RoutedEventArgs e)
+        private void xButtonCreateNekoControlDPad8_Click(object sender, RoutedEventArgs e)
         {
             var dPad8 = new NekoControlDPad8ViewModel();
-            MainViewModel.NekoControls.Add(dPad8);
-            MainViewModel.SelectedNekoControlOrNull = dPad8;
+            xMainViewModel.NekoControls.Add(dPad8);
+            xMainViewModel.SelectedNekoControlOrNull = dPad8;
         }
 
-        private void CreateNekoControlKeyButtonButton_Click(object sender, RoutedEventArgs e)
+        private void xButtonCreateNekoControlKeyButton_Click(object sender, RoutedEventArgs e)
         {
             var keyButton = new NekoControlKeyButtonViewModel();
-            MainViewModel.NekoControls.Add(keyButton);
-            MainViewModel.SelectedNekoControlOrNull = keyButton;
+            xMainViewModel.NekoControls.Add(keyButton);
+            xMainViewModel.SelectedNekoControlOrNull = keyButton;
         }
 
-        private void ResolutionButton_Click(object sender, RoutedEventArgs e)
+        private void xButtonResizeResolution_Click(object sender, RoutedEventArgs e)
         {
-            RenderGrid.ColumnDefinitions[1].Width = new GridLength(600, GridUnitType.Pixel);
-            RenderGrid.RowDefinitions[1].Height = new GridLength(400, GridUnitType.Pixel);
+            xGrid3x3.ColumnDefinitions[1].Width = new GridLength(800, GridUnitType.Pixel);
+            xGrid3x3.RowDefinitions[1].Height = new GridLength(600, GridUnitType.Pixel);
         }
 
         private void xButtonCloneControl_Click(object sender, RoutedEventArgs e)
@@ -66,10 +66,10 @@ namespace NekoControlEditor
 
         private void xButtonRemoveControl_Click(object sender, RoutedEventArgs e)
         {
-            var select = MainViewModel.SelectedNekoControlOrNull;
+            var select = xMainViewModel.SelectedNekoControlOrNull;
             if (select != null)
             {
-                MainViewModel.NekoControls.Remove(select);
+                xMainViewModel.NekoControls.Remove(select);
             }
         }
 
@@ -77,7 +77,7 @@ namespace NekoControlEditor
         {
             Thumb thumb = (Thumb)sender;
             NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
-            MainViewModel.SelectedNekoControlOrNull = nekoControlViewModel;
+            xMainViewModel.SelectedNekoControlOrNull = nekoControlViewModel;
         }
 
         private void DPad4Thumb_DragDelta(object sender, DragDeltaEventArgs e)
@@ -90,25 +90,25 @@ namespace NekoControlEditor
 
         private void DPad4Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            PropertyGrid.Refresh();
+            xWpfPropertyGrid.Refresh();
         }
 
         private void DPad4Thumb_MouseMove(object sender, MouseEventArgs e)
         {
-            updateDPad4(MainViewModel.SelectedNekoControlOrNull as NekoControlDPad4ViewModel, sender, e);
+            updateDPad4(xMainViewModel.SelectedNekoControlOrNull as NekoControlDPad4ViewModel, sender, e);
         }
 
         private void DPad4Thumb_MouseLeave(object sender, MouseEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            NekoControlDPad4ViewModel dPad4 = MainViewModel.SelectedNekoControlOrNull as NekoControlDPad4ViewModel;
+            NekoControlDPad4ViewModel dPad4 = xMainViewModel.SelectedNekoControlOrNull as NekoControlDPad4ViewModel;
             if (dPad4 != null)
             {
                 Point point = e.GetPosition(thumb);
                 BitmapImage bitmapImage = NekoControlDPad4ViewModel.DefaultBitmapImage[(int)EDPadType.Default];
-                Image controlImage = (Image)thumb.Template.FindName("ControlImage", thumb);
+                Image controlImage = (Image)thumb.Template.FindName("xImageControl", thumb);
                 controlImage.Source = bitmapImage;
-                Image stickImage = (Image)thumb.Template.FindName("StickImage", thumb);
+                Image stickImage = (Image)thumb.Template.FindName("xImageStick", thumb);
                 Canvas.SetLeft(stickImage, 0);
                 Canvas.SetTop(stickImage, 0);
             }
@@ -118,12 +118,12 @@ namespace NekoControlEditor
         {
             TextBlock textBlock = (TextBlock)sender;
             NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)textBlock.DataContext;
-            int index = MainViewModel.NekoControls.IndexOf(nekoControlViewModel) + 1;
-            if (index > 0 && index < MainViewModel.NekoControls.Count)
+            int index = xMainViewModel.NekoControls.IndexOf(nekoControlViewModel) + 1;
+            if (index > 0 && index < xMainViewModel.NekoControls.Count)
             {
-                MainViewModel.SelectedNekoControlOrNull = MainViewModel.NekoControls[index];
+                xMainViewModel.SelectedNekoControlOrNull = xMainViewModel.NekoControls[index];
             }
-            MainViewModel.NekoControls.Remove(nekoControlViewModel);
+            xMainViewModel.NekoControls.Remove(nekoControlViewModel);
         }
 
         private void updateDPad4(NekoControlDPad4ViewModel dPad4, object sender, MouseEventArgs e)
@@ -133,7 +133,7 @@ namespace NekoControlEditor
                 return;
             }
             Thumb thumb = (Thumb)sender;
-            Image controlImage = (Image)thumb.Template.FindName("ControlImage", thumb);
+            Image controlImage = (Image)thumb.Template.FindName("xImageControl", thumb);
             Point point = e.GetPosition(thumb);
             Point deltaPoint = new Point(dPad4.Width / 2 - point.X, dPad4.Height / 2 - point.Y);
             double angle = Math.Atan2(deltaPoint.Y, deltaPoint.X) * (180 / Math.PI);
@@ -168,7 +168,7 @@ namespace NekoControlEditor
             Point deltaPoint = new Point(dPad4.Width / 2 - point.X, dPad4.Height / 2 - point.Y);
             double TwoPowerdist = deltaPoint.X * deltaPoint.X + deltaPoint.Y * deltaPoint.Y;
             double radius = dPad4.StickMovableRadius;
-            Image stickImage = (Image)thumb.Template.FindName("StickImage", thumb);
+            Image stickImage = (Image)thumb.Template.FindName("xImageStick", thumb);
             if (TwoPowerdist < radius * radius)
             {
                 Canvas.SetLeft(stickImage, point.X - dPad4.Width / 2);
@@ -186,7 +186,7 @@ namespace NekoControlEditor
         {
             Thumb thumb = (Thumb)sender;
             NekoControlViewModel nekoControlViewModel = (NekoControlViewModel)thumb.DataContext;
-            MainViewModel.SelectedNekoControlOrNull = nekoControlViewModel;
+            xMainViewModel.SelectedNekoControlOrNull = nekoControlViewModel;
         }
 
         private void DPad8Thumb_DragDelta(object sender, DragDeltaEventArgs e)
@@ -199,25 +199,25 @@ namespace NekoControlEditor
 
         private void DPad8Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            PropertyGrid.Refresh();
+            xWpfPropertyGrid.Refresh();
         }
 
         private void DPad8Thumb_MouseMove(object sender, MouseEventArgs e)
         {
-            updateDPad8(MainViewModel.SelectedNekoControlOrNull as NekoControlDPad8ViewModel, sender, e);
+            updateDPad8(xMainViewModel.SelectedNekoControlOrNull as NekoControlDPad8ViewModel, sender, e);
         }
 
         private void DPad8Thumb_MouseLeave(object sender, MouseEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            NekoControlDPad8ViewModel dPad4 = MainViewModel.SelectedNekoControlOrNull as NekoControlDPad8ViewModel;
+            NekoControlDPad8ViewModel dPad4 = xMainViewModel.SelectedNekoControlOrNull as NekoControlDPad8ViewModel;
             if (dPad4 != null)
             {
                 Point point = e.GetPosition(thumb);
                 BitmapImage bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.Default];
-                Image controlImage = (Image)thumb.Template.FindName("ControlImage", thumb);
+                Image controlImage = (Image)thumb.Template.FindName("xImageControl", thumb);
                 controlImage.Source = bitmapImage;
-                Image stickImage = (Image)thumb.Template.FindName("StickImage", thumb);
+                Image stickImage = (Image)thumb.Template.FindName("xImageStick", thumb);
                 Canvas.SetLeft(stickImage, 0);
                 Canvas.SetTop(stickImage, 0);
             }
@@ -230,7 +230,7 @@ namespace NekoControlEditor
                 return;
             }
             Thumb thumb = (Thumb)sender;
-            Image controlImage = (Image)thumb.Template.FindName("ControlImage", thumb);
+            Image controlImage = (Image)thumb.Template.FindName("xImageControl", thumb);
             Point point = e.GetPosition(thumb);
             Point deltaPoint = new Point(dPad8.Width / 2 - point.X, dPad8.Height / 2 - point.Y);
             double angle = Math.Atan2(deltaPoint.Y, deltaPoint.X) * (180 / Math.PI);
@@ -281,7 +281,7 @@ namespace NekoControlEditor
             Point deltaPoint = new Point(dPad8.Width / 2 - point.X, dPad8.Height / 2 - point.Y);
             double TwoPowerdist = deltaPoint.X * deltaPoint.X + deltaPoint.Y * deltaPoint.Y;
             double radius = dPad8.StickMovableRadius;
-            Image stickImage = (Image)thumb.Template.FindName("StickImage", thumb);
+            Image stickImage = (Image)thumb.Template.FindName("xImageStick", thumb);
             if (TwoPowerdist < radius * radius)
             {
                 Canvas.SetLeft(stickImage, point.X - dPad8.Width / 2);
