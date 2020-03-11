@@ -26,9 +26,9 @@
                 <Thumb
                     Width="{Binding Width}"
                     Height="{Binding Height}"
-                    DragStarted="xThumbDPad4_DragStarted"
-                    DragDelta="xThumbDPad4_DragDelta"
-                    DragCompleted="xThumbDPad4_DragCompleted"
+                    DragStarted="xThumb_DragStarted"
+                    DragDelta="xThumb_DragDelta"
+                    DragCompleted="xThumb_DragCompleted"
                     MouseMove="xThumbDPad4_MouseMove"
                     MouseLeave="xThumbDPad4_MouseLeave"
                     >
@@ -94,9 +94,9 @@
                 <Thumb
                     Width="{Binding Width}"
                     Height="{Binding Height}"
-                    DragStarted="xThumbDPad8_DragStarted"
-                    DragDelta="xThumbDPad8_DragDelta"
-                    DragCompleted="xThumbDPad8_DragCompleted"
+                    DragStarted="xThumb_DragStarted"
+                    DragDelta="xThumb_DragDelta"
+                    DragCompleted="xThumb_DragCompleted"
                     MouseMove="xThumbDPad8_MouseMove"
                     MouseLeave="xThumbDPad8_MouseLeave"
                     >
@@ -159,7 +159,60 @@
         <!-- KeyButton -->
         <DataTemplate DataType="{x:Type local:NekoControlKeyButtonViewModel}">
             <Grid>
-
+                <Thumb
+                    Width="{Binding Width}"
+                    Height="{Binding Height}"
+                    DragStarted="xThumb_DragStarted"
+                    DragDelta="xThumb_DragDelta"
+                    DragCompleted="xThumb_DragCompleted"
+                    MouseMove="xThumbKeyButton_MouseMove"
+                    MouseLeave="xThumbKeyButton_MouseLeave"
+                    >
+                    <Thumb.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <Canvas>
+                                    <Image
+                                        x:Name="xImageControl"
+                                        Source="{Binding BitmapDefault}"
+                                        Width="{Binding Width}"
+                                        Height="{Binding Height}"
+                                        Stretch="Fill"
+                                        Cursor="Hand"
+                                        RenderOptions.EdgeMode="Aliased"
+                                        />
+                                    <Border
+                                        Width="{Binding Width}"
+                                        Height="{Binding Height}"
+                                        BorderBrush="{Binding BorderColor}"
+                                        BorderThickness="1"
+                                        RenderOptions.EdgeMode="Aliased"
+                                        />
+                                </Canvas>
+                            </Grid>
+                        </ControlTemplate>
+                    </Thumb.Template>
+                </Thumb>
+                <Canvas>
+                    <Rectangle
+                        Fill="{Binding BorderColor}"
+                        Width="24"
+                        Height="12"
+                        Canvas.Right="0"
+                        Canvas.Top="-12"
+                        RenderOptions.EdgeMode="Aliased"
+                        />
+                    <TextBlock
+                        Text="x"
+                        TextAlignment="Center"
+                        Foreground="White"
+                        Canvas.Right="0"
+                        Canvas.Top="-15"
+                        Width="24"
+                        Height="14"
+                        MouseLeftButtonDown="xTextBlockRemoveControl_MouseLeftButtonDown"
+                        />
+                </Canvas>
             </Grid>
         </DataTemplate>
     </Window.Resources>
@@ -221,6 +274,7 @@
                 Width="64"
                 Click="xButtonCreateNekoControlKeyButton_Click"
                 />
+            <!--
             <Button
                 Content="버튼"
                 Height="32"
@@ -232,6 +286,7 @@
                 Width="64"
                 Margin="0, 2, 4, 2"
                 />
+            -->
             <Button
                 Content="해상도"
                 Height="32"

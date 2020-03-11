@@ -12,7 +12,7 @@ namespace NekoControlEditor
     {
         private string mBitmapLowerLeft;
         [Category("버튼 그래픽 파일")]
-        [DisplayName("오른쪽 누름")]
+        [DisplayName("왼쪽 아래 누름")]
         public string BitmapLowerLeft
         {
             get
@@ -31,7 +31,7 @@ namespace NekoControlEditor
 
         private string mBitmapLowerRight;
         [Category("버튼 그래픽 파일")]
-        [DisplayName("오른쪽 누름")]
+        [DisplayName("오른쪽 아래 누름")]
         public string BitmapLowerRight
         {
             get
@@ -50,7 +50,7 @@ namespace NekoControlEditor
 
         private string mBitmapUpperLeft;
         [Category("버튼 그래픽 파일")]
-        [DisplayName("오른쪽 누름")]
+        [DisplayName("왼쪽 위 누름")]
         public string BitmapUpperLeft
         {
             get
@@ -69,7 +69,7 @@ namespace NekoControlEditor
 
         private string mBitmapUpperRight;
         [Category("버튼 그래픽 파일")]
-        [DisplayName("오른쪽 누름")]
+        [DisplayName("오른쪽 위 누름")]
         public string BitmapUpperRight
         {
             get

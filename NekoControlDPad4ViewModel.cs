@@ -20,25 +20,6 @@ namespace NekoControlEditor
             new BitmapImage(new Uri("image/dpad_stick.png", UriKind.Relative)),
         };
 
-        private string mBitmapDefault;
-        [Category("버튼 그래픽 파일")]
-        [DisplayName("기본")]
-        public string BitmapDefault
-        {
-            get
-            {
-                return mBitmapDefault;
-            }
-            set
-            {
-                if (mBitmapDefault != value)
-                {
-                    mBitmapDefault = value;
-                    notifyPropertyChanged("BitmapDefault");
-                }
-            }
-        }
-
         private string mBitmapDown;
         [Category("버튼 그래픽 파일")]
         [DisplayName("아래 누름")]
@@ -98,7 +79,7 @@ namespace NekoControlEditor
 
         private string mBitmapUp;
         [Category("버튼 그래픽 파일")]
-        [DisplayName("오른쪽 누름")]
+        [DisplayName("위 누름")]
         public string BitmapUp
         {
             get

@@ -66,30 +66,29 @@ namespace NekoControlEditor
             {
                 return;
             }
+            NekoControlViewModel clone = null;
             if (control is NekoControlDPad8ViewModel)
             {
                 var dPad8 = (NekoControlDPad8ViewModel)control;
-                var clone = (NekoControlViewModel)dPad8.Clone();
-                xViewModelMain.NekoControls.Add(clone);
-                xViewModelMain.SelectedNekoControlOrNull = clone;
-                xListBoxNekoControls.ScrollIntoView(clone);
+                clone = (NekoControlViewModel)dPad8.Clone();
             }
             else if (control is NekoControlDPad4ViewModel)
             {
                 var dPad4 = (NekoControlDPad4ViewModel)control;
-                var clone = (NekoControlViewModel)dPad4.Clone();
-                xViewModelMain.NekoControls.Add(clone);
-                xViewModelMain.SelectedNekoControlOrNull = clone;
-                xListBoxNekoControls.ScrollIntoView(clone);
+                clone = (NekoControlViewModel)dPad4.Clone();
             }
             else if (control is NekoControlKeyButtonViewModel)
             {
-
+                var keyButton = (NekoControlKeyButtonViewModel)control;
+                clone = (NekoControlViewModel)keyButton.Clone();
             }
             else
             {
                 Debug.Fail("Invalid Control Type");
             }
+            xViewModelMain.NekoControls.Add(clone);
+            xViewModelMain.SelectedNekoControlOrNull = clone;
+            xListBoxNekoControls.ScrollIntoView(clone);
         }
 
         private void xButtonRemoveControl_Click(object sender, RoutedEventArgs e)
@@ -102,14 +101,14 @@ namespace NekoControlEditor
             }
         }
 
-        private void xThumbDPad4_DragStarted(object sender, DragStartedEventArgs e)
+        private void xThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             var xThumb = (Thumb)sender;
             var control = (NekoControlViewModel)xThumb.DataContext;
             xViewModelMain.SelectedNekoControlOrNull = control;
         }
 
-        private void xThumbDPad4_DragDelta(object sender, DragDeltaEventArgs e)
+        private void xThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             var xThumb = (Thumb)sender;
             var control = (NekoControlViewModel)xThumb.DataContext;
@@ -117,7 +116,7 @@ namespace NekoControlEditor
             control.Y += (int)e.VerticalChange;
         }
 
-        private void xThumbDPad4_DragCompleted(object sender, DragCompletedEventArgs e)
+        private void xThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             xWpfPropertyGrid.Refresh();
         }
@@ -207,26 +206,6 @@ namespace NekoControlEditor
                 Canvas.SetLeft(xImageStick, radius * Math.Cos(angle));
                 Canvas.SetTop(xImageStick, radius * Math.Sin(angle));
             }
-        }
-
-        private void xThumbDPad8_DragStarted(object sender, DragStartedEventArgs e)
-        {
-            var xThumb = (Thumb)sender;
-            var control = (NekoControlViewModel)xThumb.DataContext;
-            xViewModelMain.SelectedNekoControlOrNull = control;
-        }
-
-        private void xThumbDPad8_DragDelta(object sender, DragDeltaEventArgs e)
-        {
-            var xThumb = (Thumb)sender;
-            var control = (NekoControlViewModel)xThumb.DataContext;
-            control.X += (int)e.HorizontalChange;
-            control.Y += (int)e.VerticalChange;
-        }
-
-        private void xThumbDPad8_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            xWpfPropertyGrid.Refresh();
         }
 
         private void xThumbDPad8_MouseMove(object sender, MouseEventArgs e)
@@ -322,6 +301,38 @@ namespace NekoControlEditor
                 Canvas.SetLeft(xImageStick, radius * Math.Cos(angle));
                 Canvas.SetTop(xImageStick, radius * Math.Sin(angle));
             }
+        }
+
+        private void xThumbKeyButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            var xThumb = (Thumb)sender;
+            var control = (NekoControlViewModel)xThumb.DataContext;
+            var keyButton = control as NekoControlKeyButtonViewModel;
+            if (keyButton != null && keyButton == xViewModelMain.SelectedNekoControlOrNull)
+            {
+                updateKeyButton(keyButton, sender, e);
+            }
+        }
+
+        private void xThumbKeyButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var xThumb = (Thumb)sender;
+            var control = (NekoControlViewModel)xThumb.DataContext;
+            var keyButton = control as NekoControlKeyButtonViewModel;
+            if (keyButton != null)
+            {
+                var bitmapImage = NekoControlKeyButtonViewModel.DefaultBitmapImage[0];
+                var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
+                xImageControl.Source = bitmapImage;
+            }
+        }
+
+        private void updateKeyButton(NekoControlKeyButtonViewModel dPad4, object sender, MouseEventArgs e)
+        {
+            var xThumb = (Thumb)sender;
+            var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
+            BitmapImage bitmapImage = NekoControlKeyButtonViewModel.DefaultBitmapImage[1]; ;
+            xImageControl.Source = bitmapImage;
         }
     }
 }

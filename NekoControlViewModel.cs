@@ -233,6 +233,25 @@ namespace NekoControlEditor
             }
         }
 
+        private string mBitmapDefault;
+        [Category("버튼 그래픽 파일")]
+        [DisplayName("기본")]
+        public string BitmapDefault
+        {
+            get
+            {
+                return mBitmapDefault;
+            }
+            set
+            {
+                if (mBitmapDefault != value)
+                {
+                    mBitmapDefault = value;
+                    notifyPropertyChanged("BitmapDefault");
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static HashSet<string> VariableNames = new HashSet<string>();
