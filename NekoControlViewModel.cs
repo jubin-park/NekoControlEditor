@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Activities.Presentation.PropertyEditing;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace NekoControlEditor
 {
     public abstract class NekoControlViewModel : INotifyPropertyChanged
     {
+        #region Properties
         protected string mName;
         [Category("")]
         [DisplayName("변수 이름")]
@@ -232,25 +237,7 @@ namespace NekoControlEditor
                 }
             }
         }
-
-        protected string mBitmapDefault;
-        [Category("버튼 그래픽 파일")]
-        [DisplayName("기본")]
-        public string BitmapDefault
-        {
-            get
-            {
-                return mBitmapDefault;
-            }
-            set
-            {
-                if (mBitmapDefault != value)
-                {
-                    mBitmapDefault = value;
-                    notifyPropertyChanged("BitmapDefault");
-                }
-            }
-        }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
         public static HashSet<string> VariableNames = new HashSet<string>();

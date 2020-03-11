@@ -38,7 +38,7 @@
                                 <Canvas>
                                     <Image
                                         x:Name="xImageControl"
-                                        Source="{Binding BitmapDefault}"
+                                        Source="{Binding BitmapImageDefault}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -47,7 +47,7 @@
                                         />
                                     <Image
                                         x:Name="xImageStick"
-                                        Source="{Binding BitmapStick}"
+                                        Source="{Binding BitmapImageStick}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -106,7 +106,7 @@
                                 <Canvas>
                                     <Image
                                         x:Name="xImageControl"
-                                        Source="{Binding BitmapDefault}"
+                                        Source="{Binding BitmapImageDefault}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -115,7 +115,7 @@
                                         />
                                     <Image
                                         x:Name="xImageStick"
-                                        Source="{Binding BitmapStick}"
+                                        Source="{Binding BitmapImageStick}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -174,7 +174,7 @@
                                 <Canvas>
                                     <Image
                                         x:Name="xImageControl"
-                                        Source="{Binding BitmapDefault}"
+                                        Source="{Binding BitmapImageDefault}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -393,15 +393,19 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image
-                                        Source="{Binding BitmapDefault}"
+                                        Source="{Binding BitmapImageDefault}"
                                         Width="32"
                                         Stretch="Fill"
                                         Height="32"
                                         RenderOptions.EdgeMode="Aliased"
                                         />
                                     <TextBlock
-                                        Text="{Binding Name}"
+                                        Text="{Binding Type}"
                                         Margin="4"
+                                        VerticalAlignment="Center"
+                                        />
+                                    <TextBlock
+                                        Text="{Binding Name}"
                                         VerticalAlignment="Center"
                                         />
                                 </StackPanel>
@@ -416,6 +420,8 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="4"/>
                             <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Button
                             Content="복제"
@@ -426,6 +432,11 @@
                             Content="삭제"
                             Grid.Column="2"
                             Click="xButtonRemoveControl_Click"
+                            />
+                        <Button
+                            Content="실제 크기로"
+                            Grid.Column="4"
+                            Click="xButtonActualResizeControl_Click"
                             />
                     </Grid>
                 </Grid>

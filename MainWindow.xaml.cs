@@ -32,6 +32,7 @@ namespace NekoControlEditor
             xViewModelMain.SelectedNekoControlOrNull = null;
         }
 
+        #region Main Menu Events
         private void xButtonCreateNekoControlDPad4_Click(object sender, RoutedEventArgs e)
         {
             var dPad4 = new NekoControlDPad4ViewModel();
@@ -58,7 +59,9 @@ namespace NekoControlEditor
             xGrid3x3.ColumnDefinitions[1].Width = new GridLength(800, GridUnitType.Pixel);
             xGrid3x3.RowDefinitions[1].Height = new GridLength(600, GridUnitType.Pixel);
         }
+        #endregion
 
+        #region Side Menu Events
         private void xButtonCloneControl_Click(object sender, RoutedEventArgs e)
         {
             var control = xViewModelMain.SelectedNekoControlOrNull;
@@ -91,6 +94,37 @@ namespace NekoControlEditor
             xListBoxNekoControls.ScrollIntoView(clone);
         }
 
+        private void xButtonActualResizeControl_Click(object sender, RoutedEventArgs e)
+        {
+            var control = xViewModelMain.SelectedNekoControlOrNull;
+            if (control == null)
+            {
+                return;
+            }
+            if (control is NekoControlDPad8ViewModel)
+            {
+                var dPad8 = (NekoControlDPad8ViewModel)control;
+                dPad8.Width = (uint)dPad8.BitmapImageDefault.PixelWidth;
+                dPad8.Height = (uint)dPad8.BitmapImageDefault.PixelHeight;
+            }
+            else if (control is NekoControlDPad4ViewModel)
+            {
+                var dPad4 = (NekoControlDPad4ViewModel)control;
+                dPad4.Width = (uint)dPad4.BitmapImageDefault.PixelWidth;
+                dPad4.Height = (uint)dPad4.BitmapImageDefault.PixelHeight;
+            }
+            else if (control is NekoControlKeyButtonViewModel)
+            {
+                var keyButton = (NekoControlKeyButtonViewModel)control;
+                keyButton.Width = (uint)keyButton.BitmapImageDefault.PixelWidth;
+                keyButton.Height = (uint)keyButton.BitmapImageDefault.PixelHeight;
+            }
+            else
+            {
+                Debug.Fail("Invalid Control Type");
+            }
+        }
+
         private void xButtonRemoveControl_Click(object sender, RoutedEventArgs e)
         {
             var control = xViewModelMain.SelectedNekoControlOrNull;
@@ -100,7 +134,9 @@ namespace NekoControlEditor
                 xViewModelMain.NekoControls.Remove(control);
             }
         }
+        #endregion
 
+        #region xThumb Common Events
         private void xThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             var xThumb = (Thumb)sender;
@@ -120,7 +156,9 @@ namespace NekoControlEditor
         {
             xWpfPropertyGrid.Refresh();
         }
+        #endregion
 
+        #region xThumb DPad4 Events
         private void xThumbDPad4_MouseMove(object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
@@ -141,7 +179,7 @@ namespace NekoControlEditor
             if (dPad4 != null)
             {
                 // bitmap
-                var bitmapImage = NekoControlDPad4ViewModel.DefaultBitmapImage[(int)EDPadType.Default];
+                var bitmapImage = dPad4.BitmapImageDefault;
                 // control
                 var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
                 xImageControl.Source = bitmapImage;
@@ -152,15 +190,7 @@ namespace NekoControlEditor
             }
         }
 
-        private void xTextBlockRemoveControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var textBlock = (TextBlock)sender;
-            var control = (NekoControlViewModel)textBlock.DataContext;
-            NekoControlViewModel.VariableNames.Remove(control.Name);
-            xViewModelMain.NekoControls.Remove(control);
-        }
-
-        private void updateDPad4(NekoControlDPad4ViewModel dPad4, object sender, MouseEventArgs e)
+        void updateDPad4(NekoControlDPad4ViewModel dPad4, object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
             var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
@@ -170,24 +200,24 @@ namespace NekoControlEditor
             BitmapImage bitmapImage = null;
             if (angle >= -135 && angle < -45)
             {
-                bitmapImage = NekoControlDPad4ViewModel.DefaultBitmapImage[(int)EDPadType.Down];
+                bitmapImage = dPad4.BitmapImageDown;
             }
             else if (angle >= -45 && angle < 45)
             {
-                bitmapImage = NekoControlDPad4ViewModel.DefaultBitmapImage[(int)EDPadType.Left];
+                bitmapImage = dPad4.BitmapImageLeft;
             }
             else if (angle >= 45 && angle < 135)
             {
-                bitmapImage = NekoControlDPad4ViewModel.DefaultBitmapImage[(int)EDPadType.Up];
+                bitmapImage = dPad4.BitmapImageUp;
             }
             else// if ((angle >= -180 && angle < -135) || (angle >= 135 && angle < 180))
             {
-                bitmapImage = NekoControlDPad4ViewModel.DefaultBitmapImage[(int)EDPadType.Right];
+                bitmapImage = dPad4.BitmapImageRight;
             }
             xImageControl.Source = bitmapImage;
         }
 
-        private void updateDPad4Stick(NekoControlDPad4ViewModel dPad4, object sender, MouseEventArgs e)
+        void updateDPad4Stick(NekoControlDPad4ViewModel dPad4, object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
             var point = e.GetPosition(xThumb);
@@ -207,7 +237,9 @@ namespace NekoControlEditor
                 Canvas.SetTop(xImageStick, radius * Math.Sin(angle));
             }
         }
+        #endregion
 
+        #region xThumb DPad8 Events
         private void xThumbDPad8_MouseMove(object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
@@ -228,7 +260,7 @@ namespace NekoControlEditor
             if (dPad8 != null)
             {
                 // bitmap
-                var bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.Default];
+                var bitmapImage = dPad8.BitmapImageDefault;
                 // control
                 var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
                 xImageControl.Source = bitmapImage;
@@ -239,7 +271,7 @@ namespace NekoControlEditor
             }
         }
 
-        private void updateDPad8(NekoControlDPad8ViewModel dPad8, object sender, MouseEventArgs e)
+        void updateDPad8(NekoControlDPad8ViewModel dPad8, object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
             var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
@@ -249,40 +281,40 @@ namespace NekoControlEditor
             BitmapImage bitmapImage = null;
             if (angle >= -67.5 && angle < -22.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.LowerLeft];
+                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.LowerLeft];
             }
             else if (angle >= -112.5 && angle < -67.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.Down];
+                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.Down];
             }
             else if (angle >= -157.5 && angle < -112.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.LowerRight];
+                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.LowerRight];
             }
             else if (angle >= -22.5 && angle < 22.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.Left];
+                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.Left];
             }
             else if (angle >= 22.5 && angle < 67.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.UpperLeft];
+                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.UpperLeft];
             }
             else if (angle >= 67.5 && angle < 112.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.Up];
+                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.Up];
             }
             else if (angle >= 112.5 && angle < 157.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.UpperRight];
+                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.UpperRight];
             }
             else// if ((angle >= -180.0 && angle < -157.5) || (angle >= 157.5 && angle < 180.0))
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImage[(int)EDPadType.Right];
+                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.Right];
             }
             xImageControl.Source = bitmapImage;
         }
-
-        private void updateDPad8Stick(NekoControlDPad8ViewModel dPad8, object sender, MouseEventArgs e)
+       
+        void updateDPad8Stick(NekoControlDPad8ViewModel dPad8, object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
             var point = e.GetPosition(xThumb);
@@ -302,7 +334,9 @@ namespace NekoControlEditor
                 Canvas.SetTop(xImageStick, radius * Math.Sin(angle));
             }
         }
+        #endregion
 
+        #region xThumb KeyButton Events
         private void xThumbKeyButton_MouseMove(object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
@@ -321,18 +355,27 @@ namespace NekoControlEditor
             var keyButton = control as NekoControlKeyButtonViewModel;
             if (keyButton != null)
             {
-                var bitmapImage = NekoControlKeyButtonViewModel.DefaultBitmapImage[0];
+                var bitmapImage = keyButton.BitmapImageDefault;
                 var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
                 xImageControl.Source = bitmapImage;
             }
         }
 
-        private void updateKeyButton(NekoControlKeyButtonViewModel dPad4, object sender, MouseEventArgs e)
+        void updateKeyButton(NekoControlKeyButtonViewModel keyButton, object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
             var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
-            BitmapImage bitmapImage = NekoControlKeyButtonViewModel.DefaultBitmapImage[1]; ;
+            BitmapImage bitmapImage = keyButton.BitmapImagePressed;
             xImageControl.Source = bitmapImage;
+        }
+        #endregion
+
+        private void xTextBlockRemoveControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var textBlock = (TextBlock)sender;
+            var control = (NekoControlViewModel)textBlock.DataContext;
+            NekoControlViewModel.VariableNames.Remove(control.Name);
+            xViewModelMain.NekoControls.Remove(control);
         }
     }
 }

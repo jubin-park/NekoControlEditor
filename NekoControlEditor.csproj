@@ -68,6 +68,7 @@
     <Compile Include="NekoControlDPad8ViewModel.cs" />
     <Compile Include="NekoControlKeyButtonViewModel.cs" />
     <Compile Include="NekoControlViewModel.cs" />
+    <Compile Include="PictureEditor.cs" />
     <Compile Include="WpfPropertyGrid.cs" />
     <Page Include="CheckerBoard.xaml">
       <SubType>Designer</SubType>

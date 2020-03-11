@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Activities.Presentation.PropertyEditing;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,81 +13,232 @@ namespace NekoControlEditor
 {
     class NekoControlDPad8ViewModel : NekoControlDPad4ViewModel
     {
-        private string mBitmapLowerLeft;
-        [Category("버튼 그래픽 파일")]
-        [DisplayName("왼쪽 아래 누름")]
-        public string BitmapLowerLeft
+        #region BitmapImage Properties
+        private BitmapImage mBitmapImageLowerLeft;
+        [Browsable(false)]
+        public BitmapImage BitmapImageLowerLeft
         {
             get
             {
-                return mBitmapLowerLeft;
+                if (mBitmapImageLowerLeft == null)
+                {
+                    return DefaultBitmapImages[(int)EDPadType.LowerLeft];
+                }
+                return mBitmapImageLowerLeft;
             }
             set
             {
-                if (mBitmapLowerLeft != value)
-                {
-                    mBitmapLowerLeft = value;
-                    notifyPropertyChanged("BitmapLowerLeft");
-                }
+                mBitmapImageLowerLeft = value;
+                notifyPropertyChanged("BitmapImageLowerLeft");
             }
         }
 
-        private string mBitmapLowerRight;
-        [Category("버튼 그래픽 파일")]
-        [DisplayName("오른쪽 아래 누름")]
-        public string BitmapLowerRight
+        private BitmapImage mBitmapImageLowerRight;
+        [Browsable(false)]
+        public BitmapImage BitmapImageLowerRight
         {
             get
             {
-                return mBitmapLowerRight;
+                if (mBitmapImageLowerRight == null)
+                {
+                    return DefaultBitmapImages[(int)EDPadType.LowerRight];
+                }
+                return mBitmapImageLowerRight;
             }
             set
             {
-                if (mBitmapLowerRight != value)
-                {
-                    mBitmapLowerRight = value;
-                    notifyPropertyChanged("BitmapLowerRight");
-                }
+                mBitmapImageLowerRight = value;
+                notifyPropertyChanged("BitmapImageLowerRight");
             }
         }
 
-        private string mBitmapUpperLeft;
+        private BitmapImage mBitmapImageUpperLeft;
+        [Browsable(false)]
+        public BitmapImage BitmapImageUpperLeft
+        {
+            get
+            {
+                if (mBitmapImageUpperLeft == null)
+                {
+                    return DefaultBitmapImages[(int)EDPadType.UpperLeft];
+                }
+                return mBitmapImageUpperLeft;
+            }
+            set
+            {
+                mBitmapImageUpperLeft = value;
+                notifyPropertyChanged("BitmapImageUpperLeft");
+            }
+        }
+
+        private BitmapImage mBitmapImageUpperRight;
+        [Browsable(false)]
+        public BitmapImage BitmapImageUpperRight
+        {
+            get
+            {
+                if (mBitmapImageUpperRight == null)
+                {
+                    return DefaultBitmapImages[(int)EDPadType.UpperRight];
+                }
+                return mBitmapImageUpperRight;
+            }
+            set
+            {
+                mBitmapImageUpperRight = value;
+                notifyPropertyChanged("BitmapImageUpperRight");
+            }
+        }
+        #endregion
+
+        #region BitmapPath Properties
+        private string mBitmapPathUpperLeft;
         [Category("버튼 그래픽 파일")]
         [DisplayName("왼쪽 위 누름")]
-        public string BitmapUpperLeft
+        [Editor(typeof(PictureEditor), typeof(PropertyValueEditor))]
+        public string BitmapPathUpperLeft
         {
             get
             {
-                return mBitmapUpperLeft;
+                return mBitmapPathUpperLeft;
             }
             set
             {
-                if (mBitmapUpperLeft != value)
+                if (mBitmapPathUpperLeft != value)
                 {
-                    mBitmapUpperLeft = value;
-                    notifyPropertyChanged("BitmapUpperLeft");
+                    try
+                    {
+                        var bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
+                        bitmapImage.EndInit();
+                        mBitmapPathUpperLeft = value;
+                        mBitmapImageUpperLeft = bitmapImage;
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Debug.Fail("Failed to load picture file.", value);
+                        mBitmapPathUpperLeft = "";
+                        mBitmapImageUpperLeft = null;
+                    }
+                    notifyPropertyChanged("BitmapPathUpperLeft");
+                    notifyPropertyChanged("BitmapImageDefault");
                 }
             }
         }
 
-        private string mBitmapUpperRight;
+        private string mBitmapPathLowerLeft;
         [Category("버튼 그래픽 파일")]
-        [DisplayName("오른쪽 위 누름")]
-        public string BitmapUpperRight
+        [DisplayName("왼쪽 아래 누름")]
+        [Editor(typeof(PictureEditor), typeof(PropertyValueEditor))]
+        public string BitmapPathLowerLeft
         {
             get
             {
-                return mBitmapUpperRight;
+                return mBitmapPathLowerLeft;
             }
             set
             {
-                if (mBitmapUpperRight != value)
+                if (mBitmapPathLowerLeft != value)
                 {
-                    mBitmapUpperRight = value;
-                    notifyPropertyChanged("BitmapUpperRight");
+                    try
+                    {
+                        var bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
+                        bitmapImage.EndInit();
+                        mBitmapPathLowerLeft = value;
+                        mBitmapImageLowerLeft = bitmapImage;
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Debug.Fail("Failed to load picture file.", value);
+                        mBitmapPathLowerLeft = "";
+                        mBitmapImageLowerLeft = null;
+                    }
+                    notifyPropertyChanged("BitmapPathLowerLeft");
                 }
             }
         }
+
+        private string mBitmapPathLowerRight;
+        [Category("버튼 그래픽 파일")]
+        [DisplayName("오른쪽 아래 누름")]
+        [Editor(typeof(PictureEditor), typeof(PropertyValueEditor))]
+        public string BitmapPathLowerRight
+        {
+            get
+            {
+                return mBitmapPathLowerRight;
+            }
+            set
+            {
+                if (mBitmapPathLowerRight != value)
+                {
+                    try
+                    {
+                        var bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
+                        bitmapImage.EndInit();
+                        mBitmapPathLowerRight = value;
+                        mBitmapImageLowerRight = bitmapImage;
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Debug.Fail("Failed to load picture file.", value);
+                        mBitmapPathLowerRight = "";
+                        mBitmapImageLowerRight = null;
+                    }
+                    notifyPropertyChanged("BitmapPathLowerRight");
+                }
+            }
+        }
+
+        private string mBitmapPathUpperRight;
+        [Category("버튼 그래픽 파일")]
+        [DisplayName("오른쪽 위 누름")]
+        [Editor(typeof(PictureEditor), typeof(PropertyValueEditor))]
+        public string BitmapPathUpperRight
+        {
+            get
+            {
+                return mBitmapPathUpperRight;
+            }
+            set
+            {
+                if (mBitmapPathUpperRight != value)
+                {
+                    try
+                    {
+                        var bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
+                        bitmapImage.EndInit();
+                        mBitmapPathUpperRight = value;
+                        mBitmapImageUpperRight = bitmapImage;
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Debug.Fail("Failed to load picture file.", value);
+                        mBitmapPathUpperRight = "";
+                        mBitmapImageUpperRight = null;
+                    }
+                    notifyPropertyChanged("BitmapPathUpperRight");
+                }
+            }
+        }
+        #endregion
+
+        #region Extra Properties
+        public new string Type
+        {
+            get
+            {
+                return "(8방향)";
+            }
+        }
+        #endregion
 
         private static uint mCount = 0;
 
@@ -95,11 +249,11 @@ namespace NekoControlEditor
             {
                 ++mCount;
             }
-            mName = name + mCount;
-            mBitmapLowerLeft = "";
-            mBitmapLowerRight = "";
-            mBitmapUpperLeft = "";
-            mBitmapUpperRight = "";
+            Name = name + mCount;
+            mBitmapPathLowerLeft = "";
+            mBitmapPathLowerRight = "";
+            mBitmapPathUpperLeft = "";
+            mBitmapPathUpperRight = "";
         }
 
         public NekoControlDPad8ViewModel(NekoControlDPad8ViewModel other)
@@ -110,11 +264,11 @@ namespace NekoControlEditor
             {
                 name += "_copy";
             } while (VariableNames.Contains(name));
-            mName = name;
-            mBitmapLowerLeft = other.mBitmapLowerLeft;
-            mBitmapLowerRight = other.mBitmapLowerRight;
-            mBitmapUpperLeft = other.mBitmapUpperLeft;
-            mBitmapUpperRight = other.mBitmapUpperRight;
+            Name = name;
+            mBitmapPathLowerLeft = other.mBitmapPathLowerLeft;
+            mBitmapPathLowerRight = other.mBitmapPathLowerRight;
+            mBitmapPathUpperLeft = other.mBitmapPathUpperLeft;
+            mBitmapPathUpperRight = other.mBitmapPathUpperRight;
         }
 
         public new object Clone()
