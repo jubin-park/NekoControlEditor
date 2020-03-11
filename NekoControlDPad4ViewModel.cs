@@ -145,15 +145,15 @@ namespace NekoControlEditor
                 {
                     ++mCount;
                 }
-                Name = name + mCount;
+                mName = name + mCount;
             }
-            BitmapDefault = "image/dpad_none.png";
-            BitmapDown = "";
-            BitmapLeft = "";
-            BitmapRight = "";
-            BitmapUp = "";
-            BitmapStick = "image/dpad_stick.png";
-            StickMovableRadius = 16;
+            mBitmapDefault = "image/dpad_none.png";
+            mBitmapDown = "";
+            mBitmapLeft = "";
+            mBitmapRight = "";
+            mBitmapUp = "";
+            mBitmapStick = "image/dpad_stick.png";
+            mStickMovableRadius = 16;
         }
 
         public NekoControlDPad4ViewModel(NekoControlDPad4ViewModel other)
@@ -166,15 +166,15 @@ namespace NekoControlEditor
                 {
                     name += "_copy";
                 } while (VariableNames.Contains(name));
-                Name = name;
+                mName = name;
             }
-            BitmapDefault = other.BitmapDefault;
-            BitmapDown = other.BitmapDown;
-            BitmapLeft = other.BitmapLeft;
-            BitmapRight = other.BitmapRight;
-            BitmapUp = other.BitmapUp;
-            BitmapStick = other.BitmapStick;
-            StickMovableRadius = other.StickMovableRadius;
+            mBitmapDefault = other.mBitmapDefault;
+            mBitmapDown = other.mBitmapDown;
+            mBitmapLeft = other.mBitmapLeft;
+            mBitmapRight = other.mBitmapRight;
+            mBitmapUp = other.mBitmapUp;
+            mBitmapStick = other.mBitmapStick;
+            mStickMovableRadius = other.mStickMovableRadius;
         }
 
         public object Clone()

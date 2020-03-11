@@ -95,11 +95,11 @@ namespace NekoControlEditor
             {
                 ++mCount;
             }
-            Name = name + mCount;
-            BitmapLowerLeft = "";
-            BitmapLowerRight = "";
-            BitmapUpperLeft = "";
-            BitmapUpperRight = "";
+            mName = name + mCount;
+            mBitmapLowerLeft = "";
+            mBitmapLowerRight = "";
+            mBitmapUpperLeft = "";
+            mBitmapUpperRight = "";
         }
 
         public NekoControlDPad8ViewModel(NekoControlDPad8ViewModel other)
@@ -110,11 +110,11 @@ namespace NekoControlEditor
             {
                 name += "_copy";
             } while (VariableNames.Contains(name));
-            Name = name;
-            BitmapLowerLeft = other.BitmapLowerLeft;
-            BitmapLowerRight = other.BitmapLowerRight;
-            BitmapUpperLeft = other.BitmapUpperLeft;
-            BitmapUpperRight = other.BitmapUpperRight;
+            mName = name;
+            mBitmapLowerLeft = other.mBitmapLowerLeft;
+            mBitmapLowerRight = other.mBitmapLowerRight;
+            mBitmapUpperLeft = other.mBitmapUpperLeft;
+            mBitmapUpperRight = other.mBitmapUpperRight;
         }
 
         public new object Clone()

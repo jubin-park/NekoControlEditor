@@ -6,7 +6,7 @@ namespace NekoControlEditor
 {
     public abstract class NekoControlViewModel : INotifyPropertyChanged
     {
-        private string mName;
+        protected string mName;
         [Category("")]
         [DisplayName("변수 이름")]
         [Description("가상 컨트롤의 변수 이름입니다.")]
@@ -36,7 +36,7 @@ namespace NekoControlEditor
             }
         }
 
-        private int mX;
+        protected int mX;
         [Category("위치")]
         [DisplayName("X 좌표")]
         public int X
@@ -55,7 +55,7 @@ namespace NekoControlEditor
             }
         }
 
-        private int mY;
+        protected int mY;
         [Category("위치")]
         [DisplayName("Y 좌표")]
         public int Y
@@ -74,7 +74,7 @@ namespace NekoControlEditor
             }
         }
 
-        private int mZ;
+        protected int mZ;
         [Category("위치")]
         [DisplayName("Z 우선순위")]
         public int Z
@@ -93,7 +93,7 @@ namespace NekoControlEditor
             }
         }
 
-        private byte mOpacity;
+        protected byte mOpacity;
         [Category("속성")]
         [DisplayName("투명도")]
         public byte Opacity
@@ -121,7 +121,7 @@ namespace NekoControlEditor
             }
         }
 
-        private bool mbVisible;
+        protected bool mbVisible;
         [Category("속성")]
         [DisplayName("표시 여부")]
         public bool Visible
@@ -140,10 +140,10 @@ namespace NekoControlEditor
             }
         }
 
-        private bool mbRectTouchable;
+        protected bool mbRectTouchable;
         [Category("속성")]
         [DisplayName("투명영역 터치 여부")]
-        public bool RectTouchable
+        public bool IsRectTouchable
         {
             get
             {
@@ -154,12 +154,12 @@ namespace NekoControlEditor
                 if (mbRectTouchable != value)
                 {
                     mbRectTouchable = value;
-                    notifyPropertyChanged("RectTouchable");
+                    notifyPropertyChanged("IsRectTouchable");
                 }
             }
         }
 
-        private uint mWidth;
+        protected uint mWidth;
         [Category("크기")]
         [DisplayName("너비")]
         public uint Width
@@ -178,7 +178,7 @@ namespace NekoControlEditor
             }
         }
 
-        private uint mHeight;
+        protected uint mHeight;
         [Category("크기")]
         [DisplayName("높이")]
         public uint Height
@@ -197,7 +197,7 @@ namespace NekoControlEditor
             }
         }
 
-        private string mBorderColor;
+        protected string mBorderColor;
         [ReadOnly(true), Browsable(false)]
         public string BorderColor
         {
@@ -215,7 +215,7 @@ namespace NekoControlEditor
             }
         }
 
-        private bool mbSelected;
+        protected bool mbSelected;
         [ReadOnly(true), Browsable(false)]
         public bool IsSelected
         {
@@ -233,7 +233,7 @@ namespace NekoControlEditor
             }
         }
 
-        private string mBitmapDefault;
+        protected string mBitmapDefault;
         [Category("버튼 그래픽 파일")]
         [DisplayName("기본")]
         public string BitmapDefault
@@ -253,33 +253,32 @@ namespace NekoControlEditor
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         public static HashSet<string> VariableNames = new HashSet<string>();
 
         protected NekoControlViewModel()
         {
-            X = 0;
-            Y = 0;
-            Z = 0;
-            Width = 128;
-            Height = 128;
-            Opacity = 255;
-            Visible = true;
-            RectTouchable = false;
-            IsSelected = false;
+            mX = 0;
+            mY = 0;
+            mZ = 0;
+            mWidth = 128;
+            mHeight = 128;
+            mOpacity = 255;
+            mbVisible = true;
+            mbRectTouchable = false;
+            mbSelected = false;
         }
 
         protected NekoControlViewModel(NekoControlViewModel other)
         {
-            X = other.X;
-            Y = other.Y;
-            Z = other.Z;
-            Width = other.Width;
-            Height = other.Height;
-            Opacity = other.Opacity;
-            Visible = other.Visible;
-            RectTouchable = other.RectTouchable;
-            IsSelected = other.IsSelected;
+            mX = other.mX;
+            mY = other.mY;
+            mZ = other.mZ;
+            mWidth = other.mWidth;
+            mHeight = other.mHeight;
+            mOpacity = other.mOpacity;
+            mbVisible = other.mbVisible;
+            mbRectTouchable = other.mbRectTouchable;
+            mbSelected = other.mbSelected;
         }
 
         protected void notifyPropertyChanged(string propertyName)

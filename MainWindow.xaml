@@ -397,6 +397,7 @@
                                         Width="32"
                                         Stretch="Fill"
                                         Height="32"
+                                        RenderOptions.EdgeMode="Aliased"
                                         />
                                     <TextBlock
                                         Text="{Binding Name}"
@@ -409,7 +410,7 @@
                     </ListBox>
                     <Grid
                         Grid.Row="2"
-                        Margin="4, 0, 4, 7"
+                        Margin="4, 0, 4, 4"
                         >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>

@@ -31,6 +31,25 @@ namespace NekoControlEditor
             }
         }
 
+        private string mBitmapPressed;
+        [Category("버튼 그래픽 파일")]
+        [DisplayName("누름")]
+        public string BitmapPressed
+        {
+            get
+            {
+                return mBitmapPressed;
+            }
+            set
+            {
+                if (mBitmapPressed != value)
+                {
+                    mBitmapPressed = value;
+                    notifyPropertyChanged("BitmapPressed");
+                }
+            }
+        }
+
         private static uint mCount = 0;
 
         public NekoControlKeyButtonViewModel()
@@ -40,11 +59,12 @@ namespace NekoControlEditor
             {
                 ++mCount;
             }
-            Name = name + mCount;
-            Key = EKeys.EMPTY;
-            Width = 32;
-            Height = 32;
-            BitmapDefault = "image/UltimateDroidButton1.png";
+            mName = name + mCount;
+            mKey = EKeys.EMPTY;
+            mWidth = 32;
+            mHeight = 32;
+            mBitmapDefault = "image/UltimateDroidButton1.png";
+            mBitmapPressed = "image/UltimateDroidButton1Pressed.png";
         }
 
         public NekoControlKeyButtonViewModel(NekoControlKeyButtonViewModel other)
@@ -55,11 +75,11 @@ namespace NekoControlEditor
             {
                 name += "_copy";
             } while (VariableNames.Contains(name));
-            Name = name;
-            Key = other.Key;
-            Width = other.Width;
-            Height = other.Height;
-            BitmapDefault = other.BitmapDefault;
+            mName = name;
+            mKey = other.mKey;
+            mWidth = other.mWidth;
+            mHeight = other.mHeight;
+            mBitmapDefault = other.mBitmapDefault;
         }
 
         public object Clone()
