@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NekoControlEditor
 {
+
     public abstract class NekoControlViewModel : INotifyPropertyChanged
     {
         #region Properties
@@ -234,6 +236,21 @@ namespace NekoControlEditor
                     mbSelected = value;
                     notifyPropertyChanged("IsSelected");
                 }
+            }
+        }
+
+        protected ImageSource mImageSourceControl;
+        [Browsable(false)]
+        public ImageSource ImageSourceControl
+        {
+            get
+            {
+                return mImageSourceControl;
+            }
+            set
+            {
+                mImageSourceControl = value;
+                notifyPropertyChanged("ImageSourceControl");
             }
         }
         #endregion

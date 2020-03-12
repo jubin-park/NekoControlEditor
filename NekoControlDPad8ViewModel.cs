@@ -122,7 +122,6 @@ namespace NekoControlEditor
                         mBitmapImageUpperLeft = null;
                     }
                     notifyPropertyChanged("BitmapPathUpperLeft");
-                    notifyPropertyChanged("BitmapImageDefault");
                 }
             }
         }

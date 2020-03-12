@@ -3,6 +3,7 @@ using System.Activities.Presentation.PropertyEditing;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NekoControlEditor
@@ -164,15 +165,16 @@ namespace NekoControlEditor
                         bitmapImage.EndInit();
                         mBitmapPathDefault = value;
                         BitmapImageDefault = bitmapImage;
+                        ImageSourceControl = bitmapImage;
                     }
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
                         mBitmapPathDefault = string.Empty;
                         mBitmapImageDefault = null;
+                        ImageSourceControl = null;
                     }
                     notifyPropertyChanged("BitmapPathDefault");
-                    notifyPropertyChanged("BitmapImageDefault");
                 }
             }
         }
@@ -376,6 +378,21 @@ namespace NekoControlEditor
                 }
             }
         }
+
+        protected ImageSource mImageSourceStick;
+        [Browsable(false)]
+        public ImageSource ImageSourceStick
+        {
+            get
+            {
+                return mImageSourceStick;
+            }
+            set
+            {
+                mImageSourceStick = value;
+                notifyPropertyChanged("ImageSourceStick");
+            }
+        }
         #endregion
 
         private static uint mCount = 0;
@@ -404,6 +421,8 @@ namespace NekoControlEditor
             mBitmapPathUp = string.Empty;
             mBitmapPathStick = string.Empty;
             mStickMovableRadius = 16;
+            mImageSourceControl = BitmapImageDefault; // must be property
+            mImageSourceStick = BitmapImageStick; // must be property
         }
 
         public NekoControlDPad4ViewModel(NekoControlDPad4ViewModel other)
@@ -431,6 +450,8 @@ namespace NekoControlEditor
             mBitmapPathUp = other.mBitmapPathUp;
             mBitmapPathStick = other.mBitmapPathStick;
             mStickMovableRadius = other.mStickMovableRadius;
+            mImageSourceControl = other.mImageSourceControl;
+            mImageSourceStick = other.mImageSourceStick;
         }
 
         public object Clone()

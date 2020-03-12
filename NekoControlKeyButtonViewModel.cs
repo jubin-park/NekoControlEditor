@@ -80,6 +80,7 @@ namespace NekoControlEditor
                         bitmapImage.EndInit();
                         mBitmapPathDefault = value;
                         mBitmapImageDefault = bitmapImage;
+                        ImageSourceControl = bitmapImage;
                     }
                     catch (FileNotFoundException)
                     {
@@ -88,7 +89,6 @@ namespace NekoControlEditor
                         mBitmapImageDefault = null;
                     }
                     notifyPropertyChanged("BitmapPathDefault");
-                    notifyPropertyChanged("BitmapImageDefault");
                 }
             }
         }
@@ -174,6 +174,7 @@ namespace NekoControlEditor
             mBitmapImagePressed = null;
             mBitmapPathDefault = "image/UltimateDroidButton1.png";
             mBitmapPathPressed = "image/UltimateDroidButton1Pressed.png";
+            mImageSourceControl = BitmapImageDefault; // must be property
         }
 
         public NekoControlKeyButtonViewModel(NekoControlKeyButtonViewModel other)
@@ -192,6 +193,7 @@ namespace NekoControlEditor
             mBitmapImagePressed = other.mBitmapImagePressed;
             mBitmapPathDefault = other.mBitmapPathDefault;
             mBitmapPathPressed = other.mBitmapPathPressed;
+            mImageSourceControl = other.mImageSourceControl;
         }
 
         public object Clone()

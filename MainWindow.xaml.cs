@@ -123,6 +123,7 @@ namespace NekoControlEditor
             {
                 Debug.Fail("Invalid Control Type");
             }
+            xWpfPropertyGrid.Refresh();
         }
 
         private void xButtonRemoveControl_Click(object sender, RoutedEventArgs e)
@@ -178,11 +179,9 @@ namespace NekoControlEditor
             var dPad4 = control as NekoControlDPad4ViewModel;
             if (dPad4 != null)
             {
-                // bitmap
-                var bitmapImage = dPad4.BitmapImageDefault;
                 // control
-                var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
-                xImageControl.Source = bitmapImage;
+                var bitmapImage = dPad4.BitmapImageDefault;
+                dPad4.ImageSourceControl = bitmapImage;
                 // stick
                 var xImageStick = (Image)xThumb.Template.FindName("xImageStick", xThumb);
                 Canvas.SetLeft(xImageStick, 0);
@@ -193,7 +192,6 @@ namespace NekoControlEditor
         void updateDPad4(NekoControlDPad4ViewModel dPad4, object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
-            var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
             var point = e.GetPosition(xThumb);
             var deltaPoint = new Point(dPad4.Width / 2 - point.X, dPad4.Height / 2 - point.Y);
             double angle = Math.Atan2(deltaPoint.Y, deltaPoint.X) * (180 / Math.PI);
@@ -214,7 +212,7 @@ namespace NekoControlEditor
             {
                 bitmapImage = dPad4.BitmapImageRight;
             }
-            xImageControl.Source = bitmapImage;
+            dPad4.ImageSourceControl = bitmapImage;
         }
 
         void updateDPad4Stick(NekoControlDPad4ViewModel dPad4, object sender, MouseEventArgs e)
@@ -259,11 +257,9 @@ namespace NekoControlEditor
             var dPad8 = control as NekoControlDPad8ViewModel;
             if (dPad8 != null)
             {
-                // bitmap
-                var bitmapImage = dPad8.BitmapImageDefault;
                 // control
-                var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
-                xImageControl.Source = bitmapImage;
+                var bitmapImage = dPad8.BitmapImageDefault;
+                dPad8.ImageSourceControl = bitmapImage;
                 // stick
                 var xImageStick = (Image)xThumb.Template.FindName("xImageStick", xThumb);
                 Canvas.SetLeft(xImageStick, 0);
@@ -274,44 +270,43 @@ namespace NekoControlEditor
         void updateDPad8(NekoControlDPad8ViewModel dPad8, object sender, MouseEventArgs e)
         {
             var xThumb = (Thumb)sender;
-            var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
             var point = e.GetPosition(xThumb);
             var deltaPoint = new Point(dPad8.Width / 2 - point.X, dPad8.Height / 2 - point.Y);
             double angle = Math.Atan2(deltaPoint.Y, deltaPoint.X) * (180 / Math.PI);
             BitmapImage bitmapImage = null;
             if (angle >= -67.5 && angle < -22.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.LowerLeft];
+                bitmapImage = dPad8.BitmapImageLowerLeft;
             }
             else if (angle >= -112.5 && angle < -67.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.Down];
+                bitmapImage = dPad8.BitmapImageDown;
             }
             else if (angle >= -157.5 && angle < -112.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.LowerRight];
+                bitmapImage = dPad8.BitmapImageLowerRight;
             }
             else if (angle >= -22.5 && angle < 22.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.Left];
+                bitmapImage = dPad8.BitmapImageLeft;
             }
             else if (angle >= 22.5 && angle < 67.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.UpperLeft];
+                bitmapImage = dPad8.BitmapImageUpperLeft;
             }
             else if (angle >= 67.5 && angle < 112.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.Up];
+                bitmapImage = dPad8.BitmapImageUp;
             }
             else if (angle >= 112.5 && angle < 157.5)
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.UpperRight];
+                bitmapImage = dPad8.BitmapImageUpperRight;
             }
             else// if ((angle >= -180.0 && angle < -157.5) || (angle >= 157.5 && angle < 180.0))
             {
-                bitmapImage = NekoControlDPad8ViewModel.DefaultBitmapImages[(int)EDPadType.Right];
+                bitmapImage = dPad8.BitmapImageRight;
             }
-            xImageControl.Source = bitmapImage;
+            dPad8.ImageSourceControl = bitmapImage;
         }
        
         void updateDPad8Stick(NekoControlDPad8ViewModel dPad8, object sender, MouseEventArgs e)
@@ -356,17 +351,14 @@ namespace NekoControlEditor
             if (keyButton != null)
             {
                 var bitmapImage = keyButton.BitmapImageDefault;
-                var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
-                xImageControl.Source = bitmapImage;
+                keyButton.ImageSourceControl = bitmapImage;
             }
         }
 
         void updateKeyButton(NekoControlKeyButtonViewModel keyButton, object sender, MouseEventArgs e)
         {
-            var xThumb = (Thumb)sender;
-            var xImageControl = (Image)xThumb.Template.FindName("xImageControl", xThumb);
             BitmapImage bitmapImage = keyButton.BitmapImagePressed;
-            xImageControl.Source = bitmapImage;
+            keyButton.ImageSourceControl = bitmapImage;
         }
         #endregion
 
