@@ -285,11 +285,11 @@
                 />
             -->
             <Button
-                Content="해상도"
+                Content="설정"
                 Height="32"
                 Width="64"
-                Margin="0,2,4,0"
-                Click="xButtonResizeResolution_Click"
+                Margin="4,2,0,0"
+                Click="xButtonShowConfigWindow_Click"
                 VerticalAlignment="Top"
                 />
         </StackPanel>
@@ -320,7 +320,7 @@
                     MouseMove="xGridRender_MouseMove"
                     SizeChanged="xGridRender_SizeChanged"
                     >
-                    <local:CheckerBoard />
+                    <local:CheckerBoard x:Name="xCheckerBoard" />
                     <ItemsControl
                         ItemsSource="{Binding NekoControls}"
                         >

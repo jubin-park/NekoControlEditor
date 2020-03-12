@@ -54,10 +54,18 @@ namespace NekoControlEditor
             xViewModelMain.SelectedNekoControlOrNull = keyButton;
         }
 
-        private void xButtonResizeResolution_Click(object sender, RoutedEventArgs e)
+        private void xButtonShowConfigWindow_Click(object sender, RoutedEventArgs e)
         {
-            xGrid3x3.ColumnDefinitions[1].Width = new GridLength(800, GridUnitType.Pixel);
-            xGrid3x3.RowDefinitions[1].Height = new GridLength(600, GridUnitType.Pixel);
+            var dialog = new ConfigWindow();
+            dialog.ValueWidth = (uint)xGrid3x3.ColumnDefinitions[1].Width.Value;
+            dialog.ValueHeight = (uint)xGrid3x3.RowDefinitions[1].Height.Value;
+            dialog.ValueBackgroundColor = xCheckerBoard.BackgroundColor;
+            if (dialog.ShowDialog().Equals(true))
+            {
+                xGrid3x3.ColumnDefinitions[1].Width = new GridLength(dialog.ValueWidth, GridUnitType.Pixel);
+                xGrid3x3.RowDefinitions[1].Height = new GridLength(dialog.ValueHeight, GridUnitType.Pixel);
+                xCheckerBoard.BackgroundColor = dialog.ValueBackgroundColor;
+            }
         }
         #endregion
 

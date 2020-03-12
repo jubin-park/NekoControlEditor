@@ -45,6 +45,12 @@
                     </DrawingBrush>
                 </Rectangle.Fill>
             </Rectangle>
+            <Rectangle
+                Width="{Binding ElementName=xGrid, Path=ActualWidth}"
+                Height="{Binding ElementName=xGrid, Path=ActualHeight}"
+                Fill="{Binding BackgroundColor}"
+                RenderOptions.EdgeMode="Aliased"
+                />
             <Border
                 Canvas.Left="-1"
                 Canvas.Top="-1"

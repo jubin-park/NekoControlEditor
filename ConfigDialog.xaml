@@ -1,0 +1,113 @@
+﻿<Window x:Class="NekoControlEditor.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NekoControlEditor"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="설정" Height="250" Width="250" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="48"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <GroupBox
+                Header="해상도 설정"
+                Margin="4"
+                >
+                <StackPanel>
+                    <RadioButton
+                        x:Name="xRadioButtonXP"
+                        GroupName="Resolution"
+                        Content="RPGXP"
+                        Click="xRadioButtonXP_Click"
+                        Margin="8,4,0,0"
+                        />
+                    <RadioButton
+                        x:Name="xRadioButtonVXA"
+                        GroupName="Resolution"
+                        Content="RPGVX (ACE)"
+                        Click="xRadioButtonVXA_Click"
+                        Margin="8,4,0,0"
+                        />
+                    <RadioButton
+                        x:Name="xRadioButtonCustom"
+                        GroupName="Resolution"
+                        Content="직접 입력"
+                        Margin="8,4,0,0"
+                        />
+                    <StackPanel Orientation="Horizontal" Margin="8,4,0,0">
+                        <TextBlock Text="가로" Width="30"/>
+                        <TextBox
+                            Text="{Binding ValueWidth, Mode=TwoWay}"
+                            Height="20"
+                            Width="50"
+                            IsEnabled="{Binding IsChecked, ElementName=xRadioButtonCustom}"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            MaxLength="4"
+                            />
+                        <TextBlock Text="세로" Width="30" Margin="16,0,0,0"/>
+                        <TextBox
+                            Text="{Binding ValueHeight, Mode=TwoWay}"
+                            Height="20"
+                            Width="50"
+                            IsEnabled="{Binding IsChecked, ElementName=xRadioButtonCustom}"
+                            PreviewTextInput="TextBox_PreviewTextInput"
+                            MaxLength="4"
+                            />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <CheckBox
+                Content="컨트롤 프레임 표시"
+                Margin="8,0,4,0"
+                />
+            <StackPanel
+                Orientation="Horizontal"
+                Margin="8"
+                >
+                <TextBlock
+                    Text="배경색 변경"
+                    Margin="4"
+                    />
+                <xctk:ColorPicker
+                    Name="xColorPicker"
+                    Grid.Column="1"
+                    DisplayColorAndName="True"
+                    AvailableColorsSortingMode="HueSaturationBrightness"
+                    Width="140"
+                    SelectedColorChanged="xColorPicker_SelectedColorChanged"
+                    />
+            </StackPanel>
+            
+
+        </StackPanel>
+
+        
+
+        <Grid
+            Grid.Row="1"
+            Margin="8"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Content="확인"
+                Click="xButtonOK_Click"
+                IsDefault="True"
+                />
+            <Button
+                Grid.Column="1"
+                Content="취소"
+                Click="xButtonCancel_Click"
+                />
+        </Grid>
+    </Grid>
+</Window>

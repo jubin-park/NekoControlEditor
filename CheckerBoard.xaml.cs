@@ -25,6 +25,24 @@ namespace NekoControlEditor
         {
             InitializeComponent();
             DataContext = this;
+            BackgroundColor = "Transparent";
+        }
+
+        private string mBackgroundColor;
+        public string BackgroundColor
+        {
+            get
+            {
+                return mBackgroundColor;
+            }
+            set
+            {
+                if (mBackgroundColor != value)
+                {
+                    mBackgroundColor = value;
+                    notifyPropertyChanged("BackgroundColor");
+                }
+            }
         }
 
         public double mBorderWidth;
