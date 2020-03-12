@@ -57,13 +57,13 @@ namespace NekoControlEditor
         private void xButtonShowConfigWindow_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new ConfigWindow();
-            dialog.ValueWidth = (uint)xGrid3x3.ColumnDefinitions[1].Width.Value;
-            dialog.ValueHeight = (uint)xGrid3x3.RowDefinitions[1].Height.Value;
+            dialog.ValueWidth = (uint)xGrid3x3.ColumnDefinitions[2].Width.Value;
+            dialog.ValueHeight = (uint)xGrid3x3.RowDefinitions[2].Height.Value;
             dialog.ValueBackgroundColor = xCheckerBoard.BackgroundColor;
             if (dialog.ShowDialog().Equals(true))
             {
-                xGrid3x3.ColumnDefinitions[1].Width = new GridLength(dialog.ValueWidth, GridUnitType.Pixel);
-                xGrid3x3.RowDefinitions[1].Height = new GridLength(dialog.ValueHeight, GridUnitType.Pixel);
+                xGrid3x3.ColumnDefinitions[2].Width = new GridLength(dialog.ValueWidth, GridUnitType.Pixel);
+                xGrid3x3.RowDefinitions[2].Height = new GridLength(dialog.ValueHeight, GridUnitType.Pixel);
                 xCheckerBoard.BackgroundColor = dialog.ValueBackgroundColor;
             }
         }

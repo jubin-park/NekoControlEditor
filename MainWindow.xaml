@@ -301,60 +301,69 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Rectangle Fill="Transparent" MouseMove="xRectangle3x3_MouseMove"/>
-            <Grid x:Name="xGrid3x3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="640"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="480"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid
-                    x:Name="xGridRender"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    MouseLeftButtonDown="xGridRender_MouseLeftButtonDown"
-                    MouseMove="xGridRender_MouseMove"
-                    SizeChanged="xGridRender_SizeChanged"
-                    >
-                    <local:CheckerBoard x:Name="xCheckerBoard" />
-                    <ItemsControl
-                        ItemsSource="{Binding NekoControls}"
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                >
+                <Grid x:Name="xGrid3x3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="64"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="640"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="64"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="64"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="480"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="64"/>
+                    </Grid.RowDefinitions>
+                    <Grid
+                        x:Name="xGridRender"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        MouseLeftButtonDown="xGridRender_MouseLeftButtonDown"
+                        MouseMove="xGridRender_MouseMove"
+                        SizeChanged="xGridRender_SizeChanged"
                         >
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <Canvas
-                                    ClipToBounds="True"
-                                    />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemContainerStyle>
-                            <Style>
-                                <Setter
-                                    Property="Canvas.Left"
-                                    Value="{Binding X}"
-                                    />
-                                <Setter
-                                    Property="Canvas.Top"
-                                    Value="{Binding Y}"
-                                    />
-                                <Setter
-                                    Property="Canvas.ZIndex"
-                                    Value="{Binding Z}"
-                                    />
-                                <Setter
-                                    Property="Canvas.Opacity"
-                                    Value="{Binding RealOpacity}"
-                                    />
-                            </Style>
-                        </ItemsControl.ItemContainerStyle>
-                    </ItemsControl>
+                        <local:CheckerBoard x:Name="xCheckerBoard" />
+                        <ItemsControl
+                            ItemsSource="{Binding NekoControls}"
+                            >
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas
+                                        ClipToBounds="True"
+                                        />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style>
+                                    <Setter
+                                        Property="Canvas.Left"
+                                        Value="{Binding X}"
+                                        />
+                                    <Setter
+                                        Property="Canvas.Top"
+                                        Value="{Binding Y}"
+                                        />
+                                    <Setter
+                                        Property="Canvas.ZIndex"
+                                        Value="{Binding Z}"
+                                        />
+                                    <Setter
+                                        Property="Canvas.Opacity"
+                                        Value="{Binding RealOpacity}"
+                                        />
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+                    </Grid>
                 </Grid>
-            </Grid>
-
+            </ScrollViewer>
+            
             <GridSplitter
                 Grid.Column="1"
                 HorizontalAlignment="Center"
