@@ -100,8 +100,7 @@ namespace NekoControlEditor
         }
 
         protected byte mOpacity;
-        [Category("속성")]
-        [DisplayName("투명도")]
+        [Browsable(false)]
         public byte Opacity
         {
             get
@@ -115,6 +114,26 @@ namespace NekoControlEditor
                     mOpacity = value;
                     notifyPropertyChanged("Opacity");
                     notifyPropertyChanged("RealOpacity");
+                }
+            }
+        }
+
+        protected SliderValue<byte> mSliderValueOpacity;
+        [Category("속성")]
+        [DisplayName("투명도")]
+        [Editor(typeof(SliderEditor), typeof(PropertyValueEditor))]
+        public SliderValue<byte> SliderValueOpacity
+        {
+            get
+            {
+                return mSliderValueOpacity;
+            }
+            set
+            {
+                if (mSliderValueOpacity != value)
+                {
+                    mSliderValueOpacity = value;
+                    notifyPropertyChanged("SliderValueOpacity");
                 }
             }
         }
@@ -266,6 +285,8 @@ namespace NekoControlEditor
             mWidth = 128;
             mHeight = 128;
             mOpacity = 255;
+            mSliderValueOpacity = new SliderValue<byte>(mOpacity, 0, 255, 5);
+            mSliderValueOpacity.PropertyChanged += new PropertyChangedEventHandler(SliderPropertyChanged);
             mbVisible = true;
             mbRectTouchable = false;
             mbSelected = false;
@@ -279,6 +300,8 @@ namespace NekoControlEditor
             mWidth = other.mWidth;
             mHeight = other.mHeight;
             mOpacity = other.mOpacity;
+            mSliderValueOpacity = new SliderValue<byte>(other.mOpacity, 0, 255, 5);
+            mSliderValueOpacity.PropertyChanged += new PropertyChangedEventHandler(SliderPropertyChanged);
             mbVisible = other.mbVisible;
             mbRectTouchable = other.mbRectTouchable;
             mbSelected = other.mbSelected;
@@ -289,6 +312,15 @@ namespace NekoControlEditor
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        protected void SliderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e != null)
+            {
+                var slider = sender as SliderValue<byte>;
+                Opacity = slider.NowValue;
             }
         }
     }
