@@ -84,7 +84,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathDefault = "";
+                        mBitmapPathDefault = string.Empty;
                         mBitmapImageDefault = null;
                     }
                     notifyPropertyChanged("BitmapPathDefault");
@@ -119,7 +119,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathPressed = "";
+                        mBitmapPathPressed = string.Empty;
                         mBitmapImagePressed = null;
                     }
                     notifyPropertyChanged("BitmapPathPressed");

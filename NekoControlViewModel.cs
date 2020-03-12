@@ -12,7 +12,6 @@ namespace NekoControlEditor
     {
         #region Properties
         protected string mName;
-        [Category("")]
         [DisplayName("변수 이름")]
         [Description("가상 컨트롤의 변수 이름입니다.")]
         public string Name
@@ -23,7 +22,7 @@ namespace NekoControlEditor
             }
             set
             {
-                if (value == null || value == "")
+                if (value == null || value == string.Empty)
                 {
                     return;
                 }

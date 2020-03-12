@@ -118,7 +118,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathUpperLeft = "";
+                        mBitmapPathUpperLeft = string.Empty;
                         mBitmapImageUpperLeft = null;
                     }
                     notifyPropertyChanged("BitmapPathUpperLeft");
@@ -153,7 +153,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathLowerLeft = "";
+                        mBitmapPathLowerLeft = string.Empty;
                         mBitmapImageLowerLeft = null;
                     }
                     notifyPropertyChanged("BitmapPathLowerLeft");
@@ -187,7 +187,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathLowerRight = "";
+                        mBitmapPathLowerRight = string.Empty;
                         mBitmapImageLowerRight = null;
                     }
                     notifyPropertyChanged("BitmapPathLowerRight");
@@ -221,7 +221,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathUpperRight = "";
+                        mBitmapPathUpperRight = string.Empty;
                         mBitmapImageUpperRight = null;
                     }
                     notifyPropertyChanged("BitmapPathUpperRight");
@@ -250,10 +250,10 @@ namespace NekoControlEditor
                 ++mCount;
             }
             Name = name + mCount;
-            mBitmapPathLowerLeft = "";
-            mBitmapPathLowerRight = "";
-            mBitmapPathUpperLeft = "";
-            mBitmapPathUpperRight = "";
+            mBitmapPathLowerLeft = string.Empty;
+            mBitmapPathLowerRight = string.Empty;
+            mBitmapPathUpperLeft = string.Empty;
+            mBitmapPathUpperRight = string.Empty;
         }
 
         public NekoControlDPad8ViewModel(NekoControlDPad8ViewModel other)

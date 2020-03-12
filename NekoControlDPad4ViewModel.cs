@@ -168,7 +168,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathDefault = "";
+                        mBitmapPathDefault = string.Empty;
                         mBitmapImageDefault = null;
                     }
                     notifyPropertyChanged("BitmapPathDefault");
@@ -203,7 +203,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathDown = "";
+                        mBitmapPathDown = string.Empty;
                         mBitmapImageDown = null;
                     }
                     notifyPropertyChanged("BitmapPathDown");
@@ -237,7 +237,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathLeft = "";
+                        mBitmapPathLeft = string.Empty;
                         mBitmapImageLeft = null;
                     }
                     notifyPropertyChanged("BitmapPathLeft");
@@ -272,7 +272,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathRight = "";
+                        mBitmapPathRight = string.Empty;
                         mBitmapImageRight = null;
                     }
                     notifyPropertyChanged("BitmapPathRight");
@@ -306,7 +306,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathUp = "";
+                        mBitmapPathUp = string.Empty;
                         mBitmapImageUp = null;
                     }
                     notifyPropertyChanged("BitmapPathUp");
@@ -340,7 +340,7 @@ namespace NekoControlEditor
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
-                        mBitmapPathStick = "";
+                        mBitmapPathStick = string.Empty;
                         mBitmapImageStick = null;
                     }
                     notifyPropertyChanged("BitmapPathStick");
@@ -397,12 +397,12 @@ namespace NekoControlEditor
             mBitmapImageRight = null;
             mBitmapImageUp = null;
             mBitmapImageStick = null;
-            mBitmapPathDefault = "";
-            mBitmapPathDown = "";
-            mBitmapPathLeft = "";
-            mBitmapPathRight = "";
-            mBitmapPathUp = "";
-            mBitmapPathStick = "";
+            mBitmapPathDefault = string.Empty;
+            mBitmapPathDown = string.Empty;
+            mBitmapPathLeft = string.Empty;
+            mBitmapPathRight = string.Empty;
+            mBitmapPathUp = string.Empty;
+            mBitmapPathStick = string.Empty;
             mStickMovableRadius = 16;
         }
 
