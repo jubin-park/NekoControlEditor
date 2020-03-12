@@ -243,7 +243,6 @@ namespace NekoControlEditor
                         mBitmapImageLeft = null;
                     }
                     notifyPropertyChanged("BitmapPathLeft");
-                    notifyPropertyChanged("BitmapImageLeft");
                 }
             }
         }
@@ -338,12 +337,14 @@ namespace NekoControlEditor
                         bitmapImage.EndInit();
                         mBitmapPathStick = value;
                         BitmapImageStick = bitmapImage;
+                        ImageSourceStick = bitmapImage;
                     }
                     catch (FileNotFoundException)
                     {
                         Debug.Fail("Failed to load picture file.", value);
                         mBitmapPathStick = string.Empty;
                         mBitmapImageStick = null;
+                        ImageSourceStick = null;
                     }
                     notifyPropertyChanged("BitmapPathStick");
                 }
