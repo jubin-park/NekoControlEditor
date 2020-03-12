@@ -369,5 +369,28 @@ namespace NekoControlEditor
             NekoControlViewModel.VariableNames.Remove(control.Name);
             xViewModelMain.NekoControls.Remove(control);
         }
+
+        private void xGridRender_MouseMove(object sender, MouseEventArgs e)
+        {
+            var point = Mouse.GetPosition((Grid)sender);
+            int x = (int)point.X;
+            int y = (int)point.Y;
+            xTextBlockStatusPointX.Text = "X: " + x;
+            xTextBlockStatusPointY.Text = "Y: " + y;
+        }
+
+        private void xGridRender_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            xTextBlockStatusResolution.Text = e.NewSize.Width + " x " + e.NewSize.Height;
+        }
+
+        private void xRectangle3x3_MouseMove(object sender, MouseEventArgs e)
+        {
+            var point = e.GetPosition((Rectangle)sender);
+            int x = (int)(point.X - xGrid3x3.ColumnDefinitions[0].ActualWidth);
+            int y = (int)(point.Y - xGrid3x3.RowDefinitions[0].ActualHeight);
+            xTextBlockStatusPointX.Text = "X: " + x;
+            xTextBlockStatusPointY.Text = "Y: " + y;
+        }
     }
 }

@@ -37,8 +37,7 @@
                             <Grid>
                                 <Canvas>
                                     <Image
-                                        x:Name="xImageControl"
-                                        Source="{Binding BitmapImageDefault}"
+                                        Source="{Binding ImageSourceControl}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -47,7 +46,7 @@
                                         />
                                     <Image
                                         x:Name="xImageStick"
-                                        Source="{Binding BitmapImageStick}"
+                                        Source="{Binding ImageSourceStick}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -105,8 +104,7 @@
                             <Grid>
                                 <Canvas>
                                     <Image
-                                        x:Name="xImageControl"
-                                        Source="{Binding BitmapImageDefault}"
+                                        Source="{Binding ImageSourceControl}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -115,7 +113,7 @@
                                         />
                                     <Image
                                         x:Name="xImageStick"
-                                        Source="{Binding BitmapImageStick}"
+                                        Source="{Binding ImageSourceStick}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -173,8 +171,7 @@
                             <Grid>
                                 <Canvas>
                                     <Image
-                                        x:Name="xImageControl"
-                                        Source="{Binding BitmapImageDefault}"
+                                        Source="{Binding ImageSourceControl}"
                                         Width="{Binding Width}"
                                         Height="{Binding Height}"
                                         Stretch="Fill"
@@ -224,7 +221,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="38"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
         <Rectangle
             Grid.Row="0"
@@ -303,6 +300,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
+            <Rectangle Fill="Transparent" MouseMove="xRectangle3x3_MouseMove"/>
             <Grid x:Name="xGrid3x3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -315,11 +313,14 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid
+                    x:Name="xGridRender"
                     Grid.Row="1"
                     Grid.Column="1"
                     MouseLeftButtonDown="xGridRender_MouseLeftButtonDown"
+                    MouseMove="xGridRender_MouseMove"
+                    SizeChanged="xGridRender_SizeChanged"
                     >
-                    <local:CheckerBoard/>
+                    <local:CheckerBoard />
                     <ItemsControl
                         ItemsSource="{Binding NekoControls}"
                         >
@@ -393,19 +394,19 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image
-                                        Source="{Binding BitmapImageDefault}"
+                                        Source="{Binding ImageSourceControl}"
                                         Width="32"
                                         Stretch="Fill"
                                         Height="32"
                                         RenderOptions.EdgeMode="Aliased"
                                         />
                                     <TextBlock
-                                        Text="{Binding Type}"
+                                        Text="{Binding Name}"
                                         Margin="4"
                                         VerticalAlignment="Center"
                                         />
                                     <TextBlock
-                                        Text="{Binding Name}"
+                                        Text="{Binding Type}"
                                         VerticalAlignment="Center"
                                         />
                                 </StackPanel>
@@ -424,19 +425,19 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Button
-                            Content="복제"
+                            Content="실제 크기로"
                             Grid.Column="0"
+                            Click="xButtonActualResizeControl_Click"
+                            />
+                        <Button
+                            Content="복제"
+                            Grid.Column="2"
                             Click="xButtonCloneControl_Click"
                             />
                         <Button
                             Content="삭제"
-                            Grid.Column="2"
-                            Click="xButtonRemoveControl_Click"
-                            />
-                        <Button
-                            Content="실제 크기로"
                             Grid.Column="4"
-                            Click="xButtonActualResizeControl_Click"
+                            Click="xButtonRemoveControl_Click"
                             />
                     </Grid>
                 </Grid>
@@ -455,13 +456,48 @@
                     />
             </Grid>
         </Grid>
-        <StatusBar
-            Grid.Row="2"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Height="20"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"
-            Background="#7C7C7C"
-            />
+        <DockPanel
+            Grid.Row="2">
+            <StatusBar
+                DockPanel.Dock="Bottom"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"
+                Background="#7C7C7C"
+                >
+                <StatusBar.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition Width="64"/>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </StatusBar.ItemsPanel>
+                <StatusBarItem Grid.Column="0">
+                    <TextBlock
+                        x:Name="xTextBlockStatusResolution"
+                        Foreground="White"
+                        >
+                        <Run Text="{Binding ElementName=xGrid3x3, Path=Width}"/>
+                    </TextBlock>
+                </StatusBarItem>
+                <Separator Grid.Column="1" />
+                <StatusBarItem Grid.Column="2">
+                    <TextBlock
+                        x:Name="xTextBlockStatusPointX"
+                        Foreground="White"
+                        />
+                </StatusBarItem>
+                <StatusBarItem Grid.Column="3">
+                    <TextBlock
+                        x:Name="xTextBlockStatusPointY"
+                        Foreground="White"
+                        />
+                </StatusBarItem>
+            </StatusBar>
+        </DockPanel>
+
     </Grid>
 </Window>
