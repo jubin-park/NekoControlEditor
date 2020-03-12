@@ -37,7 +37,7 @@ namespace NekoControlEditor
                     if (mSelectedNekoControlOrNull != null)
                     {
                         mSelectedNekoControlOrNull.IsSelected = false;
-                        mSelectedNekoControlOrNull.BorderColor = "#2980b9";
+                        mSelectedNekoControlOrNull.BorderColor = mSelectedNekoControlOrNull.Visible ? "#2980b9" : "DimGray";
                     }
                     if (value != null)
                     {
@@ -54,6 +54,7 @@ namespace NekoControlEditor
 
         public MainViewModel()
         {
+
         }
 
         private void notifyPropertyChanged(string propertyName)
