@@ -56,21 +56,13 @@ namespace NekoControlEditor
 
         public string ValueBackgroundColor { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ConfigWindow()
         {
             InitializeComponent();
             Owner = Application.Current.MainWindow;
             DataContext = this;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void notifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         private void xButtonOK_Click(object sender, RoutedEventArgs e)
@@ -83,7 +75,7 @@ namespace NekoControlEditor
             DialogResult = false;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void xWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (ValueWidth == 640 && ValueHeight == 480)
             {
@@ -120,11 +112,25 @@ namespace NekoControlEditor
             ValueHeight = 416;
         }
 
-        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void xTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (!char.IsDigit(e.Text, e.Text.Length - 1))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void xTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+            textBox.Dispatcher.BeginInvoke(new Action(() => textBox.SelectAll()));
+        }
+
+        private void notifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

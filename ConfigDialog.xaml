@@ -6,7 +6,14 @@
         xmlns:local="clr-namespace:NekoControlEditor"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="설정" Height="250" Width="250" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+        Title="설정"
+        Height="250"
+        Width="250"
+        ResizeMode="NoResize"
+        WindowStyle="ThreeDBorderWindow"
+        WindowStartupLocation="CenterScreen"
+        Loaded="xWindow_Loaded"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -46,7 +53,8 @@
                             Height="20"
                             Width="50"
                             IsEnabled="{Binding IsChecked, ElementName=xRadioButtonCustom}"
-                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewTextInput="xTextBox_PreviewTextInput"
+                            GotFocus="xTextBox_GotFocus"
                             MaxLength="4"
                             />
                         <TextBlock Text="세로" Width="30" Margin="16,0,0,0"/>
@@ -55,7 +63,8 @@
                             Height="20"
                             Width="50"
                             IsEnabled="{Binding IsChecked, ElementName=xRadioButtonCustom}"
-                            PreviewTextInput="TextBox_PreviewTextInput"
+                            PreviewTextInput="xTextBox_PreviewTextInput"
+                            GotFocus="xTextBox_GotFocus"
                             MaxLength="4"
                             />
                     </StackPanel>
