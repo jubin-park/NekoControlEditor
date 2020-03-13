@@ -2,7 +2,7 @@
 {
     public enum EKeys
     {
-        EMPTY,
+        NULL,
         DOWN,
         LEFT,
         RIGHT,

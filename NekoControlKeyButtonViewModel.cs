@@ -138,8 +138,8 @@ namespace NekoControlEditor
         }
 
         private EKeys mKey;
-        [Category("키보드")]
         [DisplayName("키")]
+        [Editor(typeof(KeyEditor), typeof(PropertyValueEditor))]
         public EKeys Key
         {
             get
@@ -167,7 +167,7 @@ namespace NekoControlEditor
                 ++mCount;
             }
             Name = name + mCount;
-            mKey = EKeys.EMPTY;
+            mKey = EKeys.NULL;
             mWidth = 48;
             mHeight = 48;
             mBitmapImageDefault = null;

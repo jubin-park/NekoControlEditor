@@ -28,7 +28,7 @@ namespace NekoControlEditor
                             DockPanel.Dock='Right'
                             />
                         <TextBlock
-                            Text='Picture'
+                            Text='(이미지)'
                             Margin='2,0,0,0'
                             VerticalAlignment='Center'
                             />

@@ -81,6 +81,10 @@
     </Compile>
     <Compile Include="EDPadType.cs" />
     <Compile Include="EKeys.cs" />
+    <Compile Include="KeyEditor.cs" />
+    <Compile Include="KeyIdentifierWindow.xaml.cs">
+      <DependentUpon>KeyIdentifierWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainViewModel.cs" />
     <Compile Include="NekoControlDPad4ViewModel.cs" />
     <Compile Include="NekoControlDPad8ViewModel.cs" />
@@ -94,6 +98,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConfigDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyIdentifierWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,59 @@
+﻿<Window x:Class="NekoControlEditor.KeyIdentifierWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NekoControlEditor"
+        mc:Ignorable="d"
+        Title="설정할 키를 입력하세요"
+        Height="170"
+        Width="300"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        KeyDown="xWindow_KeyDown"
+        KeyUp="xWindow_KeyUp"
+        Focusable="True"
+        >
+
+    <Grid>
+        <StackPanel>
+            <TextBlock
+                Text="{Binding KeyName}"
+                FontSize="32"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="0,12,0,0"
+                />
+            <TextBlock
+                HorizontalAlignment="Center"
+                Margin="8"
+                Text="{Binding KeyInfo}"
+                />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Content="이걸로 할래요"
+                    VerticalAlignment="Bottom"
+                    Margin="6"
+                    Height="28"
+                    Click="xButtonOK_Click"
+                    IsDefault="False"
+                />
+                <Button
+                    Grid.Column="1"
+                    Content="안 해"
+                    VerticalAlignment="Bottom"
+                    Margin="6"
+                    Height="28"
+                    Click="xButtonCancel_Click"
+                    IsDefault="False"
+                />
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</Window>
