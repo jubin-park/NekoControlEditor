@@ -29,12 +29,13 @@
                 Margin="8"
                 Text="{Binding KeyInfo}"
                 />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <Button
+        </StackPanel>
+        <Grid VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button
                     Grid.Column="0"
                     Content="이걸로 할래요"
                     VerticalAlignment="Bottom"
@@ -43,7 +44,7 @@
                     Click="xButtonOK_Click"
                     IsDefault="False"
                 />
-                <Button
+            <Button
                     Grid.Column="1"
                     Content="안 해"
                     VerticalAlignment="Bottom"
@@ -52,8 +53,6 @@
                     Click="xButtonCancel_Click"
                     IsDefault="False"
                 />
-            </Grid>
-
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>
