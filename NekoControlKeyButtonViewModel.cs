@@ -133,27 +133,27 @@ namespace NekoControlEditor
         {
             get
             {
-                if (mKey.Value == EInput.NULL)
+                if (mInputKey.Value == EInput.NULL)
                 {
                     return "(미지정)";
                 }
-                return $"({mKey.Value.ToString().Substring(3)})";
+                return $"({mInputKey.Value.ToString().Substring(3)})";
             }
         }
 
-        private InputProperty mKey;
+        private InputProperty mInputKey;
         [DisplayName("키")]
         [Editor(typeof(InputEditor), typeof(PropertyValueEditor))]
-        public InputProperty Key
+        public InputProperty InputKey
         {
             get
             {
-                return mKey;
+                return mInputKey;
             }
             set
             {
-                mKey = value;
-                notifyPropertyChanged("Key");
+                mInputKey = value;
+                notifyPropertyChanged("InputKey");
                 notifyPropertyChanged("Type");
             }
         }
@@ -169,8 +169,8 @@ namespace NekoControlEditor
                 ++mCount;
             }
             Name = name + mCount;
-            mKey = new InputProperty(EInput.NULL);
-            mKey.PropertyChanged += new PropertyChangedEventHandler(eKeysPropertyChanged);
+            mInputKey = new InputProperty(EInput.NULL);
+            mInputKey.PropertyChanged += new PropertyChangedEventHandler(eKeysPropertyChanged);
             mWidth = 48;
             mHeight = 48;
             mBitmapImageDefault = null;
@@ -189,7 +189,7 @@ namespace NekoControlEditor
                 name += "_copy";
             } while (VariableNames.Contains(name));
             Name = name;
-            mKey = new InputProperty(other.mKey.Value);
+            mInputKey = new InputProperty(other.mInputKey.Value);
             mWidth = other.mWidth;
             mHeight = other.mHeight;
             mBitmapImageDefault = other.mBitmapImageDefault;
@@ -208,8 +208,8 @@ namespace NekoControlEditor
         {
             if (e != null)
             {
-                var eKeysValue = sender as InputProperty;
-                Key = eKeysValue;
+                var inputProperty = sender as InputProperty;
+                InputKey = inputProperty;
             }
         }
     }
