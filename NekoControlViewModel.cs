@@ -6,16 +6,27 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace NekoControlEditor
 {
-
-    public abstract class NekoControlViewModel : INotifyPropertyChanged
+    public class NekoControlViewModel : INotifyPropertyChanged
     {
         #region Properties
+        public string Type
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         protected string mName;
         [DisplayName("변수 이름")]
         [Description("가상 컨트롤의 변수 이름입니다.")]
+        //[JsonProperty("namename")]
+        
         public string Name
         {
             get
@@ -122,6 +133,7 @@ namespace NekoControlEditor
         [Category("속성")]
         [DisplayName("투명도")]
         [Editor(typeof(SliderEditor), typeof(PropertyValueEditor))]
+        [JsonIgnore]
         public SliderProperty<byte> SliderValueOpacity
         {
             get
@@ -138,6 +150,7 @@ namespace NekoControlEditor
             }
         }
 
+        [JsonIgnore]
         public double RealOpacity
         {
             get
@@ -224,6 +237,7 @@ namespace NekoControlEditor
 
         protected string mBorderColor;
         [ReadOnly(true), Browsable(false)]
+        [JsonIgnore]
         public string BorderColor
         {
             get
@@ -242,6 +256,7 @@ namespace NekoControlEditor
 
         protected bool mbSelected;
         [ReadOnly(true), Browsable(false)]
+        [JsonIgnore]
         public bool IsSelected
         {
             get
@@ -260,6 +275,7 @@ namespace NekoControlEditor
 
         protected ImageSource mImageSourceControl;
         [Browsable(false)]
+        [JsonIgnore]
         public ImageSource ImageSourceControl
         {
             get
@@ -307,6 +323,21 @@ namespace NekoControlEditor
             mbSelected = other.mbSelected;
         }
 
+        protected NekoControlViewModel(JObject jObject)
+        {
+            Name = jObject["Name"].ToString();
+            mX = jObject["X"].Value<int>();
+            mY = jObject["Y"].Value<int>();
+            mZ = jObject["Z"].Value<int>();
+            mWidth = jObject["Width"].Value<uint>();
+            mHeight = jObject["Height"].Value<uint>();
+            mOpacity = jObject["Opacity"].Value<byte>();
+            mSliderValueOpacity = new SliderProperty<byte>(mOpacity, 0, 255, 5);
+            mSliderValueOpacity.PropertyChanged += new PropertyChangedEventHandler(SliderPropertyChanged);
+            mbVisible = jObject["Visible"].Value<bool>();
+            mbRectTouchable = jObject["IsRectTouchable"].Value<bool>();
+            mbSelected = false;
+        }
         protected void notifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

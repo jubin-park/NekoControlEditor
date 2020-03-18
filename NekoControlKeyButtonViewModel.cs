@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Activities.Presentation.PropertyEditing;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -20,6 +22,7 @@ namespace NekoControlEditor
         #region BitmapImage Properties
         private BitmapImage mBitmapImageDefault;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageDefault
         {
             get
@@ -39,6 +42,7 @@ namespace NekoControlEditor
 
         private BitmapImage mBitmapImagePressed;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImagePressed
         {
             get
@@ -129,7 +133,16 @@ namespace NekoControlEditor
         #endregion
 
         #region Extra Properties
-        public string Type
+        public new string Type
+        {
+            get
+            {
+                return "KeyButton";
+            }
+        }
+
+        [JsonIgnore]
+        public string TypeName
         {
             get
             {
@@ -154,7 +167,7 @@ namespace NekoControlEditor
             {
                 mInputKey = value;
                 notifyPropertyChanged("InputKey");
-                notifyPropertyChanged("Type");
+                notifyPropertyChanged("TypeName");
             }
         }
         #endregion
@@ -175,8 +188,8 @@ namespace NekoControlEditor
             mHeight = 48;
             mBitmapImageDefault = null;
             mBitmapImagePressed = null;
-            mBitmapPathDefault = "image/UltimateDroidButton1.png";
-            mBitmapPathPressed = "image/UltimateDroidButton1Pressed.png";
+            mBitmapPathDefault = string.Empty;
+            mBitmapPathPressed = string.Empty;
             mImageSourceControl = BitmapImageDefault; // must be property
         }
 
@@ -197,6 +210,15 @@ namespace NekoControlEditor
             mBitmapPathDefault = other.mBitmapPathDefault;
             mBitmapPathPressed = other.mBitmapPathPressed;
             mImageSourceControl = other.mImageSourceControl;
+        }
+
+        public NekoControlKeyButtonViewModel(JObject jObject)
+            : base(jObject)
+        {
+            mInputKey = new InputProperty(jObject["InputKey"]["Value"].ToObject<EInput>());
+            mBitmapPathDefault = jObject["BitmapPathDefault"].ToString();
+            mBitmapPathPressed = jObject["BitmapPathPressed"].ToString();
+            mImageSourceControl = BitmapImageDefault; // must be property
         }
 
         public object Clone()

@@ -22,6 +22,10 @@ namespace NekoControlEditor
             {
                 return mNekoControls;
             }
+            set
+            {
+                mNekoControls = value;
+            }
         }
 
         public NekoControlViewModel SelectedNekoControlOrNull

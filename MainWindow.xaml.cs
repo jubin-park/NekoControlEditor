@@ -1,6 +1,12 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +26,41 @@ namespace NekoControlEditor
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private static string filterName = "Neko Controller 파일 (*.nkctl)|*.nkctl";
+
+        private void notifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public string mNowPath;
+        public string NowPath
+        {
+            get
+            {
+                return mNowPath;
+            }
+            set
+            {
+                if (mNowPath != value)
+                {
+                    mNowPath = value;
+                    notifyPropertyChanged("NowPath");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public MainWindow()
         {
             InitializeComponent();
+            mNowPath = string.Empty;
         }
 
         private void xGridRender_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -33,6 +69,87 @@ namespace NekoControlEditor
         }
 
         #region Main Menu Events
+        private void xButtonNew_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("기존 작업 파일이 사라집니다. 계속하시겠습니까?", "새로 만들기", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                xViewModelMain.NekoControls.Clear();
+                NekoControlViewModel.VariableNames.Clear();
+                NowPath = string.Empty;
+            }
+        }
+
+        private void xButtonLoad_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = filterName;
+            openFileDialog.RestoreDirectory = true;
+            //openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (openFileDialog.ShowDialog() == false)
+            {
+                return;
+            }
+            MessageBoxResult result = MessageBox.Show("기존 작업 파일이 사라집니다. 계속하시겠습니까?", "새로 만들기", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            NowPath = openFileDialog.FileName;
+            xViewModelMain.NekoControls.Clear();
+            NekoControlViewModel.VariableNames.Clear();
+            string json = File.ReadAllText(openFileDialog.FileName);
+            JObject jobj = JObject.Parse(json);
+            int[] config = JsonConvert.DeserializeObject<int[]>(jobj["Config"].ToString());
+            xGrid3x3.ColumnDefinitions[2].Width = new GridLength(config[0], GridUnitType.Pixel);
+            xGrid3x3.RowDefinitions[2].Height = new GridLength(config[1], GridUnitType.Pixel);
+            JArray jArray = (JArray)jobj["Controls"];
+            foreach (JObject item in jArray)
+            {
+                string type = item["Type"].ToString();
+                if (type == "DPad4")
+                {
+                    var dPad4 = new NekoControlDPad4ViewModel(item);
+                    xViewModelMain.NekoControls.Add(dPad4);
+                    xViewModelMain.SelectedNekoControlOrNull = dPad4;
+                }
+                else if (type == "DPad8")
+                {
+                    var dPad8 = new NekoControlDPad8ViewModel(item);
+                    xViewModelMain.NekoControls.Add(dPad8);
+                    xViewModelMain.SelectedNekoControlOrNull = dPad8;
+                }
+                else if (type == "KeyButton")
+                {
+                    var keyButton = new NekoControlKeyButtonViewModel(item);
+                    xViewModelMain.NekoControls.Add(keyButton);
+                    xViewModelMain.SelectedNekoControlOrNull = keyButton;
+                }
+                else
+                {
+                    Debug.Fail("Invalid Control Type");
+                    xViewModelMain.NekoControls.Clear();
+                    NekoControlViewModel.VariableNames.Clear();
+                    MessageBox.Show("파일이 손상되었습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void xButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = filterName;
+            saveFileDialog.RestoreDirectory = true;
+            //saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                int[] config = {(int)xGrid3x3.ColumnDefinitions[2].Width.Value, (int)xGrid3x3.RowDefinitions[2].Height.Value};
+                string json = JsonConvert.SerializeObject(new {Config = config, Controls = xViewModelMain.NekoControls }, Formatting.Indented);
+                File.WriteAllText(saveFileDialog.FileName, json);
+                NowPath = saveFileDialog.FileName;
+            }
+        }
+
         private void xButtonCreateNekoControlDPad4_Click(object sender, RoutedEventArgs e)
         {
             var dPad4 = new NekoControlDPad4ViewModel();

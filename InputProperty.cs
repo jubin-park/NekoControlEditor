@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace NekoControlEditor
 {
@@ -19,6 +20,7 @@ namespace NekoControlEditor
             }
         }
 
+        [JsonIgnore]
         public string ValueToString
         {
             get

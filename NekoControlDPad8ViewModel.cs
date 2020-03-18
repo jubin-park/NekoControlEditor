@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Activities.Presentation.PropertyEditing;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +18,7 @@ namespace NekoControlEditor
         #region BitmapImage Properties
         private BitmapImage mBitmapImageLowerLeft;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageLowerLeft
         {
             get
@@ -35,6 +38,7 @@ namespace NekoControlEditor
 
         private BitmapImage mBitmapImageLowerRight;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageLowerRight
         {
             get
@@ -54,6 +58,7 @@ namespace NekoControlEditor
 
         private BitmapImage mBitmapImageUpperLeft;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageUpperLeft
         {
             get
@@ -73,6 +78,7 @@ namespace NekoControlEditor
 
         private BitmapImage mBitmapImageUpperRight;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageUpperRight
         {
             get
@@ -234,6 +240,15 @@ namespace NekoControlEditor
         {
             get
             {
+                return "DPad8";
+            }
+        }
+
+        [JsonIgnore]
+        public new string TypeName
+        {
+            get
+            {
                 return "(8방향)";
             }
         }
@@ -268,6 +283,15 @@ namespace NekoControlEditor
             mBitmapPathLowerRight = other.mBitmapPathLowerRight;
             mBitmapPathUpperLeft = other.mBitmapPathUpperLeft;
             mBitmapPathUpperRight = other.mBitmapPathUpperRight;
+        }
+
+        public NekoControlDPad8ViewModel(JObject jObject)
+            : base(jObject)
+        {
+            mBitmapPathLowerLeft = jObject["BitmapPathLowerLeft"].ToString();
+            mBitmapPathLowerRight = jObject["BitmapPathLowerRight"].ToString();
+            mBitmapPathUpperLeft = jObject["BitmapPathUpperLeft"].ToString();
+            mBitmapPathUpperRight = jObject["BitmapPathUpperRight"].ToString();
         }
 
         public new object Clone()

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Activities.Presentation.PropertyEditing;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -29,6 +31,7 @@ namespace NekoControlEditor
         #region BitmapImage Properties
         protected BitmapImage mBitmapImageDefault;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageDefault
         {
             get
@@ -48,6 +51,7 @@ namespace NekoControlEditor
 
         protected BitmapImage mBitmapImageDown;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageDown
         {
             get
@@ -67,6 +71,7 @@ namespace NekoControlEditor
 
         protected BitmapImage mBitmapImageLeft;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageLeft
         {
             get
@@ -86,6 +91,7 @@ namespace NekoControlEditor
 
         protected BitmapImage mBitmapImageRight;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageRight
         {
             get
@@ -105,6 +111,7 @@ namespace NekoControlEditor
 
         protected BitmapImage mBitmapImageUp;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageUp
         {
             get
@@ -124,6 +131,7 @@ namespace NekoControlEditor
 
         protected BitmapImage mBitmapImageStick;
         [Browsable(false)]
+        [JsonIgnore]
         public BitmapImage BitmapImageStick
         {
             get
@@ -353,7 +361,16 @@ namespace NekoControlEditor
         #endregion
 
         #region Extra Properties
-        public string Type
+        public new string Type
+        {
+            get
+            {
+                return "DPad4";
+            }
+        }
+
+        [JsonIgnore]
+        public string TypeName
         {
             get
             {
@@ -382,6 +399,7 @@ namespace NekoControlEditor
 
         protected ImageSource mImageSourceStick;
         [Browsable(false)]
+        [JsonIgnore]
         public ImageSource ImageSourceStick
         {
             get
@@ -455,6 +473,19 @@ namespace NekoControlEditor
             mImageSourceStick = other.mImageSourceStick;
         }
 
+        public NekoControlDPad4ViewModel(JObject jObject)
+            : base(jObject)
+        {
+            mBitmapPathDefault = jObject["BitmapPathDefault"].ToString();
+            mBitmapPathDown = jObject["BitmapPathDown"].ToString();
+            mBitmapPathLeft = jObject["BitmapPathLeft"].ToString();
+            mBitmapPathRight = jObject["BitmapPathRight"].ToString();
+            mBitmapPathUp = jObject["BitmapPathUp"].ToString();
+            mBitmapPathStick = jObject["BitmapPathStick"].ToString();
+            mStickMovableRadius = jObject["StickMovableRadius"].Value<ushort>();
+            mImageSourceControl = BitmapImageDefault; // must be property
+            mImageSourceStick = BitmapImageStick; // must be property
+        }
         public object Clone()
         {
             return new NekoControlDPad4ViewModel(this);
