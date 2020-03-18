@@ -118,11 +118,11 @@ namespace NekoControlEditor
             }
         }
 
-        protected SliderValue<byte> mSliderValueOpacity;
+        protected SliderProperty<byte> mSliderValueOpacity;
         [Category("속성")]
         [DisplayName("투명도")]
         [Editor(typeof(SliderEditor), typeof(PropertyValueEditor))]
-        public SliderValue<byte> SliderValueOpacity
+        public SliderProperty<byte> SliderValueOpacity
         {
             get
             {
@@ -285,7 +285,7 @@ namespace NekoControlEditor
             mWidth = 128;
             mHeight = 128;
             mOpacity = 255;
-            mSliderValueOpacity = new SliderValue<byte>(mOpacity, 0, 255, 5);
+            mSliderValueOpacity = new SliderProperty<byte>(mOpacity, 0, 255, 5);
             mSliderValueOpacity.PropertyChanged += new PropertyChangedEventHandler(SliderPropertyChanged);
             mbVisible = true;
             mbRectTouchable = false;
@@ -300,7 +300,7 @@ namespace NekoControlEditor
             mWidth = other.mWidth;
             mHeight = other.mHeight;
             mOpacity = other.mOpacity;
-            mSliderValueOpacity = new SliderValue<byte>(other.mOpacity, 0, 255, 5);
+            mSliderValueOpacity = new SliderProperty<byte>(other.mOpacity, 0, 255, 5);
             mSliderValueOpacity.PropertyChanged += new PropertyChangedEventHandler(SliderPropertyChanged);
             mbVisible = other.mbVisible;
             mbRectTouchable = other.mbRectTouchable;
@@ -319,7 +319,7 @@ namespace NekoControlEditor
         {
             if (e != null)
             {
-                var slider = sender as SliderValue<byte>;
+                var slider = sender as SliderProperty<byte>;
                 Opacity = slider.Value;
             }
         }

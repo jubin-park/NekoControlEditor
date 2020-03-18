@@ -9,9 +9,9 @@ using System.Windows.Markup;
 
 namespace NekoControlEditor
 {
-    public class KeyEditor : DialogPropertyValueEditor
+    public class InputEditor : DialogPropertyValueEditor
     {
-        public KeyEditor()
+        public InputEditor()
         {
             string template = @"
                 <DataTemplate
@@ -33,7 +33,7 @@ namespace NekoControlEditor
 
         public override void ShowDialog(PropertyValue propertyValue, IInputElement commandSource)
         {
-            KeyIdentifierWindow window = new KeyIdentifierWindow((EKeysValue)propertyValue.Value);
+            InputWindow window = new InputWindow((InputProperty)propertyValue.Value);
             if (window.ShowDialog().Equals(true))
             {
                 var ownerActivityConverter = new ModelPropertyEntryToOwnerActivityConverter();

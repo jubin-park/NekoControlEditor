@@ -2,7 +2,7 @@
 
 namespace NekoControlEditor
 {
-    public class SliderValue<T> : INotifyPropertyChanged
+    public class SliderProperty<T> : INotifyPropertyChanged
     {
         private T mValue;
         public T Value
@@ -21,7 +21,7 @@ namespace NekoControlEditor
         public T Min { get; set; }
         public T Step { get; set; }
 
-        public SliderValue(T value, T min, T max, T step)
+        public SliderProperty(T value, T min, T max, T step)
         {
             Value = value;
             Min = min;

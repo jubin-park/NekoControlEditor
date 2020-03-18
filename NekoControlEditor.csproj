@@ -76,14 +76,14 @@
     <Compile Include="CheckerBoard.xaml.cs">
       <DependentUpon>CheckerBoard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConfigDialog.xaml.cs">
-      <DependentUpon>ConfigDialog.xaml</DependentUpon>
+    <Compile Include="ConfigWindow.xaml.cs">
+      <DependentUpon>ConfigWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EDPadType.cs" />
-    <Compile Include="EKeys.cs" />
-    <Compile Include="KeyEditor.cs" />
-    <Compile Include="KeyIdentifierWindow.xaml.cs">
-      <DependentUpon>KeyIdentifierWindow.xaml</DependentUpon>
+    <Compile Include="EInput.cs" />
+    <Compile Include="InputEditor.cs" />
+    <Compile Include="InputWindow.xaml.cs">
+      <DependentUpon>InputWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainViewModel.cs" />
     <Compile Include="NekoControlDPad4ViewModel.cs" />
@@ -92,18 +92,18 @@
     <Compile Include="NekoControlViewModel.cs" />
     <Compile Include="PictureEditor.cs" />
     <Compile Include="SliderEditor.cs" />
-    <Compile Include="SliderValue.cs" />
-    <Compile Include="EKeysValue.cs" />
+    <Compile Include="SliderProperty.cs" />
+    <Compile Include="InputProperty.cs" />
     <Compile Include="WpfPropertyGrid.cs" />
     <Page Include="CheckerBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConfigDialog.xaml">
+    <Page Include="ConfigWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KeyIdentifierWindow.xaml">
+    <Page Include="InputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

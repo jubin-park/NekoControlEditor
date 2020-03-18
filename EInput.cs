@@ -1,6 +1,6 @@
 ﻿namespace NekoControlEditor
 {
-    public enum EKeys
+    public enum EInput
     {
         NULL,
         DOWN,

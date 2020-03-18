@@ -2,10 +2,10 @@
 
 namespace NekoControlEditor
 {
-    public class EKeysValue : INotifyPropertyChanged
+    public class InputProperty : INotifyPropertyChanged
     {
-        private EKeys mValue;
-        public EKeys Value
+        private EInput mValue;
+        public EInput Value
         {
             get
             {
@@ -23,7 +23,7 @@ namespace NekoControlEditor
         {
             get
             {
-                if (mValue == EKeys.NULL)
+                if (mValue == EInput.NULL)
                 {
                     return "(없음)";
                 }
@@ -31,7 +31,7 @@ namespace NekoControlEditor
             }
         }
 
-        public EKeysValue(EKeys value)
+        public InputProperty(EInput value)
         {
             Value = value;
         }

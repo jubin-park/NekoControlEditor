@@ -133,7 +133,7 @@ namespace NekoControlEditor
         {
             get
             {
-                if (mKey.Value == EKeys.NULL)
+                if (mKey.Value == EInput.NULL)
                 {
                     return "(미지정)";
                 }
@@ -141,10 +141,10 @@ namespace NekoControlEditor
             }
         }
 
-        private EKeysValue mKey;
+        private InputProperty mKey;
         [DisplayName("키")]
-        [Editor(typeof(KeyEditor), typeof(PropertyValueEditor))]
-        public EKeysValue Key
+        [Editor(typeof(InputEditor), typeof(PropertyValueEditor))]
+        public InputProperty Key
         {
             get
             {
@@ -169,7 +169,7 @@ namespace NekoControlEditor
                 ++mCount;
             }
             Name = name + mCount;
-            mKey = new EKeysValue(EKeys.NULL);
+            mKey = new InputProperty(EInput.NULL);
             mKey.PropertyChanged += new PropertyChangedEventHandler(eKeysPropertyChanged);
             mWidth = 48;
             mHeight = 48;
@@ -189,7 +189,7 @@ namespace NekoControlEditor
                 name += "_copy";
             } while (VariableNames.Contains(name));
             Name = name;
-            mKey = new EKeysValue(other.mKey.Value);
+            mKey = new InputProperty(other.mKey.Value);
             mWidth = other.mWidth;
             mHeight = other.mHeight;
             mBitmapImageDefault = other.mBitmapImageDefault;
@@ -208,7 +208,7 @@ namespace NekoControlEditor
         {
             if (e != null)
             {
-                var eKeysValue = sender as EKeysValue;
+                var eKeysValue = sender as InputProperty;
                 Key = eKeysValue;
             }
         }
