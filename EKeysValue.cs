@@ -2,10 +2,10 @@
 
 namespace NekoControlEditor
 {
-    public class TextValue<T> : INotifyPropertyChanged
+    public class EKeysValue : INotifyPropertyChanged
     {
-        private T mValue;
-        public T NowValue
+        private EKeys mValue;
+        public EKeys Value
         {
             get
             {
@@ -14,13 +14,26 @@ namespace NekoControlEditor
             set
             {
                 mValue = value;
-                notifyPropertyChanged("NowValue");
+                notifyPropertyChanged("Value");
+                notifyPropertyChanged("ValueToString");
             }
         }
 
-        public TextValue(T value)
+        public string ValueToString
         {
-            NowValue = value;
+            get
+            {
+                if (mValue == EKeys.NULL)
+                {
+                    return "(없음)";
+                }
+                return mValue.ToString();
+            }
+        }
+
+        public EKeysValue(EKeys value)
+        {
+            Value = value;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

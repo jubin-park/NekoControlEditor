@@ -320,7 +320,7 @@ namespace NekoControlEditor
             if (e != null)
             {
                 var slider = sender as SliderValue<byte>;
-                Opacity = slider.NowValue;
+                Opacity = slider.Value;
             }
         }
     }

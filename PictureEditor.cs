@@ -48,7 +48,7 @@ namespace NekoControlEditor
             dialog.DefaultExt = ".png";
             dialog.Filter = "그림 파일 (*.jpg, *.png)|*.jpg;*.png";
             dialog.Multiselect = false;
-            dialog.Title = "그래픽 선택";
+            dialog.Title = "사진 선택";
             if (dialog.ShowDialog() == true)
             {
                 propertyValue.Value = dialog.FileName;

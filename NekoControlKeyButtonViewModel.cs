@@ -133,14 +133,18 @@ namespace NekoControlEditor
         {
             get
             {
-                return "(키)";
+                if (mKey.Value == EKeys.NULL)
+                {
+                    return "(미지정)";
+                }
+                return $"({mKey.Value.ToString().Substring(3)})";
             }
         }
 
-        private EKeys mKey;
+        private EKeysValue mKey;
         [DisplayName("키")]
         [Editor(typeof(KeyEditor), typeof(PropertyValueEditor))]
-        public EKeys Key
+        public EKeysValue Key
         {
             get
             {
@@ -148,11 +152,9 @@ namespace NekoControlEditor
             }
             set
             {
-                if (mKey != value)
-                {
-                    mKey = value;
-                    notifyPropertyChanged("Key");
-                }
+                mKey = value;
+                notifyPropertyChanged("Key");
+                notifyPropertyChanged("Type");
             }
         }
         #endregion
@@ -167,7 +169,8 @@ namespace NekoControlEditor
                 ++mCount;
             }
             Name = name + mCount;
-            mKey = EKeys.NULL;
+            mKey = new EKeysValue(EKeys.NULL);
+            mKey.PropertyChanged += new PropertyChangedEventHandler(eKeysPropertyChanged);
             mWidth = 48;
             mHeight = 48;
             mBitmapImageDefault = null;
@@ -186,7 +189,7 @@ namespace NekoControlEditor
                 name += "_copy";
             } while (VariableNames.Contains(name));
             Name = name;
-            mKey = other.mKey;
+            mKey = new EKeysValue(other.mKey.Value);
             mWidth = other.mWidth;
             mHeight = other.mHeight;
             mBitmapImageDefault = other.mBitmapImageDefault;
@@ -199,6 +202,15 @@ namespace NekoControlEditor
         public object Clone()
         {
             return new NekoControlKeyButtonViewModel(this);
+        }
+
+        private void eKeysPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e != null)
+            {
+                var eKeysValue = sender as EKeysValue;
+                Key = eKeysValue;
+            }
         }
     }
 }

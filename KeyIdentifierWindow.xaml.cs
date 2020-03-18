@@ -148,8 +148,8 @@ namespace NekoControlEditor
             // { Key., EKeys. },
         };
 
-        public EKeys mInputKey;
-        public EKeys InputKey
+        public EKeysValue mInputKey;
+        public EKeysValue InputKey
         {
             get
             {
@@ -170,11 +170,11 @@ namespace NekoControlEditor
         {
             get
             {
-                if (mInputKey == EKeys.NULL)
+                if (mInputKey.Value == EKeys.NULL)
                 {
                     return "(없음)";
                 }
-                return mInputKey.ToString().Substring(3);
+                return mInputKey.Value.ToString().Substring(3);
             }
         }
 
@@ -182,11 +182,11 @@ namespace NekoControlEditor
         {
             get
             {
-                if (mInputKey == EKeys.NULL)
+                if (mInputKey.Value == EKeys.NULL)
                 {
                     return "지원하지 않는 키입니다.";
                 }
-                return mInputKey.ToString();
+                return mInputKey.Value.ToString();
             }
         }
 
@@ -199,11 +199,12 @@ namespace NekoControlEditor
             }
         }
 
-        public KeyIdentifierWindow(EKeys key)
+        public KeyIdentifierWindow(EKeysValue key)
         {
             InitializeComponent();
             DataContext = this;
-            InputKey = key;
+            InputKey = new EKeysValue(key.Value);
+            InputKey.PropertyChanged += new PropertyChangedEventHandler(eKeysPropertyChanged);
             Activate();
             Focus();
         }
@@ -222,17 +223,17 @@ namespace NekoControlEditor
         {
             if (InputKBTable.ContainsKey(e.Key))
             {
-                InputKey = InputKBTable[e.Key];
+                InputKey.Value = InputKBTable[e.Key];
             }
             else
             {
                 if (InputKBTable.ContainsKey(e.SystemKey))
                 {
-                    InputKey = InputKBTable[e.SystemKey];
+                    InputKey.Value = InputKBTable[e.SystemKey];
                 }
                 else
                 {
-                    InputKey = EKeys.NULL;
+                    InputKey.Value = EKeys.NULL;
                 }
             }
         }
@@ -244,6 +245,15 @@ namespace NekoControlEditor
                 // 버튼 넘어가기 방지 Tab
                 // F10 누르고 F9 누르면 안눌러지는 버그 방지
                 e.Handled = true;
+            }
+        }
+
+        private void eKeysPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e != null)
+            {
+                notifyPropertyChanged("KeyName");
+                notifyPropertyChanged("KeyInfo");
             }
         }
     }

@@ -21,7 +21,7 @@ namespace NekoControlEditor
                     <DockPanel LastChildFill='True'>
                         <pe:EditModeSwitchButton TargetEditMode='Dialog' Name='EditButton' 
                         DockPanel.Dock='Right'>...</pe:EditModeSwitchButton>
-                        <TextBlock Text='(키)' Margin='2,0,0,0' VerticalAlignment='Center'/>
+                        <TextBlock Text='{Binding Value.ValueToString}' Margin='2,0,0,0' VerticalAlignment='Center'/>
                     </DockPanel>
                 </DataTemplate>";
 
@@ -33,7 +33,7 @@ namespace NekoControlEditor
 
         public override void ShowDialog(PropertyValue propertyValue, IInputElement commandSource)
         {
-            KeyIdentifierWindow window = new KeyIdentifierWindow((EKeys)propertyValue.Value);
+            KeyIdentifierWindow window = new KeyIdentifierWindow((EKeysValue)propertyValue.Value);
             if (window.ShowDialog().Equals(true))
             {
                 var ownerActivityConverter = new ModelPropertyEntryToOwnerActivityConverter();
@@ -42,7 +42,6 @@ namespace NekoControlEditor
                 {
                     propertyValue.Value = window.InputKey;
                     editingScope.Complete(); // commit the changes
-
                     var control = commandSource as Control;
                     var oldData = control.DataContext;
                     control.DataContext = null;
