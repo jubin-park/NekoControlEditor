@@ -315,20 +315,20 @@ namespace NekoControlEditor
             return new NekoControlDPad8ViewModel(this);
         }
 
-        public new string GetRubyScript()
+        public new string GetRubyScript(string controlPath)
         {
             string script =
 $@"{mName} = ControlDirection8.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, {mbRectTouchable.ToString().ToLower()})
-{mName}.set_image_default(RPG::Cache.neko_control(""{mBitmapPathDefault}""))
-{mName}.set_image_lower_left(RPG::Cache.neko_control(""{mBitmapPathLowerLeft}""))
-{mName}.set_image_down(RPG::Cache.neko_control(""{mBitmapPathDown}""))
-{mName}.set_image_lower_right(RPG::Cache.neko_control(""{mBitmapPathLowerRight}""))
-{mName}.set_image_left(RPG::Cache.neko_control(""{mBitmapPathLeft}""))
-{mName}.set_image_right(RPG::Cache.neko_control(""{mBitmapPathRight}""))
-{mName}.set_image_upper_left(RPG::Cache.neko_control(""{mBitmapPathUpperLeft}""))
-{mName}.set_image_up(RPG::Cache.neko_control(""{mBitmapPathUp}""))
-{mName}.set_image_upper_right(RPG::Cache.neko_control(""{mBitmapImageUpperRight}""))
-{mName}.set_image_stick({StickMovableRadius}, RPG::Cache.neko_control(""{mBitmapPathStick}""))
+{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
+{mName}.set_image_lower_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLowerLeft, controlPath)}""))
+{mName}.set_image_down(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDown, controlPath)}""))
+{mName}.set_image_lower_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLowerRight, controlPath)}""))
+{mName}.set_image_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLeft, controlPath)}""))
+{mName}.set_image_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathRight, controlPath)}""))
+{mName}.set_image_upper_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUpperLeft, controlPath)}""))
+{mName}.set_image_up(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUp, controlPath)}""))
+{mName}.set_image_upper_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUpperRight, controlPath)}""))
+{mName}.set_image_stick({StickMovableRadius}, RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}""))
 
 ";
             return script;

@@ -354,5 +354,10 @@ namespace NekoControlEditor
                 Opacity = slider.Value;
             }
         }
+
+        protected string GetRelativePath(string strSrc, string strDelete)
+        {
+            return strSrc.Replace(strDelete, string.Empty).Replace('\\', '/');
+        }
     }
 }

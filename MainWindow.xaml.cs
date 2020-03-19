@@ -30,6 +30,7 @@ namespace NekoControlEditor
     {
         private static string filterName = "Neko Controller 파일 (*.nkctl)|*.nkctl";
         private static string FAILED_LOAD_CONTROL_MESSAGE = "Invalid Control Type";
+        private static string mWorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
 
         private void notifyPropertyChanged(string propertyName)
         {
@@ -79,15 +80,16 @@ namespace NekoControlEditor
                 NekoControlViewModel.VariableNames.Clear();
                 NowPath = string.Empty;
             }
+            xCheckerBoard.BackgroundColor = "Transparent";
         }
 
         private void xButtonLoad_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = filterName;
-            openFileDialog.RestoreDirectory = true;
             openFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            //openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            openFileDialog.InitialDirectory = mWorkSpacePath;
+            //openFileDialog.RestoreDirectory = true;
             if (openFileDialog.ShowDialog() == false)
             {
                 return;
@@ -97,33 +99,42 @@ namespace NekoControlEditor
             {
                 return;
             }
-            NowPath = openFileDialog.FileName;
             xViewModelMain.NekoControls.Clear();
             NekoControlViewModel.VariableNames.Clear();
+            NowPath = openFileDialog.FileName;
             string json = File.ReadAllText(openFileDialog.FileName);
-            JObject jobj = JObject.Parse(json);
-            int[] config = JsonConvert.DeserializeObject<int[]>(jobj["Config"].ToString());
-            xGrid3x3.ColumnDefinitions[2].Width = new GridLength(config[0], GridUnitType.Pixel);
-            xGrid3x3.RowDefinitions[2].Height = new GridLength(config[1], GridUnitType.Pixel);
-            JArray jArray = (JArray)jobj["Controls"];
-            foreach (JObject item in jArray)
+            JObject jObjectMain = JObject.Parse(json);
+            // config
+            JObject jObjectConfig = JsonConvert.DeserializeObject<JObject>(jObjectMain["Config"].ToString());
+            xGrid3x3.ColumnDefinitions[2].Width = new GridLength(jObjectConfig["Width"].Value<uint>(), GridUnitType.Pixel);
+            xGrid3x3.RowDefinitions[2].Height = new GridLength(jObjectConfig["Height"].Value<uint>(), GridUnitType.Pixel);
+            xCheckerBoard.BackgroundColor = jObjectConfig["BackgroundColor"].ToString();
+            mWorkSpacePath = jObjectConfig["WorkSpacePath"].ToString();
+            if (!Directory.Exists(mWorkSpacePath))
             {
-                string type = item["Type"].ToString();
+                MessageBox.Show("작업 폴더가 존재하지 않으므로 작업 폴더를 초기화합니다.", "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                mWorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
+            }
+            // controls
+            JArray jArray = (JArray)jObjectMain["Controls"];
+            foreach (JObject jObjectControl in jArray)
+            {
+                string type = jObjectControl["Type"].ToString();
                 if (type == "DPad4")
                 {
-                    var dPad4 = new NekoControlDPad4ViewModel(item);
+                    var dPad4 = new NekoControlDPad4ViewModel(jObjectControl);
                     xViewModelMain.NekoControls.Add(dPad4);
                     xViewModelMain.SelectedNekoControlOrNull = dPad4;
                 }
                 else if (type == "DPad8")
                 {
-                    var dPad8 = new NekoControlDPad8ViewModel(item);
+                    var dPad8 = new NekoControlDPad8ViewModel(jObjectControl);
                     xViewModelMain.NekoControls.Add(dPad8);
                     xViewModelMain.SelectedNekoControlOrNull = dPad8;
                 }
                 else if (type == "KeyButton")
                 {
-                    var keyButton = new NekoControlKeyButtonViewModel(item);
+                    var keyButton = new NekoControlKeyButtonViewModel(jObjectControl);
                     xViewModelMain.NekoControls.Add(keyButton);
                     xViewModelMain.SelectedNekoControlOrNull = keyButton;
                 }
@@ -142,13 +153,17 @@ namespace NekoControlEditor
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = filterName;
-            saveFileDialog.RestoreDirectory = true;
             saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            //saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            saveFileDialog.InitialDirectory = mWorkSpacePath;
+            //saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == true)
             {
-                int[] config = {(int)xGrid3x3.ColumnDefinitions[2].Width.Value, (int)xGrid3x3.RowDefinitions[2].Height.Value};
-                string json = JsonConvert.SerializeObject(new {Config = config, Controls = xViewModelMain.NekoControls }, Formatting.Indented);
+                var jObjectConfig = new JObject();
+                jObjectConfig.Add("Width", (uint)xGrid3x3.ColumnDefinitions[2].Width.Value);
+                jObjectConfig.Add("Height", (uint)xGrid3x3.RowDefinitions[2].Height.Value);
+                jObjectConfig.Add("BackgroundColor", xCheckerBoard.BackgroundColor);
+                jObjectConfig.Add("WorkSpacePath", mWorkSpacePath);
+                string json = JsonConvert.SerializeObject(new {Config = jObjectConfig, Controls = xViewModelMain.NekoControls }, Formatting.Indented);
                 File.WriteAllText(saveFileDialog.FileName, json);
                 NowPath = saveFileDialog.FileName;
             }
@@ -158,35 +173,55 @@ namespace NekoControlEditor
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "txt 파일 (*.txt)|*.txt";
-            saveFileDialog.RestoreDirectory = true;
             saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            if (saveFileDialog.ShowDialog() == true)
+            saveFileDialog.InitialDirectory = mWorkSpacePath;
+            //saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == false)
             {
-                string script = string.Empty;
-                foreach (var control in xViewModelMain.NekoControls)
-                {
-                    if (control is NekoControlDPad8ViewModel)
-                    {
-                        var dPad8 = (NekoControlDPad8ViewModel)control;
-                        script += dPad8.GetRubyScript();
-                    }
-                    else if (control is NekoControlDPad4ViewModel)
-                    {
-                        var dPad4 = (NekoControlDPad4ViewModel)control;
-                        script += dPad4.GetRubyScript();
-                    }
-                    else if (control is NekoControlKeyButtonViewModel)
-                    {
-                        var keyButton = (NekoControlKeyButtonViewModel)control;
-                        script += keyButton.GetRubyScript();
-                    }
-                    else
-                    {
-                        Debug.Fail(FAILED_LOAD_CONTROL_MESSAGE);
-                    }
-                }
-                File.WriteAllText(saveFileDialog.FileName, script);
+                return;
             }
+            DateTime localDate = DateTime.Now;
+            string script =
+$@"=begin
+  title  {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}
+
+  date   {localDate.Year}.{String.Format("{0:D2}", localDate.Month)}.{String.Format("{0:D2}", localDate.Day)}
+  syntax ruby
+  pltfrm android (neko player)
+  desc   This script is created by Neko Player Control Editor.
+=end
+#===============================================================================
+if !$NEKO_RUBY.nil?
+#-------------------------------------------------------------------------------
+
+";
+            foreach (var control in xViewModelMain.NekoControls)
+            {
+                if (control is NekoControlDPad8ViewModel)
+                {
+                    var dPad8 = (NekoControlDPad8ViewModel)control;
+                    script += dPad8.GetRubyScript(mWorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                }
+                else if (control is NekoControlDPad4ViewModel)
+                {
+                    var dPad4 = (NekoControlDPad4ViewModel)control;
+                    script += dPad4.GetRubyScript(mWorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                }
+                else if (control is NekoControlKeyButtonViewModel)
+                {
+                    var keyButton = (NekoControlKeyButtonViewModel)control;
+                    script += keyButton.GetRubyScript(mWorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                }
+                else
+                {
+                    Debug.Fail(FAILED_LOAD_CONTROL_MESSAGE);
+                }
+            }
+            script +=
+$@"#-------------------------------------------------------------------------------
+end
+#===============================================================================";
+            File.WriteAllText(saveFileDialog.FileName, script);
         }
 
         private void xButtonCreateNekoControlDPad4_Click(object sender, RoutedEventArgs e)
@@ -216,11 +251,13 @@ namespace NekoControlEditor
             dialog.ValueWidth = (uint)xGrid3x3.ColumnDefinitions[2].Width.Value;
             dialog.ValueHeight = (uint)xGrid3x3.RowDefinitions[2].Height.Value;
             dialog.ValueBackgroundColor = xCheckerBoard.BackgroundColor;
+            dialog.ValueWorkSpacePath = mWorkSpacePath;
             if (dialog.ShowDialog().Equals(true))
             {
                 xGrid3x3.ColumnDefinitions[2].Width = new GridLength(dialog.ValueWidth, GridUnitType.Pixel);
                 xGrid3x3.RowDefinitions[2].Height = new GridLength(dialog.ValueHeight, GridUnitType.Pixel);
                 xCheckerBoard.BackgroundColor = dialog.ValueBackgroundColor;
+                mWorkSpacePath = dialog.ValueWorkSpacePath;
             }
         }
         #endregion
@@ -295,8 +332,12 @@ namespace NekoControlEditor
             var control = xViewModelMain.SelectedNekoControlOrNull;
             if (control != null)
             {
-                NekoControlViewModel.VariableNames.Remove(control.Name);
-                xViewModelMain.NekoControls.Remove(control);
+                MessageBoxResult result = MessageBox.Show(control.Name + " 을 삭제하시겠습니까?", "삭제", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    NekoControlViewModel.VariableNames.Remove(control.Name);
+                    xViewModelMain.NekoControls.Remove(control);
+                }
             }
         }
         #endregion
@@ -528,10 +569,15 @@ namespace NekoControlEditor
 
         private void xTextBlockRemoveControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            e.Handled = true;
             var textBlock = (TextBlock)sender;
             var control = (NekoControlViewModel)textBlock.DataContext;
-            NekoControlViewModel.VariableNames.Remove(control.Name);
-            xViewModelMain.NekoControls.Remove(control);
+            MessageBoxResult result = MessageBox.Show(control.Name + " 을 삭제하시겠습니까?", "삭제", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                NekoControlViewModel.VariableNames.Remove(control.Name);
+                xViewModelMain.NekoControls.Remove(control);
+            }
         }
 
         private void xGridRender_MouseMove(object sender, MouseEventArgs e)

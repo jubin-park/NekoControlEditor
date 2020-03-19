@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="설정"
-        Height="250"
+        Height="300"
         Width="250"
         ResizeMode="NoResize"
         WindowStyle="ThreeDBorderWindow"
@@ -81,8 +81,10 @@
                 Margin="8"
                 >
                 <TextBlock
-                    Text="배경색 변경"
+                    Text="배경색"
+                    Width="54"
                     Margin="4"
+                    TextAlignment="right"
                     />
                 <xctk:ColorPicker
                     Name="xColorPicker"
@@ -93,8 +95,27 @@
                     SelectedColorChanged="xColorPicker_SelectedColorChanged"
                     />
             </StackPanel>
-            
-
+            <StackPanel
+                Orientation="Horizontal"
+                Margin="8"
+                >
+                <TextBlock
+                    Text="작업 폴더"
+                    Margin="4"
+                    Width="54"
+                    TextAlignment="right"
+                    />
+                <TextBox
+                    Width="120"
+                    IsReadOnly="True"
+                    Text="{Binding ValueWorkSpacePath}"
+                    />
+                <Button
+                    Content="..."
+                    Width="20"
+                    Click="xButtonChangeWorkSpace_Click"
+                    />
+            </StackPanel>
         </StackPanel>
 
         

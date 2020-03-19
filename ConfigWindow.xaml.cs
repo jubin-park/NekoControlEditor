@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace NekoControlEditor
 {
@@ -50,6 +51,23 @@ namespace NekoControlEditor
                 {
                     mValueHeight = value;
                     notifyPropertyChanged("ValueHeight");
+                }
+            }
+        }
+
+        private string mValueWorkSpacePath;
+        public string ValueWorkSpacePath
+        {
+            get
+            {
+                return mValueWorkSpacePath;
+            }
+            set
+            {
+                if (mValueWorkSpacePath != value)
+                {
+                    mValueWorkSpacePath = value;
+                    notifyPropertyChanged("ValueWorkSpacePath");
                 }
             }
         }
@@ -131,6 +149,17 @@ namespace NekoControlEditor
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void xButtonChangeWorkSpace_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            dialog.InitialDirectory = mValueWorkSpacePath;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                ValueWorkSpacePath = dialog.FileName.Replace("\\\\", "\\");
             }
         }
     }

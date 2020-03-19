@@ -235,12 +235,12 @@ namespace NekoControlEditor
             return new NekoControlKeyButtonViewModel(this);
         }
 
-        public string GetRubyScript()
+        public string GetRubyScript(string controlPath)
         {
             string script =
 $@"{mName} = ControlKeyButton.new(Input::{mInputKey.Value.ToString()}, {mX}, {mY}, {mZ}, {mWidth}, {mHeight}, {mbRectTouchable.ToString().ToLower()})
-{mName}.set_image_default(RPG::Cache.neko_control(""{mBitmapPathDefault}""))
-{mName}.set_image_pressed(RPG::Cache.neko_control(""{mBitmapPathPressed}""))
+{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
+{mName}.set_image_pressed(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathPressed, controlPath)}""))
 
 ";
             return script;
