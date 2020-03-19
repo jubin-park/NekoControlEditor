@@ -257,7 +257,7 @@
                 Click="xButtonSave_Click"
                 />
             <Button
-                Content="스크립트 추출"
+                Content="스크립트로 저장"
                 Height="32"
                 Width="96"
                 Margin="0, 2, 4, 2"

@@ -28,9 +28,9 @@ namespace NekoControlEditor
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private static string filterName = "Neko Controller 파일 (*.nkctl)|*.nkctl";
+        private static string filterName = "Neko Control 파일 (*.nkctl)|*.nkctl";
         private static string FAILED_LOAD_CONTROL_MESSAGE = "Invalid Control Type";
-        private static string mWorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
+        public static string WorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
 
         private void notifyPropertyChanged(string propertyName)
         {
@@ -86,9 +86,10 @@ namespace NekoControlEditor
         private void xButtonLoad_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "열기";
             openFileDialog.Filter = filterName;
             openFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            openFileDialog.InitialDirectory = mWorkSpacePath;
+            openFileDialog.InitialDirectory = WorkSpacePath;
             //openFileDialog.RestoreDirectory = true;
             if (openFileDialog.ShowDialog() == false)
             {
@@ -109,11 +110,11 @@ namespace NekoControlEditor
             xGrid3x3.ColumnDefinitions[2].Width = new GridLength(jObjectConfig["Width"].Value<uint>(), GridUnitType.Pixel);
             xGrid3x3.RowDefinitions[2].Height = new GridLength(jObjectConfig["Height"].Value<uint>(), GridUnitType.Pixel);
             xCheckerBoard.BackgroundColor = jObjectConfig["BackgroundColor"].ToString();
-            mWorkSpacePath = jObjectConfig["WorkSpacePath"].ToString();
-            if (!Directory.Exists(mWorkSpacePath))
+            WorkSpacePath = jObjectConfig["WorkSpacePath"].ToString();
+            if (!Directory.Exists(WorkSpacePath))
             {
                 MessageBox.Show("작업 폴더가 존재하지 않으므로 작업 폴더를 초기화합니다.", "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                mWorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
+                WorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
             }
             // controls
             JArray jArray = (JArray)jObjectMain["Controls"];
@@ -154,7 +155,8 @@ namespace NekoControlEditor
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = filterName;
             saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            saveFileDialog.InitialDirectory = mWorkSpacePath;
+            saveFileDialog.InitialDirectory = WorkSpacePath;
+            saveFileDialog.Title = "저장";
             //saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == true)
             {
@@ -162,7 +164,7 @@ namespace NekoControlEditor
                 jObjectConfig.Add("Width", (uint)xGrid3x3.ColumnDefinitions[2].Width.Value);
                 jObjectConfig.Add("Height", (uint)xGrid3x3.RowDefinitions[2].Height.Value);
                 jObjectConfig.Add("BackgroundColor", xCheckerBoard.BackgroundColor);
-                jObjectConfig.Add("WorkSpacePath", mWorkSpacePath);
+                jObjectConfig.Add("WorkSpacePath", WorkSpacePath);
                 string json = JsonConvert.SerializeObject(new {Config = jObjectConfig, Controls = xViewModelMain.NekoControls }, Formatting.Indented);
                 File.WriteAllText(saveFileDialog.FileName, json);
                 NowPath = saveFileDialog.FileName;
@@ -174,7 +176,8 @@ namespace NekoControlEditor
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "txt 파일 (*.txt)|*.txt";
             saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            saveFileDialog.InitialDirectory = mWorkSpacePath;
+            saveFileDialog.InitialDirectory = WorkSpacePath;
+            saveFileDialog.Title = "스크립트로 저장";
             //saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == false)
             {
@@ -200,17 +203,17 @@ if !$NEKO_RUBY.nil?
                 if (control is NekoControlDPad8ViewModel)
                 {
                     var dPad8 = (NekoControlDPad8ViewModel)control;
-                    script += dPad8.GetRubyScript(mWorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    script += dPad8.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
                 }
                 else if (control is NekoControlDPad4ViewModel)
                 {
                     var dPad4 = (NekoControlDPad4ViewModel)control;
-                    script += dPad4.GetRubyScript(mWorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    script += dPad4.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
                 }
                 else if (control is NekoControlKeyButtonViewModel)
                 {
                     var keyButton = (NekoControlKeyButtonViewModel)control;
-                    script += keyButton.GetRubyScript(mWorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    script += keyButton.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
                 }
                 else
                 {
@@ -251,13 +254,13 @@ end
             dialog.ValueWidth = (uint)xGrid3x3.ColumnDefinitions[2].Width.Value;
             dialog.ValueHeight = (uint)xGrid3x3.RowDefinitions[2].Height.Value;
             dialog.ValueBackgroundColor = xCheckerBoard.BackgroundColor;
-            dialog.ValueWorkSpacePath = mWorkSpacePath;
+            dialog.ValueWorkSpacePath = WorkSpacePath;
             if (dialog.ShowDialog().Equals(true))
             {
                 xGrid3x3.ColumnDefinitions[2].Width = new GridLength(dialog.ValueWidth, GridUnitType.Pixel);
                 xGrid3x3.RowDefinitions[2].Height = new GridLength(dialog.ValueHeight, GridUnitType.Pixel);
                 xCheckerBoard.BackgroundColor = dialog.ValueBackgroundColor;
-                mWorkSpacePath = dialog.ValueWorkSpacePath;
+                WorkSpacePath = dialog.ValueWorkSpacePath;
             }
         }
         #endregion

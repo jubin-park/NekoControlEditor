@@ -49,6 +49,7 @@ namespace NekoControlEditor
             dialog.Filter = "그림 파일 (*.jpg, *.png)|*.jpg;*.png";
             dialog.Multiselect = false;
             dialog.Title = "사진 선택";
+            dialog.InitialDirectory = MainWindow.WorkSpacePath;
             if (dialog.ShowDialog() == true)
             {
                 propertyValue.Value = dialog.FileName;
