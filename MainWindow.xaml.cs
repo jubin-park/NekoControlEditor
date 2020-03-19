@@ -28,7 +28,7 @@ namespace NekoControlEditor
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private static string filterName = "Neko Control 파일 (*.nkctl)|*.nkctl";
+        private static string filterName = "Neko Controls 파일 (*.nkcs)|*.nkcs";
         private static string FAILED_LOAD_CONTROL_MESSAGE = "Invalid Control Type";
         public static string WorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
 
