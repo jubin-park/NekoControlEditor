@@ -74,6 +74,7 @@
             <CheckBox
                 Content="컨트롤 프레임 표시"
                 Margin="8,0,4,0"
+                Visibility="Hidden"
                 />
             <StackPanel
                 Orientation="Horizontal"

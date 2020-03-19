@@ -86,6 +86,7 @@ namespace NekoControlEditor
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = filterName;
             openFileDialog.RestoreDirectory = true;
+            openFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
             //openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (openFileDialog.ShowDialog() == false)
             {
@@ -142,6 +143,7 @@ namespace NekoControlEditor
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = filterName;
             saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
             //saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (saveFileDialog.ShowDialog() == true)
             {
@@ -157,6 +159,7 @@ namespace NekoControlEditor
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "txt 파일 (*.txt)|*.txt";
             saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
             //saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (saveFileDialog.ShowDialog() == true)
             {
