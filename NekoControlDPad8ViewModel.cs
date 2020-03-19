@@ -114,16 +114,20 @@ namespace NekoControlEditor
                 {
                     try
                     {
-                        var bitmapImage = new BitmapImage();
-                        bitmapImage.BeginInit();
-                        bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                        bitmapImage.EndInit();
+                        BitmapImage bitmapImage = null;
+                        if (value != string.Empty)
+                        {
+                            bitmapImage = new BitmapImage();
+                            bitmapImage.BeginInit();
+                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
+                            bitmapImage.EndInit();
+                        }
                         mBitmapPathUpperLeft = value;
                         mBitmapImageUpperLeft = bitmapImage;
                     }
                     catch (FileNotFoundException)
                     {
-                        Debug.Fail("Failed to load picture file.", value);
+                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
                         mBitmapPathUpperLeft = string.Empty;
                         mBitmapImageUpperLeft = null;
                     }
@@ -148,16 +152,20 @@ namespace NekoControlEditor
                 {
                     try
                     {
-                        var bitmapImage = new BitmapImage();
-                        bitmapImage.BeginInit();
-                        bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                        bitmapImage.EndInit();
+                        BitmapImage bitmapImage = null;
+                        if (value != string.Empty)
+                        {
+                            bitmapImage = new BitmapImage();
+                            bitmapImage.BeginInit();
+                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
+                            bitmapImage.EndInit();
+                        }
                         mBitmapPathLowerLeft = value;
                         mBitmapImageLowerLeft = bitmapImage;
                     }
                     catch (FileNotFoundException)
                     {
-                        Debug.Fail("Failed to load picture file.", value);
+                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
                         mBitmapPathLowerLeft = string.Empty;
                         mBitmapImageLowerLeft = null;
                     }
@@ -182,16 +190,20 @@ namespace NekoControlEditor
                 {
                     try
                     {
-                        var bitmapImage = new BitmapImage();
-                        bitmapImage.BeginInit();
-                        bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                        bitmapImage.EndInit();
+                        BitmapImage bitmapImage = null;
+                        if (value != string.Empty)
+                        {
+                            bitmapImage = new BitmapImage();
+                            bitmapImage.BeginInit();
+                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
+                            bitmapImage.EndInit();
+                        }
                         mBitmapPathLowerRight = value;
                         mBitmapImageLowerRight = bitmapImage;
                     }
                     catch (FileNotFoundException)
                     {
-                        Debug.Fail("Failed to load picture file.", value);
+                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
                         mBitmapPathLowerRight = string.Empty;
                         mBitmapImageLowerRight = null;
                     }
@@ -216,16 +228,20 @@ namespace NekoControlEditor
                 {
                     try
                     {
-                        var bitmapImage = new BitmapImage();
-                        bitmapImage.BeginInit();
-                        bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                        bitmapImage.EndInit();
+                        BitmapImage bitmapImage = null;
+                        if (value != string.Empty)
+                        {
+                            bitmapImage = new BitmapImage();
+                            bitmapImage.BeginInit();
+                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
+                            bitmapImage.EndInit();
+                        }
                         mBitmapPathUpperRight = value;
                         mBitmapImageUpperRight = bitmapImage;
                     }
                     catch (FileNotFoundException)
                     {
-                        Debug.Fail("Failed to load picture file.", value);
+                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
                         mBitmapPathUpperRight = string.Empty;
                         mBitmapImageUpperRight = null;
                     }
@@ -288,10 +304,10 @@ namespace NekoControlEditor
         public NekoControlDPad8ViewModel(JObject jObject)
             : base(jObject)
         {
-            mBitmapPathLowerLeft = jObject["BitmapPathLowerLeft"].ToString();
-            mBitmapPathLowerRight = jObject["BitmapPathLowerRight"].ToString();
-            mBitmapPathUpperLeft = jObject["BitmapPathUpperLeft"].ToString();
-            mBitmapPathUpperRight = jObject["BitmapPathUpperRight"].ToString();
+            BitmapPathLowerLeft = jObject["BitmapPathLowerLeft"].ToString();
+            BitmapPathLowerRight = jObject["BitmapPathLowerRight"].ToString();
+            BitmapPathUpperLeft = jObject["BitmapPathUpperLeft"].ToString();
+            BitmapPathUpperRight = jObject["BitmapPathUpperRight"].ToString();
         }
 
         public new object Clone()

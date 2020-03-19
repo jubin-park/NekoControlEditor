@@ -29,6 +29,7 @@ namespace NekoControlEditor
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private static string filterName = "Neko Controller 파일 (*.nkctl)|*.nkctl";
+        private static string FAILED_LOAD_CONTROL_MESSAGE = "Invalid Control Type";
 
         private void notifyPropertyChanged(string propertyName)
         {
@@ -127,12 +128,13 @@ namespace NekoControlEditor
                 }
                 else
                 {
-                    Debug.Fail("Invalid Control Type");
+                    Debug.Fail(FAILED_LOAD_CONTROL_MESSAGE);
                     xViewModelMain.NekoControls.Clear();
                     NekoControlViewModel.VariableNames.Clear();
                     MessageBox.Show("파일이 손상되었습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            xViewModelMain.SelectedNekoControlOrNull = null;
         }
 
         private void xButtonSave_Click(object sender, RoutedEventArgs e)
@@ -212,7 +214,7 @@ namespace NekoControlEditor
             }
             else
             {
-                Debug.Fail("Invalid Control Type");
+                Debug.Fail(FAILED_LOAD_CONTROL_MESSAGE);
             }
             xViewModelMain.NekoControls.Add(clone);
             xViewModelMain.SelectedNekoControlOrNull = clone;
@@ -246,7 +248,7 @@ namespace NekoControlEditor
             }
             else
             {
-                Debug.Fail("Invalid Control Type");
+                Debug.Fail(FAILED_LOAD_CONTROL_MESSAGE);
             }
             xWpfPropertyGrid.Refresh();
         }

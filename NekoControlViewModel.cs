@@ -25,8 +25,6 @@ namespace NekoControlEditor
         protected string mName;
         [DisplayName("변수 이름")]
         [Description("가상 컨트롤의 변수 이름입니다.")]
-        //[JsonProperty("namename")]
-        
         public string Name
         {
             get
@@ -292,6 +290,8 @@ namespace NekoControlEditor
 
         public event PropertyChangedEventHandler PropertyChanged;
         public static HashSet<string> VariableNames = new HashSet<string>();
+
+        protected static string FAILED_LOAD_BITMAP_MESSAGE = "Failed to load picture file.";
 
         protected NekoControlViewModel()
         {
