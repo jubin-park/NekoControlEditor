@@ -152,6 +152,18 @@ namespace NekoControlEditor
             }
         }
 
+        private void xButtonSaveAsScript_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "txt 파일 (*.txt)|*.txt";
+            saveFileDialog.RestoreDirectory = true;
+            //saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                //File.WriteAllText(saveFileDialog.FileName, json);
+            }
+        }
+
         private void xButtonCreateNekoControlDPad4_Click(object sender, RoutedEventArgs e)
         {
             var dPad4 = new NekoControlDPad4ViewModel();
