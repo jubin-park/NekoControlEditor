@@ -514,6 +514,19 @@ namespace NekoControlEditor
             return new NekoControlDPad4ViewModel(this);
         }
 
+        public string GetRubyScript()
+        {
+            string script =
+$@"{mName} = ControlDirection4.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, {mbRectTouchable.ToString().ToLower()})
+{mName}.set_image_default(RPG::Cache.neko_control(""{mBitmapPathDefault}""))
+{mName}.set_image_down(RPG::Cache.neko_control(""{mBitmapPathDown}""))
+{mName}.set_image_left(RPG::Cache.neko_control(""{mBitmapPathLeft}""))
+{mName}.set_image_right(RPG::Cache.neko_control(""{mBitmapPathRight}""))
+{mName}.set_image_up(RPG::Cache.neko_control(""{mBitmapPathUp}""))
+{mName}.set_image_stick({mStickMovableRadius}, RPG::Cache.neko_control(""{mBitmapPathStick}""))
 
+";
+            return script;
+        }
     }
 }

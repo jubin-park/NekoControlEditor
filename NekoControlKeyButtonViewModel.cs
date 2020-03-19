@@ -184,6 +184,7 @@ namespace NekoControlEditor
 
         public NekoControlKeyButtonViewModel()
         {
+            mbRectTouchable = false;
             string name = "$key_";
             while (VariableNames.Contains(name + mCount))
             {
@@ -232,6 +233,17 @@ namespace NekoControlEditor
         public object Clone()
         {
             return new NekoControlKeyButtonViewModel(this);
+        }
+
+        public string GetRubyScript()
+        {
+            string script =
+$@"{mName} = ControlKeyButton.new(Input::{mInputKey.Value.ToString()}, {mX}, {mY}, {mZ}, {mWidth}, {mHeight}, {mbRectTouchable.ToString().ToLower()})
+{mName}.set_image_default(RPG::Cache.neko_control(""{mBitmapPathDefault}""))
+{mName}.set_image_pressed(RPG::Cache.neko_control(""{mBitmapPathPressed}""))
+
+";
+            return script;
         }
 
         private void eKeysPropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -160,10 +160,32 @@ namespace NekoControlEditor
             saveFileDialog.Filter = "txt 파일 (*.txt)|*.txt";
             saveFileDialog.RestoreDirectory = true;
             saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            //saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (saveFileDialog.ShowDialog() == true)
             {
-                //File.WriteAllText(saveFileDialog.FileName, json);
+                string script = string.Empty;
+                foreach (var control in xViewModelMain.NekoControls)
+                {
+                    if (control is NekoControlDPad8ViewModel)
+                    {
+                        var dPad8 = (NekoControlDPad8ViewModel)control;
+                        script += dPad8.GetRubyScript();
+                    }
+                    else if (control is NekoControlDPad4ViewModel)
+                    {
+                        var dPad4 = (NekoControlDPad4ViewModel)control;
+                        script += dPad4.GetRubyScript();
+                    }
+                    else if (control is NekoControlKeyButtonViewModel)
+                    {
+                        var keyButton = (NekoControlKeyButtonViewModel)control;
+                        script += keyButton.GetRubyScript();
+                    }
+                    else
+                    {
+                        Debug.Fail(FAILED_LOAD_CONTROL_MESSAGE);
+                    }
+                }
+                File.WriteAllText(saveFileDialog.FileName, script);
             }
         }
 

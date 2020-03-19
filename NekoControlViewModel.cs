@@ -304,7 +304,7 @@ namespace NekoControlEditor
             mSliderValueOpacity = new SliderProperty<byte>(mOpacity, 0, 255, 5);
             mSliderValueOpacity.PropertyChanged += new PropertyChangedEventHandler(SliderPropertyChanged);
             mbVisible = true;
-            mbRectTouchable = false;
+            mbRectTouchable = true;
             mbSelected = false;
         }
 
