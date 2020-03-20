@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 namespace NekoControlEditor
 {
@@ -28,95 +29,128 @@ namespace NekoControlEditor
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private static string filterName = "Neko Controls 파일 (*.nkcs)|*.nkcs";
-        private static string FAILED_LOAD_CONTROL_MESSAGE = "Invalid Control Type";
         public static string WorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
+        public static OpenFileDialog LoadPictureFileDialog = new OpenFileDialog();
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private void notifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        private static string NEKO_CONTROLS_PATH = "\\Graphics\\Nekocontrols\\";
+        private static string FAILED_LOAD_CONTROL_MESSAGE = "Invalid Control Type";
+        private static OpenFileDialog mOpenControlFileDialog = new OpenFileDialog();
+        private static SaveFileDialog mSaveControlFileDialog = new SaveFileDialog();
+        private static SaveFileDialog mSaveScriptFileDialog = new SaveFileDialog();
 
-        public string mNowPath;
-        public string NowPath
+        public string mWorkFilePath = string.Empty;
+        public string WorkFilePath
         {
             get
             {
-                return mNowPath;
+                return mWorkFilePath;
             }
             set
             {
-                if (mNowPath != value)
+                if (mWorkFilePath != value)
                 {
-                    mNowPath = value;
-                    notifyPropertyChanged("NowPath");
+                    mWorkFilePath = value;
+                    notifyPropertyChanged("WorkFilePath");
                 }
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public MainWindow()
         {
             InitializeComponent();
-            mNowPath = string.Empty;
-        }
+            mOpenControlFileDialog.Title = "열기";
+            mOpenControlFileDialog.Filter = "Neko Controls 파일 (*.nkcs)|*.nkcs";
+            LoadPictureFileDialog.InitialDirectory = WorkSpacePath;
 
-        private void xGridRender_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            xViewModelMain.SelectedNekoControlOrNull = null;
+            mSaveControlFileDialog.Title = "저장";
+            mSaveControlFileDialog.Filter = "Neko Controls 파일 (*.nkcs)|*.nkcs";
+            mSaveControlFileDialog.InitialDirectory = WorkSpacePath;
+
+            mSaveScriptFileDialog.Title = "스크립트로 저장";
+            mSaveScriptFileDialog.Filter = "txt 파일 (*.txt)|*.txt";
+            mSaveScriptFileDialog.InitialDirectory = WorkSpacePath;
+
+            LoadPictureFileDialog.Title = "사진 선택";
+            LoadPictureFileDialog.Filter = "그림 파일 (*.jpg, *.png)|*.jpg;*.png";
+            LoadPictureFileDialog.DefaultExt = ".png";
+            LoadPictureFileDialog.InitialDirectory = WorkSpacePath;
+            if (Directory.Exists(WorkSpacePath + NEKO_CONTROLS_PATH))
+            {
+                LoadPictureFileDialog.InitialDirectory += NEKO_CONTROLS_PATH;
+            }
         }
 
         #region Main Menu Events
         private void xButtonNew_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("기존 작업 파일이 사라집니다. 계속하시겠습니까?", "새로 만들기", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            if (MessageBoxResult.Yes == MessageBox.Show("기존 작업 파일이 사라집니다. 계속하시겠습니까?", "새로 만들기", MessageBoxButton.YesNo, MessageBoxImage.Question))
             {
                 xViewModelMain.NekoControls.Clear();
                 NekoControlViewModel.VariableNames.Clear();
-                NowPath = string.Empty;
+                xCheckerBoard.BackgroundColor = "Transparent";
+                try
+                {
+                    mOpenControlFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+                    mSaveControlFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+                    mSaveScriptFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+                }
+                catch (ArgumentException)
+                {
+                    mOpenControlFileDialog.InitialDirectory = string.Empty;
+                    mSaveControlFileDialog.InitialDirectory = string.Empty;
+                    mSaveScriptFileDialog.InitialDirectory = string.Empty;
+                }
+                LoadPictureFileDialog.InitialDirectory = WorkSpacePath;
+                if (Directory.Exists(WorkSpacePath + NEKO_CONTROLS_PATH))
+                {
+                    LoadPictureFileDialog.InitialDirectory += NEKO_CONTROLS_PATH;
+                }
+                WorkFilePath = string.Empty;
             }
-            xCheckerBoard.BackgroundColor = "Transparent";
         }
 
         private void xButtonLoad_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "열기";
-            openFileDialog.Filter = filterName;
-            openFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            openFileDialog.InitialDirectory = WorkSpacePath;
-            //openFileDialog.RestoreDirectory = true;
-            if (openFileDialog.ShowDialog() == false)
+            mOpenControlFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(WorkFilePath);
+            if (mOpenControlFileDialog.ShowDialog() == false)
             {
                 return;
             }
-            MessageBoxResult result = MessageBox.Show("기존 작업 파일이 사라집니다. 계속하시겠습니까?", "새로 만들기", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.No)
+            if (MessageBoxResult.Yes != MessageBox.Show("기존 작업 파일이 사라집니다. 계속하시겠습니까?", "새로 만들기", MessageBoxButton.YesNo, MessageBoxImage.Question))
             {
                 return;
             }
+            // 컨트롤 리스트 초기화
             xViewModelMain.NekoControls.Clear();
             NekoControlViewModel.VariableNames.Clear();
-            NowPath = openFileDialog.FileName;
-            string json = File.ReadAllText(openFileDialog.FileName);
+            // json 로드
+            string json = File.ReadAllText(mOpenControlFileDialog.FileName);
             JObject jObjectMain = JObject.Parse(json);
-            // config
             JObject jObjectConfig = JsonConvert.DeserializeObject<JObject>(jObjectMain["Config"].ToString());
+            // config 적용
             xGrid3x3.ColumnDefinitions[2].Width = new GridLength(jObjectConfig["Width"].Value<uint>(), GridUnitType.Pixel);
             xGrid3x3.RowDefinitions[2].Height = new GridLength(jObjectConfig["Height"].Value<uint>(), GridUnitType.Pixel);
             xCheckerBoard.BackgroundColor = jObjectConfig["BackgroundColor"].ToString();
+            // workspace 경로 적용
             WorkSpacePath = jObjectConfig["WorkSpacePath"].ToString();
             if (!Directory.Exists(WorkSpacePath))
             {
-                MessageBox.Show("작업 폴더가 존재하지 않으므로 작업 폴더를 초기화합니다.", "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("작업 폴더가 존재하지 않으므로 작업 폴더를 초기화합니다.", string.Empty, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 WorkSpacePath = AppDomain.CurrentDomain.BaseDirectory;
             }
-            // controls
+            // 다이얼로그 경로 적용
+            LoadPictureFileDialog.InitialDirectory = WorkSpacePath;
+            if (Directory.Exists(WorkSpacePath + NEKO_CONTROLS_PATH))
+            {
+                LoadPictureFileDialog.InitialDirectory += NEKO_CONTROLS_PATH;
+            }
+            // workfile 경로 적용
+            WorkFilePath = mOpenControlFileDialog.FileName;
+            mOpenControlFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+            mSaveControlFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+            mSaveScriptFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+            // 컨트롤 로드
             JArray jArray = (JArray)jObjectMain["Controls"];
             foreach (JObject jObjectControl in jArray)
             {
@@ -152,51 +186,51 @@ namespace NekoControlEditor
 
         private void xButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = filterName;
-            saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            saveFileDialog.InitialDirectory = WorkSpacePath;
-            saveFileDialog.Title = "저장";
-            //saveFileDialog.RestoreDirectory = true;
-            if (saveFileDialog.ShowDialog() == true)
+            mSaveControlFileDialog.FileName = Path.GetFileNameWithoutExtension(WorkFilePath);
+            if (mSaveControlFileDialog.ShowDialog() == true)
             {
+                // workfile 경로 적용
+                WorkFilePath = mSaveControlFileDialog.FileName;
+                mOpenControlFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+                mSaveControlFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+                mSaveScriptFileDialog.InitialDirectory = Path.GetDirectoryName(WorkFilePath);
+                // config json 추가
                 var jObjectConfig = new JObject();
                 jObjectConfig.Add("Width", (uint)xGrid3x3.ColumnDefinitions[2].Width.Value);
                 jObjectConfig.Add("Height", (uint)xGrid3x3.RowDefinitions[2].Height.Value);
                 jObjectConfig.Add("BackgroundColor", xCheckerBoard.BackgroundColor);
                 jObjectConfig.Add("WorkSpacePath", WorkSpacePath);
+                // controls json 추가
                 string json = JsonConvert.SerializeObject(new {Config = jObjectConfig, Controls = xViewModelMain.NekoControls }, Formatting.Indented);
-                File.WriteAllText(saveFileDialog.FileName, json);
-                NowPath = saveFileDialog.FileName;
+                // 파일 쓰기
+                File.WriteAllText(mSaveControlFileDialog.FileName, json);
             }
         }
 
         private void xButtonSaveAsScript_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "txt 파일 (*.txt)|*.txt";
-            saveFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(NowPath);
-            saveFileDialog.InitialDirectory = WorkSpacePath;
-            saveFileDialog.Title = "스크립트로 저장";
-            //saveFileDialog.RestoreDirectory = true;
-            if (saveFileDialog.ShowDialog() == false)
+            mSaveScriptFileDialog.FileName = Path.GetFileNameWithoutExtension(WorkFilePath);
+            if (mSaveScriptFileDialog.ShowDialog() == false)
             {
                 return;
             }
+            mSaveScriptFileDialog.InitialDirectory = Path.GetDirectoryName(mSaveScriptFileDialog.FileName);
             DateTime localDate = DateTime.Now;
+            string scriptTitle = Path.GetFileNameWithoutExtension(mSaveScriptFileDialog.FileName);
+            string scriptDate = $"{localDate.Year}.{String.Format("{0:D2}", localDate.Month)}.{String.Format("{0:D2}", localDate.Day)}";
             string script =
 $@"=begin
-  title  {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}
+  title  {scriptTitle}
 
   author neko-player-control-editor
-  date   {localDate.Year}.{String.Format("{0:D2}", localDate.Month)}.{String.Format("{0:D2}", localDate.Day)}
+  date   {scriptDate}
   syntax ruby
   pltfrm android (neko player)
 =end
 #===============================================================================
 if !$NEKO_RUBY.nil?
 #-------------------------------------------------------------------------------
-class {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} < NekoController_Template
+class {scriptTitle} < NekoController_Template
 
 ";
             string scriptAttribute = string.Empty;
@@ -208,17 +242,17 @@ class {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} < Ne
                 if (control is NekoControlDPad8ViewModel)
                 {
                     var dPad8 = (NekoControlDPad8ViewModel)control;
-                    scriptCreate += dPad8.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    scriptCreate += dPad8.GetRubyScript(WorkSpacePath + NEKO_CONTROLS_PATH);
                 }
                 else if (control is NekoControlDPad4ViewModel)
                 {
                     var dPad4 = (NekoControlDPad4ViewModel)control;
-                    scriptCreate += dPad4.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    scriptCreate += dPad4.GetRubyScript(WorkSpacePath + NEKO_CONTROLS_PATH);
                 }
                 else if (control is NekoControlKeyButtonViewModel)
                 {
                     var keyButton = (NekoControlKeyButtonViewModel)control;
-                    scriptCreate += keyButton.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    scriptCreate += keyButton.GetRubyScript(WorkSpacePath + NEKO_CONTROLS_PATH);
                 }
                 else
                 {
@@ -237,12 +271,13 @@ class {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} < Ne
             script +=
 $@"end
 
-NekoControllerManager.entity = {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}.new
+NekoControllerManager.entity = {scriptTitle}.new
 
 #-------------------------------------------------------------------------------
 end
 #===============================================================================";
-            File.WriteAllText(saveFileDialog.FileName, script);
+            // 파일 쓰기
+            File.WriteAllText(mSaveScriptFileDialog.FileName, script);
         }
 
         private void xButtonCreateNekoControlDPad4_Click(object sender, RoutedEventArgs e)
@@ -359,6 +394,49 @@ end
                     NekoControlViewModel.VariableNames.Remove(control.Name);
                     xViewModelMain.NekoControls.Remove(control);
                 }
+            }
+        }
+        #endregion
+
+        #region Grid Event
+        private void xGridRender_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            xViewModelMain.SelectedNekoControlOrNull = null;
+        }
+
+        private void xGridRender_MouseMove(object sender, MouseEventArgs e)
+        {
+            var point = Mouse.GetPosition((Grid)sender);
+            int x = (int)point.X;
+            int y = (int)point.Y;
+            xTextBlockStatusPointX.Text = "X: " + x;
+            xTextBlockStatusPointY.Text = "Y: " + y;
+        }
+
+        private void xGridRender_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            xTextBlockStatusResolution.Text = e.NewSize.Width + " x " + e.NewSize.Height;
+        }
+
+        private void xRectangle3x3_MouseMove(object sender, MouseEventArgs e)
+        {
+            var point = e.GetPosition((Rectangle)sender);
+            int x = (int)(point.X - xGrid3x3.ColumnDefinitions[0].ActualWidth);
+            int y = (int)(point.Y - xGrid3x3.RowDefinitions[0].ActualHeight);
+            xTextBlockStatusPointX.Text = "X: " + x;
+            xTextBlockStatusPointY.Text = "Y: " + y;
+        }
+
+        private void xTextBlockRemoveControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            var textBlock = (TextBlock)sender;
+            var control = (NekoControlViewModel)textBlock.DataContext;
+            MessageBoxResult result = MessageBox.Show(control.Name + " 을 삭제하시겠습니까?", "삭제", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                NekoControlViewModel.VariableNames.Remove(control.Name);
+                xViewModelMain.NekoControls.Remove(control);
             }
         }
         #endregion
@@ -588,40 +666,14 @@ end
         }
         #endregion
 
-        private void xTextBlockRemoveControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        #region notifyPropertyChanged Event
+        private void notifyPropertyChanged(string propertyName)
         {
-            e.Handled = true;
-            var textBlock = (TextBlock)sender;
-            var control = (NekoControlViewModel)textBlock.DataContext;
-            MessageBoxResult result = MessageBox.Show(control.Name + " 을 삭제하시겠습니까?", "삭제", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            if (PropertyChanged != null)
             {
-                NekoControlViewModel.VariableNames.Remove(control.Name);
-                xViewModelMain.NekoControls.Remove(control);
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        private void xGridRender_MouseMove(object sender, MouseEventArgs e)
-        {
-            var point = Mouse.GetPosition((Grid)sender);
-            int x = (int)point.X;
-            int y = (int)point.Y;
-            xTextBlockStatusPointX.Text = "X: " + x;
-            xTextBlockStatusPointY.Text = "Y: " + y;
-        }
-
-        private void xGridRender_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            xTextBlockStatusResolution.Text = e.NewSize.Width + " x " + e.NewSize.Height;
-        }
-
-        private void xRectangle3x3_MouseMove(object sender, MouseEventArgs e)
-        {
-            var point = e.GetPosition((Rectangle)sender);
-            int x = (int)(point.X - xGrid3x3.ColumnDefinitions[0].ActualWidth);
-            int y = (int)(point.Y - xGrid3x3.RowDefinitions[0].ActualHeight);
-            xTextBlockStatusPointX.Text = "X: " + x;
-            xTextBlockStatusPointY.Text = "Y: " + y;
-        }
+        #endregion
     }
 }

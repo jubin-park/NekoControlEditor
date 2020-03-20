@@ -43,17 +43,10 @@ namespace NekoControlEditor
 
         public override void ShowDialog(PropertyValue propertyValue, IInputElement commandSource)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.CheckFileExists = true;
-            dialog.DefaultExt = ".png";
-            dialog.Filter = "그림 파일 (*.jpg, *.png)|*.jpg;*.png";
-            dialog.Multiselect = false;
-            dialog.Title = "사진 선택";
-            dialog.InitialDirectory = MainWindow.WorkSpacePath;
-            dialog.RestoreDirectory = true;
-            if (dialog.ShowDialog() == true)
+            if (MainWindow.LoadPictureFileDialog.ShowDialog() == true)
             {
-                propertyValue.Value = dialog.FileName;
+                propertyValue.Value = MainWindow.LoadPictureFileDialog.FileName;
+                MainWindow.LoadPictureFileDialog.InitialDirectory = Path.GetDirectoryName(MainWindow.LoadPictureFileDialog.FileName);
             }
         }
     }
