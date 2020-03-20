@@ -442,7 +442,7 @@ namespace NekoControlEditor
         {
             if (this is NekoControlDPad8ViewModel == false)
             {
-                string name = "$dpad4_";
+                string name = "dpad4_";
                 while (VariableNames.Contains(name + mCount))
                 {
                     ++mCount;
@@ -517,15 +517,24 @@ namespace NekoControlEditor
         public string GetRubyScript(string controlPath)
         {
             string script =
-$@"{mName} = ControlDirection4.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, {mbRectTouchable.ToString().ToLower()})
-{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
-{mName}.set_image_down(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDown, controlPath)}""))
-{mName}.set_image_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLeft, controlPath)}""))
-{mName}.set_image_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathRight, controlPath)}""))
-{mName}.set_image_up(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUp, controlPath)}""))
-{mName}.set_image_stick({mStickMovableRadius}, RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}""))
-
+$@"    @{mName} = ControlDirection4.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, @viewport)
+    @{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
+    @{mName}.set_image_down(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDown, controlPath)}""))
+    @{mName}.set_image_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLeft, controlPath)}""))
+    @{mName}.set_image_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathRight, controlPath)}""))
+    @{mName}.set_image_up(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUp, controlPath)}""))
+    @{mName}.set_image_stick({mStickMovableRadius}, RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}""))
 ";
+            if (mOpacity < 255)
+            {
+                script += $"    @{mName}.opacity = {mOpacity}" + '\n';
+            }
+            if (mbVisible == false)
+            {
+                script += $"    @{mName}.visible = {mbVisible.ToString().ToLower()}" + '\n';
+            }
+            script += $"    @{mName}.rect_touchable = {mbRectTouchable.ToString().ToLower()}" + '\n';
+            script += $"    @controls.add(@{mName})" + '\n';
             return script;
         }
     }

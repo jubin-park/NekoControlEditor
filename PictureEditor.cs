@@ -50,6 +50,7 @@ namespace NekoControlEditor
             dialog.Multiselect = false;
             dialog.Title = "사진 선택";
             dialog.InitialDirectory = MainWindow.WorkSpacePath;
+            dialog.RestoreDirectory = true;
             if (dialog.ShowDialog() == true)
             {
                 propertyValue.Value = dialog.FileName;

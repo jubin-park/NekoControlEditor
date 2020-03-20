@@ -274,7 +274,7 @@ namespace NekoControlEditor
 
         public NekoControlDPad8ViewModel()
         {
-            string name = "$dpad8_";
+            string name = "dpad8_";
             while (VariableNames.Contains(name + mCount))
             {
                 ++mCount;
@@ -318,19 +318,28 @@ namespace NekoControlEditor
         public new string GetRubyScript(string controlPath)
         {
             string script =
-$@"{mName} = ControlDirection8.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, {mbRectTouchable.ToString().ToLower()})
-{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
-{mName}.set_image_lower_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLowerLeft, controlPath)}""))
-{mName}.set_image_down(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDown, controlPath)}""))
-{mName}.set_image_lower_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLowerRight, controlPath)}""))
-{mName}.set_image_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLeft, controlPath)}""))
-{mName}.set_image_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathRight, controlPath)}""))
-{mName}.set_image_upper_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUpperLeft, controlPath)}""))
-{mName}.set_image_up(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUp, controlPath)}""))
-{mName}.set_image_upper_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUpperRight, controlPath)}""))
-{mName}.set_image_stick({StickMovableRadius}, RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}""))
-
+$@"    @{mName} = ControlDirection8.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, @viewport)
+    @{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
+    @{mName}.set_image_lower_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLowerLeft, controlPath)}""))
+    @{mName}.set_image_down(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDown, controlPath)}""))
+    @{mName}.set_image_lower_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLowerRight, controlPath)}""))
+    @{mName}.set_image_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLeft, controlPath)}""))
+    @{mName}.set_image_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathRight, controlPath)}""))
+    @{mName}.set_image_upper_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUpperLeft, controlPath)}""))
+    @{mName}.set_image_up(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUp, controlPath)}""))
+    @{mName}.set_image_upper_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUpperRight, controlPath)}""))
+    @{mName}.set_image_stick({StickMovableRadius}, RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}""))
 ";
+            if (mOpacity < 255)
+            {
+                script += $"    @{mName}.opacity = {mOpacity}" + '\n';
+            }
+            if (mbVisible == false)
+            {
+                script += $"    @{mName}.visible = {mbVisible.ToString().ToLower()}" + '\n';
+            }
+            script += $"    @{mName}.rect_touchable = {mbRectTouchable.ToString().ToLower()}" + '\n';
+            script += $"    @controls.add(@{mName})" + '\n';
             return script;
         }
     }

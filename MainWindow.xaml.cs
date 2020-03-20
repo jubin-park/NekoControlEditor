@@ -188,40 +188,61 @@ namespace NekoControlEditor
 $@"=begin
   title  {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}
 
+  author neko-player-control-editor
   date   {localDate.Year}.{String.Format("{0:D2}", localDate.Month)}.{String.Format("{0:D2}", localDate.Day)}
   syntax ruby
   pltfrm android (neko player)
-  desc   This script is created by Neko Player Control Editor.
 =end
 #===============================================================================
 if !$NEKO_RUBY.nil?
 #-------------------------------------------------------------------------------
+class {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}
 
 ";
+            string scriptAttribute = "  attr_reader(:viewport, :controls)\n";
+            string scriptCreate = string.Empty;
+            var last = xViewModelMain.NekoControls.Last();
             foreach (var control in xViewModelMain.NekoControls)
             {
+                scriptAttribute += $"  attr_reader(:{control.Name})" + '\n';
                 if (control is NekoControlDPad8ViewModel)
                 {
                     var dPad8 = (NekoControlDPad8ViewModel)control;
-                    script += dPad8.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    scriptCreate += dPad8.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
                 }
                 else if (control is NekoControlDPad4ViewModel)
                 {
                     var dPad4 = (NekoControlDPad4ViewModel)control;
-                    script += dPad4.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    scriptCreate += dPad4.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
                 }
                 else if (control is NekoControlKeyButtonViewModel)
                 {
                     var keyButton = (NekoControlKeyButtonViewModel)control;
-                    script += keyButton.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
+                    scriptCreate += keyButton.GetRubyScript(WorkSpacePath + "\\Graphics\\Nekocontrols\\");
                 }
                 else
                 {
                     Debug.Fail(FAILED_LOAD_CONTROL_MESSAGE);
                 }
+                if (control != last)
+                {
+                    scriptCreate += '\n';
+                }
             }
+            script += scriptAttribute + '\n';
+            script += "  def initialize" + '\n';
+            script += "    @controls = ControlContainer.new" + '\n';
+            script += "    @viewport = Viewport.new(0, 0, Controller::SCREEN_WIDTH, Controller::SCREEN_HEIGHT)" + '\n';
+            script += "    @viewport.z = (1 << 31) - 1" + '\n';
+            script += '\n';
+            script += scriptCreate;
+            script += "  end" + '\n';
             script +=
-$@"#-------------------------------------------------------------------------------
+$@"end
+
+Controller.entity = {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}.new
+
+#-------------------------------------------------------------------------------
 end
 #===============================================================================";
             File.WriteAllText(saveFileDialog.FileName, script);
