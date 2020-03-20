@@ -196,10 +196,10 @@ $@"=begin
 #===============================================================================
 if !$NEKO_RUBY.nil?
 #-------------------------------------------------------------------------------
-class {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}
+class {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} < NekoController_Template
 
 ";
-            string scriptAttribute = "  attr_reader(:viewport, :controls)\n";
+            string scriptAttribute = string.Empty;
             string scriptCreate = string.Empty;
             var last = xViewModelMain.NekoControls.Last();
             foreach (var control in xViewModelMain.NekoControls)
@@ -231,16 +231,13 @@ class {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}
             }
             script += scriptAttribute + '\n';
             script += "  def initialize" + '\n';
-            script += "    @controls = ControlContainer.new" + '\n';
-            script += "    @viewport = Viewport.new(0, 0, Controller::SCREEN_WIDTH, Controller::SCREEN_HEIGHT)" + '\n';
-            script += "    @viewport.z = (1 << 31) - 1" + '\n';
-            script += '\n';
+            script += "    super" + '\n';
             script += scriptCreate;
             script += "  end" + '\n';
             script +=
 $@"end
 
-Controller.entity = {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}.new
+NekoControllerManager.entity = {System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}.new
 
 #-------------------------------------------------------------------------------
 end

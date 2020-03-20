@@ -517,7 +517,7 @@ namespace NekoControlEditor
         public string GetRubyScript(string controlPath)
         {
             string script =
-$@"    @{mName} = ControlDirection4.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, @viewport)
+$@"    @{mName} = NekoControl_Direction4.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, @viewport)
     @{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
     @{mName}.set_image_down(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDown, controlPath)}""))
     @{mName}.set_image_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLeft, controlPath)}""))
