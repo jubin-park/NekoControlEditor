@@ -319,6 +319,43 @@ end
         #endregion
 
         #region Side Menu Events
+        private void xListBoxNekoControls_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (sender is ListBoxItem && e.LeftButton == MouseButtonState.Pressed)
+            {
+                ListBoxItem draggedItem = sender as ListBoxItem;
+                DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.Move);
+                draggedItem.IsSelected = true;
+            }
+        }
+
+        private void xListBoxNekoControls_Drop(object sender, DragEventArgs e)
+        {
+            if (sender is ListBoxItem)
+            {
+                NekoControlViewModel droppedData = e.Data.GetData(e.Data.GetFormats()[0]) as NekoControlViewModel;
+                NekoControlViewModel target = ((ListBoxItem)(sender)).DataContext as NekoControlViewModel;
+
+                int removedIdx = xListBoxNekoControls.Items.IndexOf(droppedData);
+                int targetIdx = xListBoxNekoControls.Items.IndexOf(target);
+
+                if (removedIdx < targetIdx)
+                {
+                    xViewModelMain.NekoControls.Insert(targetIdx + 1, droppedData);
+                    xViewModelMain.NekoControls.RemoveAt(removedIdx);
+                }
+                else
+                {
+                    int remIdx = removedIdx + 1;
+                    if (xViewModelMain.NekoControls.Count + 1 > remIdx)
+                    {
+                        xViewModelMain.NekoControls.Insert(targetIdx, droppedData);
+                        xViewModelMain.NekoControls.RemoveAt(remIdx);
+                    }
+                }
+            }
+        }
+
         private void xButtonCloneControl_Click(object sender, RoutedEventArgs e)
         {
             var control = xViewModelMain.SelectedNekoControlOrNull;

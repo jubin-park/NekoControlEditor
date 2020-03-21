@@ -21,6 +21,22 @@
     </Window.DataContext>
 
     <Window.Resources>
+        <Style
+            x:Key="ListBoxDragDrop"
+            TargetType="{x:Type ListBoxItem}"
+            >
+            <Setter
+                Property="AllowDrop"
+                Value="true"
+                />
+            <EventSetter
+                Event="PreviewMouseMove"
+                Handler="xListBoxNekoControls_PreviewMouseMove"/>
+            <EventSetter
+                Event="Drop"
+                Handler="xListBoxNekoControls_Drop"
+                />
+        </Style>
         <!-- DPad4 -->
         <DataTemplate DataType="{x:Type local:NekoControlDPad4ViewModel}">
             <Grid>
@@ -415,6 +431,7 @@
                         Margin="4"
                         ItemsSource="{Binding NekoControls}"
                         SelectedItem="{Binding SelectedNekoControlOrNull}"
+                        ItemContainerStyle="{StaticResource ListBoxDragDrop}"
                         >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
