@@ -507,6 +507,14 @@ end
                 }
                 bChanged = true;
             }
+            else if (e.Key == Key.Delete)
+            {
+                if (MessageBoxResult.Yes == MessageBox.Show(control.Name + " 을 삭제하시겠습니까?", "삭제", MessageBoxButton.YesNo, MessageBoxImage.Question))
+                {
+                    NekoControlViewModel.VariableNames.Remove(control.Name);
+                    xViewModelMain.NekoControls.Remove(control);
+                }
+            }
             if (bChanged)
             {
                 xWpfPropertyGrid.Refresh();
