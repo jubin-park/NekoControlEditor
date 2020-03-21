@@ -272,6 +272,7 @@ class {scriptTitle} < NekoController_Template
 $@"end
 
 NekoControllerManager.entity = {scriptTitle}.new
+SDL.putenv(""DPAD_SCALE=0.0"") if !$NEKO_RUBY.nil?
 
 #-------------------------------------------------------------------------------
 end
