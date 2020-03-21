@@ -32,6 +32,8 @@
                     DragCompleted="xThumb_DragCompleted"
                     MouseMove="xThumbDPad4_MouseMove"
                     MouseLeave="xThumbDPad4_MouseLeave"
+                    Focusable="True"
+                    KeyDown="xThumb_KeyDown"
                     >
                     <Thumb.Template>
                         <ControlTemplate>
@@ -99,6 +101,8 @@
                     DragCompleted="xThumb_DragCompleted"
                     MouseMove="xThumbDPad8_MouseMove"
                     MouseLeave="xThumbDPad8_MouseLeave"
+                    Focusable="True"
+                    KeyDown="xThumb_KeyDown"
                     >
                     <Thumb.Template>
                         <ControlTemplate>
@@ -166,6 +170,8 @@
                     DragCompleted="xThumb_DragCompleted"
                     MouseMove="xThumbKeyButton_MouseMove"
                     MouseLeave="xThumbKeyButton_MouseLeave"
+                    Focusable="True"
+                    KeyDown="xThumb_KeyDown"
                     >
                     <Thumb.Template>
                         <ControlTemplate>
@@ -380,6 +386,7 @@
                 Width="4"
                 ShowsPreview="True"
                 Background="Gray"
+                Focusable="False"
                 />
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>

@@ -442,6 +442,78 @@ end
         #endregion
 
         #region xThumb Common Events
+        private void xThumb_KeyDown(object sender, KeyEventArgs e)
+        {
+            var xThumb = (Thumb)sender;
+            if (!xThumb.IsFocused)
+            {
+                return;
+            }
+            var control = (NekoControlViewModel)xThumb.DataContext;
+            bool bLeftShiftDown = Keyboard.IsKeyDown(Key.LeftShift);
+            bool bChanged = false;
+            int delta = Keyboard.IsKeyDown(Key.LeftCtrl) ? 10 : 1;
+            if (e.Key == Key.Left)
+            {
+                if (bLeftShiftDown)
+                {
+                    if (control.Width >= delta)
+                    {
+                        control.Width -= (uint)delta;
+                    }
+                }
+                else
+                {
+                    control.X -= delta;
+                }
+                bChanged = true;
+            }
+            else if (e.Key == Key.Right)
+            {
+                if (bLeftShiftDown)
+                {
+                    control.Width += (uint)delta;
+                }
+                else
+                {
+                    control.X += delta;
+                }
+                bChanged = true;
+            }
+            else if (e.Key == Key.Up)
+            {
+                if (bLeftShiftDown)
+                {
+                    if (control.Height >= delta)
+                    {
+                        control.Height -= (uint)delta;
+                    }
+                }
+                else
+                {
+                    control.Y -= delta;
+                }
+                bChanged = true;
+            }
+            else if (e.Key == Key.Down)
+            {
+                if (bLeftShiftDown)
+                {
+                    control.Height += (uint)delta;
+                }
+                else
+                {
+                    control.Y += delta;
+                }
+                bChanged = true;
+            }
+            if (bChanged)
+            {
+                xWpfPropertyGrid.Refresh();
+                e.Handled = true;
+            }
+        }
+
         private void xThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             var xThumb = (Thumb)sender;
