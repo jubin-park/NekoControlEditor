@@ -561,9 +561,7 @@ end
 
         private void xThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            var xThumb = (Thumb)sender;
-            var control = (NekoControlViewModel)xThumb.DataContext;
-            xViewModelMain.SelectedNekoControlOrNull = control;
+            ((Thumb)sender).Focus();
         }
 
         private void xThumb_DragDelta(object sender, DragDeltaEventArgs e)
@@ -577,6 +575,13 @@ end
         private void xThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             xWpfPropertyGrid.Refresh();
+        }
+
+        private void xThumb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var xThumb = (Thumb)sender;
+            var control = (NekoControlViewModel)xThumb.DataContext;
+            xViewModelMain.SelectedNekoControlOrNull = control;
         }
         #endregion
 
