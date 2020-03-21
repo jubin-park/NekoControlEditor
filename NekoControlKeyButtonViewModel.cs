@@ -237,10 +237,12 @@ namespace NekoControlEditor
 
         public string GetRubyScript(string controlPath)
         {
-            string script =
+            string scriptDefault = mBitmapPathDefault == string.Empty ? "nil" : $@"RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}"")";
+            string scriptPressed = mBitmapPathPressed == string.Empty ? "nil" : $@"RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathPressed, controlPath)}"")";
+            string script = 
 $@"    @{mName} = NekoControl_KeyButton.new(Input::{mInputKey.Value.ToString()}, {mX}, {mY}, {mZ}, {mWidth}, {mHeight}, @viewport)
-    @{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
-    @{mName}.set_image_pressed(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathPressed, controlPath)}""))
+    @{mName}.set_image_default({scriptDefault})
+    @{mName}.set_image_pressed({scriptPressed})
 ";
             if (mOpacity < 255)
             {

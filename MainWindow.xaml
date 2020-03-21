@@ -285,9 +285,10 @@
                 Content="스크립트로 저장"
                 Height="32"
                 Width="96"
-                Margin="0, 2, 4, 2"
+                Margin="0, 2, 0, 2"
                 Click="xButtonSaveAsScript_Click"
                 />
+            <Separator Width="8"/>
             <Button
                 Content="4방향 패드"
                 Height="32"
@@ -306,6 +307,7 @@
                 Width="64"
                 Click="xButtonCreateNekoControlKeyButton_Click"
                 />
+            <Separator Width="8"/>
             <!--
             <Button
                 Content="버튼"
@@ -323,7 +325,7 @@
                 Content="설정"
                 Height="32"
                 Width="64"
-                Margin="4,2,0,0"
+                Margin="0,2,0,0"
                 Click="xButtonShowConfigWindow_Click"
                 VerticalAlignment="Top"
                 />
@@ -548,7 +550,7 @@
                 <Separator Grid.Column="4" />
                 <StatusBarItem Grid.Column="5">
                     <TextBlock
-                        Text="{Binding NowPath}"
+                        Text="{Binding WorkFilePath}"
                         Foreground="White"
                         />
                 </StatusBarItem>

@@ -516,14 +516,20 @@ namespace NekoControlEditor
 
         public string GetRubyScript(string controlPath)
         {
+            string scriptDefault = mBitmapPathDefault == string.Empty ? "nil" : $@"RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}"")";
+            string scriptDown = mBitmapPathDown == string.Empty ? "nil" : $@"RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDown, controlPath)}"")";
+            string scriptLeft = mBitmapPathLeft == string.Empty ? "nil" : $@"RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLeft, controlPath)}"")";
+            string scriptRight = mBitmapPathRight == string.Empty ? "nil" : $@"RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathRight, controlPath)}"")";
+            string scriptUp = mBitmapPathUp == string.Empty ? "nil" : $@"RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUp, controlPath)}"")";
+            string scriptStick = mBitmapPathStick == string.Empty ? "nil" : $@"RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}"")";
             string script =
 $@"    @{mName} = NekoControl_Direction4.new({mX}, {mY}, {mZ}, {mWidth}, {mHeight}, @viewport)
-    @{mName}.set_image_default(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDefault, controlPath)}""))
-    @{mName}.set_image_down(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathDown, controlPath)}""))
-    @{mName}.set_image_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathLeft, controlPath)}""))
-    @{mName}.set_image_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathRight, controlPath)}""))
-    @{mName}.set_image_up(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUp, controlPath)}""))
-    @{mName}.set_image_stick({mStickMovableRadius}, RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}""))
+    @{mName}.set_image_default({scriptDefault})
+    @{mName}.set_image_down({scriptDown})
+    @{mName}.set_image_left({scriptLeft})
+    @{mName}.set_image_right({scriptRight})
+    @{mName}.set_image_up({scriptUp})
+    @{mName}.set_image_stick({mStickMovableRadius}, {scriptStick})
 ";
             if (mOpacity < 255)
             {
