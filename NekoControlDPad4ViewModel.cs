@@ -529,8 +529,9 @@ $@"    @{mName} = NekoControl_Direction4.new({mX}, {mY}, {mZ}, {mWidth}, {mHeigh
     @{mName}.set_image_left({scriptLeft})
     @{mName}.set_image_right({scriptRight})
     @{mName}.set_image_up({scriptUp})
-    @{mName}.set_image_stick({mStickMovableRadius}, {scriptStick})
+    @{mName}.set_image_stick({scriptStick})
 ";
+            script += $"    @{mName}.stick_movable_radius = {StickMovableRadius}" + '\n';
             if (mOpacity < 255)
             {
                 script += $"    @{mName}.opacity = {mOpacity}" + '\n';

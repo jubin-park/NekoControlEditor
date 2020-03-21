@@ -328,8 +328,9 @@ $@"    @{mName} = NekoControl_Direction8.new({mX}, {mY}, {mZ}, {mWidth}, {mHeigh
     @{mName}.set_image_upper_left(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUpperLeft, controlPath)}""))
     @{mName}.set_image_up(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUp, controlPath)}""))
     @{mName}.set_image_upper_right(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathUpperRight, controlPath)}""))
-    @{mName}.set_image_stick({StickMovableRadius}, RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}""))
+    @{mName}.set_image_stick(RPG::Cache.neko_control(""{GetRelativePath(mBitmapPathStick, controlPath)}""))
 ";
+            script += $"    @{mName}.stick_movable_radius = {StickMovableRadius}" + '\n';
             if (mOpacity < 255)
             {
                 script += $"    @{mName}.opacity = {mOpacity}" + '\n';
