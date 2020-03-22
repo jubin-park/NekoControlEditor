@@ -14,8 +14,8 @@ namespace NekoControlEditor
         #region DefaultBitmapImages
         public static readonly BitmapImage[] DefaultBitmapImages =
         {
-            new BitmapImage(new Uri("image/UltimateDroidButton1.png", UriKind.Relative)),
-            new BitmapImage(new Uri("image/UltimateDroidButton1Pressed.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/button_ok.png", UriKind.Relative)),
+            new BitmapImage(new Uri("image/button_ok_pressed.png", UriKind.Relative)),
         };
         #endregion
 
@@ -181,8 +181,8 @@ namespace NekoControlEditor
             Name = name + mCount;
             mInputKey = new InputProperty(EInput.NULL);
             mInputKey.PropertyChanged += new PropertyChangedEventHandler(eKeysPropertyChanged);
-            mWidth = 48;
-            mHeight = 48;
+            mWidth = 68;
+            mHeight = 68;
             mBitmapImageDefault = null;
             mBitmapImagePressed = null;
             mBitmapPathDefault = string.Empty;

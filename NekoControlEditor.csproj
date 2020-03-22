@@ -166,16 +166,16 @@
     <Resource Include="image\dpad_right.png" />
     <Resource Include="image\dpad_stick.png" />
     <Resource Include="image\dpad_up.png" />
-    <Resource Include="image\UltimateDroidButton1.png" />
-    <Resource Include="image\UltimateDroidButton1Pressed.png" />
-    <Resource Include="image\UltimateDroidButton2.png" />
-    <Resource Include="image\UltimateDroidButton2Pressed.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="image\dpad_lower_left.png" />
     <Resource Include="image\dpad_lower_right.png" />
     <Resource Include="image\dpad_upper_left.png" />
     <Resource Include="image\dpad_upper_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\button_ok.png" />
+    <Resource Include="image\button_ok_pressed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
