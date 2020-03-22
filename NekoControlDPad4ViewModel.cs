@@ -170,10 +170,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathDefault = value;
                         mBitmapImageDefault = bitmapImage;
@@ -209,10 +206,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathDown = value;
                         mBitmapImageDown = bitmapImage;
@@ -247,10 +241,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathLeft = value;
                         BitmapImageLeft = bitmapImage;
@@ -285,10 +276,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathRight = value;
                         mBitmapImageRight = bitmapImage;
@@ -323,10 +311,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathUp = value;
                         mBitmapImageUp = bitmapImage;
@@ -361,10 +346,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathStick = value;
                         mBitmapImageStick = bitmapImage;

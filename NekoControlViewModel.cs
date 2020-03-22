@@ -359,5 +359,16 @@ namespace NekoControlEditor
         {
             return strSrc.Replace(strDelete, string.Empty).Replace('\\', '/');
         }
+
+        protected BitmapImage CreateCacheBitmapImage(string path)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            bitmapImage.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
+            bitmapImage.EndInit();
+            return bitmapImage;
+        }
     }
 }

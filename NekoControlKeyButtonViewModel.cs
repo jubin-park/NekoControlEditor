@@ -81,10 +81,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathDefault = value;
                         mBitmapImageDefault = bitmapImage;
@@ -120,10 +117,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathPressed = value;
                         mBitmapImagePressed = bitmapImage;

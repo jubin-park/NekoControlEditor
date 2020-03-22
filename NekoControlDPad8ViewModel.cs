@@ -117,10 +117,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathUpperLeft = value;
                         mBitmapImageUpperLeft = bitmapImage;
@@ -155,10 +152,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathLowerLeft = value;
                         mBitmapImageLowerLeft = bitmapImage;
@@ -193,10 +187,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathLowerRight = value;
                         mBitmapImageLowerRight = bitmapImage;
@@ -231,10 +222,7 @@ namespace NekoControlEditor
                         BitmapImage bitmapImage = null;
                         if (value != string.Empty)
                         {
-                            bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.UriSource = new Uri(value, UriKind.RelativeOrAbsolute);
-                            bitmapImage.EndInit();
+                            bitmapImage = CreateCacheBitmapImage(value);
                         }
                         mBitmapPathUpperRight = value;
                         mBitmapImageUpperRight = bitmapImage;
