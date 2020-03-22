@@ -368,6 +368,7 @@ namespace NekoControlEditor
             bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
             bitmapImage.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
             bitmapImage.EndInit();
+            bitmapImage.Freeze();
             return bitmapImage;
         }
     }

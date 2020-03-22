@@ -163,27 +163,24 @@ namespace NekoControlEditor
             }
             set
             {
-                if (mBitmapPathDefault != value)
+                try
                 {
-                    try
+                    BitmapImage bitmapImage = null;
+                    if (value != string.Empty)
                     {
-                        BitmapImage bitmapImage = null;
-                        if (value != string.Empty)
-                        {
-                            bitmapImage = CreateCacheBitmapImage(value);
-                        }
-                        mBitmapPathDefault = value;
-                        mBitmapImageDefault = bitmapImage;
+                        bitmapImage = CreateCacheBitmapImage(value);
                     }
-                    catch (FileNotFoundException)
-                    {
-                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
-                        mBitmapPathDefault = string.Empty;
-                        mBitmapImageDefault = null;
-                    }
-                    ImageSourceControl = BitmapImageDefault;
-                    notifyPropertyChanged("BitmapPathDefault");
+                    mBitmapPathDefault = value;
+                    mBitmapImageDefault = bitmapImage;
                 }
+                catch (FileNotFoundException)
+                {
+                    Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
+                    mBitmapPathDefault = string.Empty;
+                    mBitmapImageDefault = null;
+                }
+                ImageSourceControl = BitmapImageDefault;
+                notifyPropertyChanged("BitmapPathDefault");
             }
         }
 
@@ -199,26 +196,23 @@ namespace NekoControlEditor
             }
             set
             {
-                if (mBitmapPathDown != value)
+                try
                 {
-                    try
+                    BitmapImage bitmapImage = null;
+                    if (value != string.Empty)
                     {
-                        BitmapImage bitmapImage = null;
-                        if (value != string.Empty)
-                        {
-                            bitmapImage = CreateCacheBitmapImage(value);
-                        }
-                        mBitmapPathDown = value;
-                        mBitmapImageDown = bitmapImage;
+                        bitmapImage = CreateCacheBitmapImage(value);
                     }
-                    catch (FileNotFoundException)
-                    {
-                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
-                        mBitmapPathDown = string.Empty;
-                        mBitmapImageDown = null;
-                    }
-                    notifyPropertyChanged("BitmapPathDown");
+                    mBitmapPathDown = value;
+                    mBitmapImageDown = bitmapImage;
                 }
+                catch (FileNotFoundException)
+                {
+                    Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
+                    mBitmapPathDown = string.Empty;
+                    mBitmapImageDown = null;
+                }
+                notifyPropertyChanged("BitmapPathDown");
             }
         }
 
@@ -234,26 +228,23 @@ namespace NekoControlEditor
             }
             set
             {
-                if (mBitmapPathLeft != value)
+                try
                 {
-                    try
+                    BitmapImage bitmapImage = null;
+                    if (value != string.Empty)
                     {
-                        BitmapImage bitmapImage = null;
-                        if (value != string.Empty)
-                        {
-                            bitmapImage = CreateCacheBitmapImage(value);
-                        }
-                        mBitmapPathLeft = value;
-                        BitmapImageLeft = bitmapImage;
+                        bitmapImage = CreateCacheBitmapImage(value);
                     }
-                    catch (FileNotFoundException)
-                    {
-                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
-                        mBitmapPathLeft = string.Empty;
-                        mBitmapImageLeft = null;
-                    }
-                    notifyPropertyChanged("BitmapPathLeft");
+                    mBitmapPathLeft = value;
+                    BitmapImageLeft = bitmapImage;
                 }
+                catch (FileNotFoundException)
+                {
+                    Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
+                    mBitmapPathLeft = string.Empty;
+                    mBitmapImageLeft = null;
+                }
+                notifyPropertyChanged("BitmapPathLeft");
             }
         }
 
@@ -269,26 +260,23 @@ namespace NekoControlEditor
             }
             set
             {
-                if (mBitmapPathRight != value)
+                try
                 {
-                    try
+                    BitmapImage bitmapImage = null;
+                    if (value != string.Empty)
                     {
-                        BitmapImage bitmapImage = null;
-                        if (value != string.Empty)
-                        {
-                            bitmapImage = CreateCacheBitmapImage(value);
-                        }
-                        mBitmapPathRight = value;
-                        mBitmapImageRight = bitmapImage;
+                        bitmapImage = CreateCacheBitmapImage(value);
                     }
-                    catch (FileNotFoundException)
-                    {
-                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
-                        mBitmapPathRight = string.Empty;
-                        mBitmapImageRight = null;
-                    }
-                    notifyPropertyChanged("BitmapPathRight");
+                    mBitmapPathRight = value;
+                    mBitmapImageRight = bitmapImage;
                 }
+                catch (FileNotFoundException)
+                {
+                    Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
+                    mBitmapPathRight = string.Empty;
+                    mBitmapImageRight = null;
+                }
+                notifyPropertyChanged("BitmapPathRight");
             }
         }
 
@@ -304,26 +292,23 @@ namespace NekoControlEditor
             }
             set
             {
-                if (mBitmapPathUp != value)
+                try
                 {
-                    try
+                    BitmapImage bitmapImage = null;
+                    if (value != string.Empty)
                     {
-                        BitmapImage bitmapImage = null;
-                        if (value != string.Empty)
-                        {
-                            bitmapImage = CreateCacheBitmapImage(value);
-                        }
-                        mBitmapPathUp = value;
-                        mBitmapImageUp = bitmapImage;
+                        bitmapImage = CreateCacheBitmapImage(value);
                     }
-                    catch (FileNotFoundException)
-                    {
-                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
-                        mBitmapPathUp = string.Empty;
-                        mBitmapImageUp = null;
-                    }
-                    notifyPropertyChanged("BitmapPathUp");
+                    mBitmapPathUp = value;
+                    mBitmapImageUp = bitmapImage;
                 }
+                catch (FileNotFoundException)
+                {
+                    Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
+                    mBitmapPathUp = string.Empty;
+                    mBitmapImageUp = null;
+                }
+                notifyPropertyChanged("BitmapPathUp");
             }
         }
 
@@ -339,27 +324,24 @@ namespace NekoControlEditor
             }
             set
             {
-                if (mBitmapPathStick != value)
+                try
                 {
-                    try
+                    BitmapImage bitmapImage = null;
+                    if (value != string.Empty)
                     {
-                        BitmapImage bitmapImage = null;
-                        if (value != string.Empty)
-                        {
-                            bitmapImage = CreateCacheBitmapImage(value);
-                        }
-                        mBitmapPathStick = value;
-                        mBitmapImageStick = bitmapImage;
+                        bitmapImage = CreateCacheBitmapImage(value);
                     }
-                    catch (FileNotFoundException)
-                    {
-                        Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
-                        mBitmapPathStick = string.Empty;
-                        mBitmapImageStick = null;
-                    }
-                    ImageSourceStick = BitmapImageStick;
-                    notifyPropertyChanged("BitmapPathStick");
+                    mBitmapPathStick = value;
+                    mBitmapImageStick = bitmapImage;
                 }
+                catch (FileNotFoundException)
+                {
+                    Debug.Fail(FAILED_LOAD_BITMAP_MESSAGE, value);
+                    mBitmapPathStick = string.Empty;
+                    mBitmapImageStick = null;
+                }
+                ImageSourceStick = BitmapImageStick;
+                notifyPropertyChanged("BitmapPathStick");
             }
         }
         #endregion

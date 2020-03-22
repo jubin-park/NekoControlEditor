@@ -45,6 +45,7 @@ namespace NekoControlEditor
         {
             if (MainWindow.LoadPictureFileDialog.ShowDialog() == true)
             {
+                propertyValue.Value = string.Empty;
                 propertyValue.Value = MainWindow.LoadPictureFileDialog.FileName;
                 MainWindow.LoadPictureFileDialog.InitialDirectory = Path.GetDirectoryName(MainWindow.LoadPictureFileDialog.FileName);
             }
