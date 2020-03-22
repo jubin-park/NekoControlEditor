@@ -646,10 +646,16 @@ end
         {
             var xThumb = (Thumb)sender;
             var point = e.GetPosition(xThumb);
+            var xImageStick = (Image)xThumb.Template.FindName("xImageStick", xThumb);
+            if (point.X < 0 || point.Y < 0 || point.X >= dPad4.Width || point.Y >= dPad4.Height)
+            {
+                Canvas.SetLeft(xImageStick, 0);
+                Canvas.SetTop(xImageStick, 0);
+                return;
+            }
             var deltaPoint = new Point(dPad4.Width / 2 - point.X, dPad4.Height / 2 - point.Y);
             double TwoPowerdist = deltaPoint.X * deltaPoint.X + deltaPoint.Y * deltaPoint.Y;
             double radius = dPad4.StickMovableRadius;
-            var xImageStick = (Image)xThumb.Template.FindName("xImageStick", xThumb);
             if (TwoPowerdist < radius * radius)
             {
                 Canvas.SetLeft(xImageStick, point.X - dPad4.Width / 2);
@@ -740,10 +746,16 @@ end
         {
             var xThumb = (Thumb)sender;
             var point = e.GetPosition(xThumb);
+            var xImageStick = (Image)xThumb.Template.FindName("xImageStick", xThumb);
+            if (point.X < 0 || point.Y < 0 || point.X >= dPad8.Width || point.Y >= dPad8.Height)
+            {
+                Canvas.SetLeft(xImageStick, 0);
+                Canvas.SetTop(xImageStick, 0);
+                return;
+            }
             var deltaPoint = new Point(dPad8.Width / 2 - point.X, dPad8.Height / 2 - point.Y);
             double TwoPowerdist = deltaPoint.X * deltaPoint.X + deltaPoint.Y * deltaPoint.Y;
             double radius = dPad8.StickMovableRadius;
-            var xImageStick = (Image)xThumb.Template.FindName("xImageStick", xThumb);
             if (TwoPowerdist < radius * radius)
             {
                 Canvas.SetLeft(xImageStick, point.X - dPad8.Width / 2);
