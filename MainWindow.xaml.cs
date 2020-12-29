@@ -810,5 +810,18 @@ end
             }
         }
         #endregion
+
+        private void xWindowMain_Closing(object sender, CancelEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("현재 작업중인 컨트롤 파일을 저장하시겠습니까?", "저장", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                xButtonSave_Click(null, null);
+            }
+            else if (result == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }

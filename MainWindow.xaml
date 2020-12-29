@@ -10,10 +10,11 @@
     xmlns:local="clr-namespace:NekoControlEditor"
     mc:Ignorable="d"
     Title="네코 플레이어 컨트롤 편집기"
-    Height="768"
-    Width="1124"
+    Height="700"
+    Width="1024"
     Background="#FFF0F0F0"
     WindowStartupLocation="CenterScreen"
+    Closing="xWindowMain_Closing"
     >
 
     <Window.DataContext>
@@ -242,7 +243,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="102*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="38"/>
@@ -252,7 +254,7 @@
         <Rectangle
             Grid.Row="0"
             Grid.Column="0"
-            Fill="#D3D3D3"
+            Fill="#D3D3D3" Grid.ColumnSpan="2"
             />
         <StackPanel
             Grid.Row="0"
@@ -260,7 +262,7 @@
             HorizontalAlignment="Left"
             Height="36"
             Margin="0,1,0,0"
-            VerticalAlignment="Top"
+            VerticalAlignment="Top" Grid.ColumnSpan="2"
             >
             <Button
                 Content="새 파일"
@@ -331,7 +333,7 @@
                 />
         </StackPanel>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -400,7 +402,7 @@
                     </Grid>
                 </Grid>
             </ScrollViewer>
-            
+
             <GridSplitter
                 Grid.Column="1"
                 HorizontalAlignment="Center"
@@ -505,7 +507,7 @@
             </Grid>
         </Grid>
         <DockPanel
-            Grid.Row="2">
+            Grid.Row="2" Grid.ColumnSpan="2">
             <StatusBar
                 DataContext="{Binding ElementName=xWindowMain}"
                 DockPanel.Dock="Bottom"
